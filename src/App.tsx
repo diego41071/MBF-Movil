@@ -5,7 +5,7 @@ import {
   setupIonicReact,
 } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
-import { Redirect, Route, useParams } from "react-router-dom";
+import { Redirect, Route } from "react-router-dom";
 import Menu from "./components/Menu";
 import Page from "./pages/Page";
 
@@ -40,23 +40,23 @@ import "@ionic/react/css/palettes/dark.system.css";
 import "./theme/variables.css";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import { useState } from "react";
 
 setupIonicReact();
 
 const App: React.FC = () => {
-  const { name } = useParams<{ name: string }>();
-
+  const [isLogged, setIsLogged] = useState(false);
   return (
     <IonApp>
       <IonReactRouter>
         <IonSplitPane contentId="main">
-          <Menu />
+          {isLogged && <Menu />}
           <IonRouterOutlet id="main">
             <Route path="/" exact={true}>
-              <Redirect to="/folder/Inbox" />
+              <Redirect to="/folder/Login" />
             </Route>
-            <Route path="/folder/Inbox" exact={true}>
-              <Login />
+            <Route path="/folder/Login" exact={true}>
+              <Login setIsLogged={setIsLogged} />
             </Route>
             <Route path="/folder/Page" exact={true}>
               <Page />

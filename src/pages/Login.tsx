@@ -14,7 +14,7 @@ import {
   IonToast,
 } from "@ionic/react";
 
-const Login: React.FC = () => {
+export default function Login(props: { setIsLogged: (arg0: boolean) => void }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showToast, setShowToast] = useState(false);
@@ -25,10 +25,10 @@ const Login: React.FC = () => {
   const handleLogin = () => {
     // Aquí puedes manejar la lógica de inicio de sesión
     if (email && password) {
-      history.push("/folder/Page");
-
       // Simular un inicio de sesión exitoso
       setToastMessage("Inicio de sesión exitoso!");
+      history.push("/folder/Page");
+      props.setIsLogged(true);
       setShowToast(true);
     } else {
       setToastMessage("Por favor, complete todos los campos.");
@@ -74,6 +74,4 @@ const Login: React.FC = () => {
       </IonContent>
     </IonPage>
   );
-};
-
-export default Login;
+}
