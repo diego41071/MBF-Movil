@@ -5,7 +5,7 @@ import {
   setupIonicReact,
 } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
-import { Redirect, Route } from "react-router-dom";
+import { Redirect, Route, useParams } from "react-router-dom";
 import Menu from "./components/Menu";
 import Page from "./pages/Page";
 
@@ -38,10 +38,14 @@ import "@ionic/react/css/palettes/dark.system.css";
 
 /* Theme variables */
 import "./theme/variables.css";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 
 setupIonicReact();
 
 const App: React.FC = () => {
+  const { name } = useParams<{ name: string }>();
+
   return (
     <IonApp>
       <IonReactRouter>
@@ -51,9 +55,18 @@ const App: React.FC = () => {
             <Route path="/" exact={true}>
               <Redirect to="/folder/Inbox" />
             </Route>
-            <Route path="/folder/:name" exact={true}>
+            <Route path="/folder/Inbox" exact={true}>
+              <Login />
+            </Route>
+            <Route path="/folder/Page" exact={true}>
               <Page />
             </Route>
+            <Route path="/folder/Register" exact={true}>
+              <Register />
+            </Route>
+            {/* <Route path="/folder/:name" exact={true}>
+              <Page />
+            </Route> */}
           </IonRouterOutlet>
         </IonSplitPane>
       </IonReactRouter>

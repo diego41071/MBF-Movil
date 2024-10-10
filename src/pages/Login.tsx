@@ -1,6 +1,6 @@
 // src/components/Login.tsx
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import {
   IonContent,
   IonHeader,
@@ -20,9 +20,13 @@ const Login: React.FC = () => {
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
 
+  const history = useHistory();
+
   const handleLogin = () => {
     // Aquí puedes manejar la lógica de inicio de sesión
     if (email && password) {
+      history.push("/folder/Page");
+
       // Simular un inicio de sesión exitoso
       setToastMessage("Inicio de sesión exitoso!");
       setShowToast(true);
