@@ -1,0 +1,7 @@
+{
+  "name": "MBF-Movil",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react-vite"
+}
