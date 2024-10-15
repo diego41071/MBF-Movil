@@ -1,17 +1,15 @@
 // src/components/Login.tsx
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import {
   IonContent,
-  IonHeader,
   IonPage,
-  IonTitle,
-  IonToolbar,
   IonItem,
   IonLabel,
   IonInput,
   IonButton,
   IonToast,
+  IonImg,
 } from "@ionic/react";
 
 export default function Login(props: { setIsLogged: (arg0: boolean) => void }) {
@@ -24,26 +22,30 @@ export default function Login(props: { setIsLogged: (arg0: boolean) => void }) {
 
   const handleLogin = () => {
     // Aquí puedes manejar la lógica de inicio de sesión
-    if (email && password) {
+    if (!email && !password) {
+      setToastMessage("Por favor, complete todos los campos.");
+      setShowToast(true);
+    } else {
       // Simular un inicio de sesión exitoso
       setToastMessage("Inicio de sesión exitoso!");
       history.push("/folder/Page");
       props.setIsLogged(true);
-      setShowToast(true);
-    } else {
-      setToastMessage("Por favor, complete todos los campos.");
       setShowToast(true);
     }
   };
 
   return (
     <IonPage>
-      <IonHeader>
+      {/* <IonHeader>
         <IonToolbar>
           <IonTitle>Iniciar Sesión</IonTitle>
         </IonToolbar>
-      </IonHeader>
+      </IonHeader> */}
       <IonContent className="ion-padding">
+        <IonImg
+          src="https://www.grupombf.com.co/wp-content/uploads/2024/07/7-300x300.png"
+          alt="Logo"
+        />
         <IonItem>
           <IonLabel position="floating">Correo Electrónico</IonLabel>
           <IonInput
@@ -63,6 +65,9 @@ export default function Login(props: { setIsLogged: (arg0: boolean) => void }) {
         <IonButton expand="full" onClick={handleLogin}>
           Iniciar Sesión
         </IonButton>
+        <Link to="/folder/Register">Olvidaste la contraseña</Link>
+        <br></br>
+
         <Link to="/folder/Register">Regístrate aquí</Link>
 
         <IonToast

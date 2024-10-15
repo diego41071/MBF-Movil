@@ -37,44 +37,55 @@ interface AppPage {
 
 const appPages: AppPage[] = [
   {
-    title: "Login",
+    title: "Mi cuenta",
     url: "/folder/Login",
     iosIcon: mailOutline,
     mdIcon: mailSharp,
   },
   {
-    title: "Outbox",
+    title: "Datos de perifl",
     url: "/folder/Outbox",
     iosIcon: paperPlaneOutline,
     mdIcon: paperPlaneSharp,
   },
   {
-    title: "Favorites",
+    title: "Historial servicios",
     url: "/folder/Favorites",
     iosIcon: heartOutline,
     mdIcon: heartSharp,
   },
   {
-    title: "Archived",
+    title: "Inge Basic",
     url: "/folder/Archived",
     iosIcon: archiveOutline,
     mdIcon: archiveSharp,
   },
   {
-    title: "Trash",
+    title: "Inge Pro",
     url: "/folder/Trash",
     iosIcon: trashOutline,
     mdIcon: trashSharp,
   },
   {
-    title: "Spam",
+    title: "Idioma",
+    url: "/folder/Spam",
+    iosIcon: warningOutline,
+    mdIcon: warningSharp,
+  },
+  {
+    title: "Notificaciones",
     url: "/folder/Spam",
     iosIcon: warningOutline,
     mdIcon: warningSharp,
   },
 ];
 
-const labels = ["Family", "Friends", "Notes", "Work", "Travel", "Reminders"];
+const labels = [
+  "Términos y condiciones",
+  "Política de privacidad",
+  "Autorización de tratamiento de datos personales",
+  "Cerrar sesión",
+];
 
 const Menu: React.FC = () => {
   const location = useLocation();
