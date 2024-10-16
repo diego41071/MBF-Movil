@@ -78,13 +78,18 @@ const appPages: AppPage[] = [
     iosIcon: warningOutline,
     mdIcon: warningSharp,
   },
+  {
+    title: "Cerrar sesión",
+    url: "/folder/Login",
+    iosIcon: warningOutline,
+    mdIcon: warningSharp,
+  },
 ];
 
 const labels = [
-  "Términos y condiciones",
-  "Política de privacidad",
-  "Autorización de tratamiento de datos personales",
-  "Cerrar sesión",
+  { title: "Términos y condiciones" },
+  { title: "Política de privacidad" },
+  { title: "Autorización de tratamiento de datos personales" },
 ];
 
 const Menu: React.FC = () => {
@@ -124,9 +129,9 @@ const Menu: React.FC = () => {
         <IonList id="labels-list">
           <IonListHeader>Labels</IonListHeader>
           {labels.map((label, index) => (
-            <IonItem lines="none" key={index}>
+            <IonItem lines="none" key={index} routerLink={label.title}>
               <IonIcon aria-hidden="true" slot="start" icon={bookmarkOutline} />
-              <IonLabel>{label}</IonLabel>
+              <IonLabel>{label.title}</IonLabel>
             </IonItem>
           ))}
         </IonList>
