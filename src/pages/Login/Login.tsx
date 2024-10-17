@@ -11,6 +11,7 @@ import {
   IonToast,
   IonImg,
 } from "@ionic/react";
+import "./Login.css";
 
 export default function Login(props: { setIsLogged: (arg0: boolean) => void }) {
   const [email, setEmail] = useState("");
@@ -43,26 +44,38 @@ export default function Login(props: { setIsLogged: (arg0: boolean) => void }) {
       </IonHeader> */}
       <IonContent className="ion-padding">
         <IonImg
-          src="https://www.grupombf.com.co/wp-content/uploads/2024/07/7-300x300.png"
+          src="https://www.grupombf.com.co/wp-content/uploads/2023/08/MBF-BLANCO.png"
           alt="Logo"
         />
         <IonItem>
-          <IonLabel position="floating">Correo Electrónico</IonLabel>
+          <IonLabel className="custom-label-login" position="floating">
+            Correo Electrónico
+          </IonLabel>
           <IonInput
             type="email"
             value={email}
             onIonChange={(e) => setEmail(e.detail.value!)}
+            className="custom-input"
+            placeholder="Correo Electrónico"
           />
         </IonItem>
         <IonItem>
-          <IonLabel position="floating">Contraseña</IonLabel>
+          <IonLabel className="custom-label-login" position="floating">
+            Contraseña
+          </IonLabel>
           <IonInput
             type="password"
             value={password}
             onIonChange={(e) => setPassword(e.detail.value!)}
+            className="custom-input"
+            placeholder="Contraseña"
           />
         </IonItem>
-        <IonButton expand="full" onClick={handleLogin}>
+        <IonButton
+          className="custom-button"
+          expand="full"
+          onClick={handleLogin}
+        >
           Iniciar Sesión
         </IonButton>
         <Link to="/folder/Register">Olvidaste la contraseña</Link>

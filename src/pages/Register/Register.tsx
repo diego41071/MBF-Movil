@@ -2,10 +2,7 @@
 import React, { useState } from "react";
 import {
   IonContent,
-  IonHeader,
   IonPage,
-  IonTitle,
-  IonToolbar,
   IonItem,
   IonLabel,
   IonInput,
@@ -13,8 +10,11 @@ import {
   IonToast,
   IonRadioGroup,
   IonRadio,
+  IonImg,
+  IonRouterLink,
 } from "@ionic/react";
 import "./Register.css";
+import { Link } from "react-router-dom";
 
 const Register: React.FC = () => {
   const [name, setName] = useState("");
@@ -44,6 +44,10 @@ const Register: React.FC = () => {
         </IonToolbar>
       </IonHeader> */}
       <IonContent className="ion-padding">
+        <IonImg
+          src="https://www.grupombf.com.co/wp-content/uploads/2023/08/MBF-BLANCO.png"
+          alt="Logo"
+        />
         {[
           { text: "Nombre", value: name },
           { text: "Apellido", value: name },
@@ -89,11 +93,13 @@ const Register: React.FC = () => {
             </IonItem>
           );
         })}
-
         <IonButton expand="full" onClick={handleRegister}>
           Registrarse
         </IonButton>
-
+        <IonLabel>
+          Si ya tienes una cuenta,{" "}
+          <Link to="/folder/Login"> inicia sesión</Link>
+        </IonLabel>
         <IonToast
           isOpen={showToast}
           onDidDismiss={() => setShowToast(false)}

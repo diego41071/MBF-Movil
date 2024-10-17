@@ -1,0 +1,24 @@
+.custom-input {
+    --background: #ffffff;
+    /* Color de fondo blanco */
+    --color: #000000;
+    /* Color del texto negro */
+    border: 1px solid #ccc;
+    /* Opcional: un borde */
+    margin-top: 29px;
+    margin-bottom: 16px;
+    border-radius: 26px;
+}
+
+.custom-button {
+    margin-top: 24px;
+    margin-bottom: 24px;
+}
+
+.custom-label-login {
+    text-align: center;
+}
+
+.input-wrapper.sc-ion-input-md {
+    border-radius: 26px;
+}
