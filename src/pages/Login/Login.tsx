@@ -71,18 +71,19 @@ export default function Login(props: { setIsLogged: (arg0: boolean) => void }) {
             placeholder="Contraseña"
           />
         </IonItem>
-        <IonButton
-          className="custom-button"
-          expand="full"
-          onClick={handleLogin}
-        >
-          Iniciar Sesión
-        </IonButton>
-        <Link to="/folder/Register">Olvidaste la contraseña</Link>
-        <br></br>
-
-        <Link to="/folder/Register">Regístrate aquí</Link>
-
+        <div className="container-button">
+          <IonButton className="custom-button" onClick={handleLogin}>
+            Iniciar Sesión
+          </IonButton>
+        </div>
+        <div className="centered-link">
+          <Link to="/folder/Register">Olvidaste la contraseña</Link>
+        </div>
+        <div className="centered-link">
+          <Link className="custom-link" to="/folder/Register">
+            Regístrate aquí
+          </Link>
+        </div>
         <IonToast
           isOpen={showToast}
           onDidDismiss={() => setShowToast(false)}

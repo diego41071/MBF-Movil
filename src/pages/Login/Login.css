@@ -7,18 +7,51 @@
     /* Opcional: un borde */
     margin-top: 29px;
     margin-bottom: 16px;
-    border-radius: 26px;
+    border-radius: 16px;
 }
 
 .custom-button {
     margin-top: 24px;
     margin-bottom: 24px;
+    --border-radius: 16px;
+    text-transform: capitalize;
+}
+
+.container-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.centered-link {
+    display: flex;
+    justify-content: center;
+    /* Centra el contenido horizontalmente */
+    text-align: center;
+    /* Asegura que el texto esté centrado */
+    margin: 20px 0;
+    /* Espacio adicional (opcional) */
+}
+
+.centered-link a {
+    color: #ff5733;
+    /* Cambia el color del enlace */
+    text-decoration: none;
+    /* Elimina el subrayado */
+    font-weight: bold;
+    /* Cambia el peso de la fuente */
+}
+
+.centered-link a:hover {
+    text-decoration: underline;
+    /* Subrayado al pasar el ratón */
 }
 
 .custom-label-login {
-    text-align: center;
+    /* text-align: center; */
 }
 
 .input-wrapper.sc-ion-input-md {
-    border-radius: 26px;
+    border-radius: 16px;
 }

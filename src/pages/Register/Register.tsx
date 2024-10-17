@@ -76,11 +76,19 @@ const Register: React.FC = () => {
                 // onIonChange={handleRadioChange}
                 >
                   <IonItem>
-                    <IonRadio slot="start" value="option1" />
+                    <IonRadio
+                      className="custom-radio"
+                      slot="start"
+                      value="option1"
+                    />
                     <IonLabel>Sí</IonLabel>
                   </IonItem>
                   <IonItem>
-                    <IonRadio slot="start" value="option2" />
+                    <IonRadio
+                      className="custom-radio"
+                      slot="start"
+                      value="option2"
+                    />
                     <IonLabel>No</IonLabel>
                   </IonItem>
                 </IonRadioGroup>
@@ -88,14 +96,17 @@ const Register: React.FC = () => {
                 <IonInput
                   value={item.value}
                   onIonChange={(e) => setName(e.detail.value!)}
+                  className="custom-input"
+                  placeholder={item.text}
                 />
               )}
             </IonItem>
           );
         })}
-        <IonButton expand="full" onClick={handleRegister}>
+        <IonButton className="custom-button" onClick={handleRegister}>
           Registrarse
         </IonButton>
+        <br></br>
         <IonLabel>
           Si ya tienes una cuenta,{" "}
           <Link to="/folder/Login"> inicia sesión</Link>

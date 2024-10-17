@@ -1,3 +1,10 @@
 .custom-label {
     margin-bottom: 58px !important;
 }
+
+.custom-radio {
+    background-color: #ffffff;
+    /* Color de fondo */
+    /* Borde del radio */
+    border-radius: 15px;
+}
