@@ -27,17 +27,27 @@ const Register: React.FC = () => {
   const [confirmpass, setConfirmpass] = useState("");
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
+  const [check, setCheck] = useState(0);
 
   const handleRegister = () => {
     // Aquí puedes manejar la lógica de registro
-    if (name && email && password) {
+    if (
+      !name ||
+      !email ||
+      !password ||
+      !lastname ||
+      !position ||
+      !doc ||
+      !company ||
+      !confirmpass
+    ) {
+      setToastMessage("Por favor, complete todos los campos.");
+      setShowToast(true);
+    } else {
       // Simular un registro exitoso
       setToastMessage("Registro exitoso!");
       setShowToast(true);
       // Aquí podrías añadir la lógica para enviar los datos a tu backend
-    } else {
-      setToastMessage("Por favor, complete todos los campos.");
-      setShowToast(true);
     }
   };
 
@@ -54,17 +64,22 @@ const Register: React.FC = () => {
           alt="Logo"
         />
         {[
-          { text: "Nombre", value: name },
-          { text: "Apellido", value: lastname },
-          { text: "Cargo", value: position },
-          { text: "Correo Electrónico", value: email },
-          { text: "Nit o C.C.", value: doc },
-          { text: "Nombre empresa", value: company },
-          { text: "Contraseña", value: password },
-          { text: "Confirmar contraseña", value: confirmpass },
+          { text: "Nombre", value: name, set: setName },
+          { text: "Apellido", value: lastname, set: setLastname },
+          { text: "Cargo", value: position, set: setPosition },
+          { text: "Correo Electrónico", value: email, set: setEmail },
+          { text: "Nit o C.C.", value: doc, set: setDoc },
+          { text: "Nombre empresa", value: company, set: setCompany },
+          { text: "Contraseña", value: password, set: setPassword },
+          {
+            text: "Confirmar contraseña",
+            value: confirmpass,
+            set: setConfirmpass,
+          },
           {
             text: "Su empresa tiene contratado servicios técnicos pre-agendados?",
-            value: password,
+            value: check,
+            set: setName,
           },
         ].map((item, index) => {
           return (
@@ -100,7 +115,7 @@ const Register: React.FC = () => {
               ) : (
                 <IonInput
                   value={item.value}
-                  onIonChange={(e) => setName(e.detail.value!)}
+                  onIonChange={(e) => item.set(e.detail.value!)}
                   className="custom-input"
                   placeholder={item.text}
                 />

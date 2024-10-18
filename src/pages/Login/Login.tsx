@@ -23,7 +23,7 @@ export default function Login(props: { setIsLogged: (arg0: boolean) => void }) {
 
   const handleLogin = () => {
     // Aquí puedes manejar la lógica de inicio de sesión
-    if (!email && !password) {
+    if (!email || !password) {
       setToastMessage("Por favor, complete todos los campos.");
       setShowToast(true);
     } else {
