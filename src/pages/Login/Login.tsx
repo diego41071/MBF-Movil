@@ -72,7 +72,11 @@ export default function Login(props: { setIsLogged: (arg0: boolean) => void }) {
           />
         </IonItem>
         <div className="container-button">
-          <IonButton className="custom-button" onClick={handleLogin}>
+          <IonButton
+            color={"danger"}
+            className="custom-button"
+            onClick={handleLogin}
+          >
             Iniciar Sesión
           </IonButton>
         </div>
@@ -80,9 +84,12 @@ export default function Login(props: { setIsLogged: (arg0: boolean) => void }) {
           <Link to="/folder/Register">Olvidaste la contraseña</Link>
         </div>
         <div className="centered-link">
-          <Link className="custom-link" to="/folder/Register">
-            Regístrate aquí
-          </Link>
+          <IonLabel>
+            Si no tienes una cuenta{" "}
+            <Link className="custom-link" to="/folder/Register">
+              regístrate aquí
+            </Link>
+          </IonLabel>
         </div>
         <IonToast
           isOpen={showToast}

@@ -8,3 +8,7 @@
     /* Borde del radio */
     border-radius: 15px;
 }
+
+.sign-center {
+    text-align: center;
+}

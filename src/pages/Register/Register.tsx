@@ -20,6 +20,11 @@ const Register: React.FC = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [lastname, setLastname] = useState("");
+  const [position, setPosition] = useState("");
+  const [doc, setDoc] = useState("");
+  const [company, setCompany] = useState("");
+  const [confirmpass, setConfirmpass] = useState("");
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
 
@@ -50,13 +55,13 @@ const Register: React.FC = () => {
         />
         {[
           { text: "Nombre", value: name },
-          { text: "Apellido", value: name },
-          { text: "Cargo", value: name },
+          { text: "Apellido", value: lastname },
+          { text: "Cargo", value: position },
           { text: "Correo Electrónico", value: email },
-          { text: "Nit o C.C.", value: name },
-          { text: "Nombre empresa", value: name },
+          { text: "Nit o C.C.", value: doc },
+          { text: "Nombre empresa", value: company },
           { text: "Contraseña", value: password },
-          { text: "Confirmar contraseña", value: password },
+          { text: "Confirmar contraseña", value: confirmpass },
           {
             text: "Su empresa tiene contratado servicios técnicos pre-agendados?",
             value: password,
@@ -103,14 +108,17 @@ const Register: React.FC = () => {
             </IonItem>
           );
         })}
-        <IonButton className="custom-button" onClick={handleRegister}>
-          Registrarse
-        </IonButton>
-        <br></br>
-        <IonLabel>
-          Si ya tienes una cuenta,{" "}
-          <Link to="/folder/Login"> inicia sesión</Link>
-        </IonLabel>
+        <div className="container-button">
+          <IonButton className="custom-button" onClick={handleRegister}>
+            Registrarse
+          </IonButton>
+        </div>
+        <div className="centered-link">
+          <IonLabel className="sign-center">
+            Si ya tienes una cuenta,{" "}
+            <Link to="/folder/Login"> inicia sesión</Link>
+          </IonLabel>
+        </div>
         <IonToast
           isOpen={showToast}
           onDidDismiss={() => setShowToast(false)}

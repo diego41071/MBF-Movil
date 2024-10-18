@@ -10,6 +10,10 @@
     border-radius: 16px;
 }
 
+.custom-input input {
+    padding: 15px !important;
+}
+
 .custom-button {
     margin-top: 24px;
     margin-bottom: 24px;
@@ -35,7 +39,7 @@
 }
 
 .centered-link a {
-    color: #ff5733;
+    color: var(--ion-color-secondary);
     /* Cambia el color del enlace */
     text-decoration: none;
     /* Elimina el subrayado */
