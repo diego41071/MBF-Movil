@@ -56,6 +56,7 @@ export default function Login(props: { setIsLogged: (arg0: boolean) => void }) {
         <IonImg
           src="https://www.grupombf.com.co/wp-content/uploads/2023/08/MBF-BLANCO.png"
           alt="Logo"
+          className="custom-img"
         />
         <IonItem>
           <IonLabel position="floating">Correo Electrónico</IonLabel>
@@ -89,7 +90,11 @@ export default function Login(props: { setIsLogged: (arg0: boolean) => void }) {
             Iniciar Sesión
           </IonButton>
         </div>
-        <IonLabel className="custom-label-login">Ó inicia sesión con</IonLabel>
+        <IonItem>
+          <IonLabel className="custom-label-login">
+            Ó inicia sesión con
+          </IonLabel>
+        </IonItem>
         <div className="flex-icons">
           <div>
             <IonIcon

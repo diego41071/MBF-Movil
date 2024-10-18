@@ -12,9 +12,11 @@ import {
   IonRadio,
   IonImg,
   IonRouterLink,
+  IonIcon,
 } from "@ionic/react";
 import "./Register.css";
 import { Link } from "react-router-dom";
+import { logoGoogle, logoFacebook } from "ionicons/icons";
 
 const Register: React.FC = () => {
   const [name, setName] = useState("");
@@ -51,6 +53,14 @@ const Register: React.FC = () => {
     }
   };
 
+  function handleGoogleLogin(): void {
+    throw new Error("Function not implemented.");
+  }
+
+  function handleFacebookLogin(): void {
+    throw new Error("Function not implemented.");
+  }
+
   return (
     <IonPage>
       {/* <IonHeader>
@@ -62,6 +72,7 @@ const Register: React.FC = () => {
         <IonImg
           src="https://www.grupombf.com.co/wp-content/uploads/2023/08/MBF-BLANCO.png"
           alt="Logo"
+          className="custom-img"
         />
         {[
           { text: "Nombre", value: name, set: setName },
@@ -131,6 +142,27 @@ const Register: React.FC = () => {
           >
             Registrarse
           </IonButton>
+        </div>
+        <IonItem>
+          <IonLabel className="custom-label-login">Ó regístrate con</IonLabel>
+        </IonItem>
+        <div className="flex-icons">
+          <div>
+            <IonIcon
+              className="custom-icon"
+              onClick={handleGoogleLogin}
+              icon={logoGoogle}
+              slot="start"
+            />
+          </div>
+          <div>
+            <IonIcon
+              className="custom-icon"
+              onClick={handleFacebookLogin}
+              icon={logoFacebook}
+              slot="start"
+            />
+          </div>
         </div>
         <div className="centered-link">
           <IonLabel className="sign-center">

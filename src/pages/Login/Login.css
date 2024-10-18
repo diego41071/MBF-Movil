@@ -15,6 +15,7 @@
     margin-bottom: 24px !important;
     --border-radius: 16px;
     text-transform: capitalize;
+    width: 90%;
 }
 
 .container-button {
@@ -70,4 +71,12 @@
     width: 40%;
     margin: 0 auto;
     margin-top: 20px;
+}
+
+.custom-img {
+    max-width: 300px;
+    height: auto;
+    width: 70%;
+    margin: 0 auto;
+    margin-bottom: -22px;
 }
