@@ -10,8 +10,10 @@ import {
   IonButton,
   IonToast,
   IonImg,
+  IonIcon,
 } from "@ionic/react";
 import "./Login.css";
+import { home, personCircle, logoGoogle, logoFacebook } from "ionicons/icons";
 
 export default function Login(props: { setIsLogged: (arg0: boolean) => void }) {
   const [email, setEmail] = useState("");
@@ -35,6 +37,14 @@ export default function Login(props: { setIsLogged: (arg0: boolean) => void }) {
     }
   };
 
+  function handleGoogleLogin() {
+    throw new Error("Function not implemented.");
+  }
+
+  function handleFacebookLogin() {
+    throw new Error("Function not implemented.");
+  }
+
   return (
     <IonPage>
       {/* <IonHeader>
@@ -48,9 +58,7 @@ export default function Login(props: { setIsLogged: (arg0: boolean) => void }) {
           alt="Logo"
         />
         <IonItem>
-          <IonLabel className="custom-label-login" position="floating">
-            Correo Electrónico
-          </IonLabel>
+          <IonLabel position="floating">Correo Electrónico</IonLabel>
           <IonInput
             type="email"
             value={email}
@@ -60,9 +68,7 @@ export default function Login(props: { setIsLogged: (arg0: boolean) => void }) {
           />
         </IonItem>
         <IonItem>
-          <IonLabel className="custom-label-login" position="floating">
-            Contraseña
-          </IonLabel>
+          <IonLabel position="floating">Contraseña</IonLabel>
           <IonInput
             type="password"
             value={password}
@@ -71,6 +77,9 @@ export default function Login(props: { setIsLogged: (arg0: boolean) => void }) {
             placeholder="Contraseña"
           />
         </IonItem>
+        <div className="centered-link">
+          <Link to="/folder/Register">¿Olvidaste tu contraseña?</Link>
+        </div>
         <div className="container-button">
           <IonButton
             color={"danger"}
@@ -80,8 +89,24 @@ export default function Login(props: { setIsLogged: (arg0: boolean) => void }) {
             Iniciar Sesión
           </IonButton>
         </div>
-        <div className="centered-link">
-          <Link to="/folder/Register">Olvidaste la contraseña</Link>
+        <IonLabel className="custom-label-login">Ó inicia sesión con</IonLabel>
+        <div className="flex-icons">
+          <div>
+            <IonIcon
+              className="custom-icon"
+              onClick={handleGoogleLogin}
+              icon={logoGoogle}
+              slot="start"
+            />
+          </div>
+          <div>
+            <IonIcon
+              className="custom-icon"
+              onClick={handleFacebookLogin}
+              icon={logoFacebook}
+              slot="start"
+            />
+          </div>
         </div>
         <div className="centered-link">
           <IonLabel>

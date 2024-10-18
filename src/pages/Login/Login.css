@@ -3,11 +3,8 @@
     /* Color de fondo blanco */
     --color: #000000;
     /* Color del texto negro */
-    border: 1px solid #ccc;
-    /* Opcional: un borde */
-    margin-top: 29px;
-    margin-bottom: 16px;
-    border-radius: 16px;
+    margin-top: 37px;
+    --border-radius: 16px;
 }
 
 .custom-input input {
@@ -15,8 +12,7 @@
 }
 
 .custom-button {
-    margin-top: 24px;
-    margin-bottom: 24px;
+    margin-bottom: 24px !important;
     --border-radius: 16px;
     text-transform: capitalize;
 }
@@ -53,9 +49,25 @@
 }
 
 .custom-label-login {
-    /* text-align: center; */
+    text-align: center;
 }
 
 .input-wrapper.sc-ion-input-md {
     border-radius: 16px;
+}
+
+.custom-icon {
+    color: white;
+    /* Cambia el color aquí */
+    font-size: 41px;
+
+}
+
+.flex-icons {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 40%;
+    margin: 0 auto;
+    margin-top: 20px;
 }

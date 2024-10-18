@@ -124,7 +124,11 @@ const Register: React.FC = () => {
           );
         })}
         <div className="container-button">
-          <IonButton className="custom-button" onClick={handleRegister}>
+          <IonButton
+            color={"danger"}
+            className="custom-button-register"
+            onClick={handleRegister}
+          >
             Registrarse
           </IonButton>
         </div>

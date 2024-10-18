@@ -6,7 +6,12 @@
     background-color: #ffffff;
     /* Color de fondo */
     /* Borde del radio */
-    border-radius: 15px;
+}
+
+.custom-button-register {
+    --border-radius: 16px;
+    text-transform: capitalize;
+    margin-top: 27px;
 }
 
 .sign-center {
