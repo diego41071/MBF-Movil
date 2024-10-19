@@ -15,10 +15,13 @@ import {
   IonIcon,
 } from "@ionic/react";
 import "./Register.css";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { logoGoogle, logoFacebook } from "ionicons/icons";
+import validateEmail from "../../utils/validateEmail";
 
-const Register: React.FC = () => {
+export default function Register(props: {
+  setIsLogged: (arg0: boolean) => void;
+}) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -31,6 +34,8 @@ const Register: React.FC = () => {
   const [toastMessage, setToastMessage] = useState("");
   const [check, setCheck] = useState(0);
 
+  const history = useHistory();
+
   const handleRegister = () => {
     // Aquí puedes manejar la lógica de registro
     if (
@@ -41,13 +46,19 @@ const Register: React.FC = () => {
       !position ||
       !doc ||
       !company ||
-      !confirmpass
+      !confirmpass ||
+      check === 0
     ) {
       setToastMessage("Por favor, complete todos los campos.");
+      setShowToast(true);
+    } else if (!validateEmail(email)) {
+      setToastMessage("Por favor, introduce un correo electrónico válido.");
       setShowToast(true);
     } else {
       // Simular un registro exitoso
       setToastMessage("Registro exitoso!");
+      history.push("/folder/Page");
+      props.setIsLogged(true);
       setShowToast(true);
       // Aquí podrías añadir la lógica para enviar los datos a tu backend
     }
@@ -111,6 +122,7 @@ const Register: React.FC = () => {
                       className="custom-radio"
                       slot="start"
                       value="option1"
+                      onClick={(e) => setCheck(1)}
                     />
                     <IonLabel>Sí</IonLabel>
                   </IonItem>
@@ -119,6 +131,7 @@ const Register: React.FC = () => {
                       className="custom-radio"
                       slot="start"
                       value="option2"
+                      onClick={(e) => setCheck(2)}
                     />
                     <IonLabel>No</IonLabel>
                   </IonItem>
@@ -179,6 +192,4 @@ const Register: React.FC = () => {
       </IonContent>
     </IonPage>
   );
-};
-
-export default Register;
+}

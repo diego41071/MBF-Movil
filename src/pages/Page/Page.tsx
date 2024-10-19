@@ -8,9 +8,8 @@ import {
   IonToolbar,
 } from "@ionic/react";
 import { useParams } from "react-router";
-import ExploreContainer from "../components/ExploreContainer";
+import ExploreContainer from "../../components/ExplorerContainer/ExploreContainer";
 import "./Page.css";
-import Menu from "../components/Menu";
 
 const Page: React.FC = () => {
   const { name } = useParams<{ name: string }>();

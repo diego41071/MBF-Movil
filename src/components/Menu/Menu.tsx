@@ -33,58 +33,8 @@ interface AppPage {
   iosIcon: string;
   mdIcon: string;
   title: string;
+  click: any;
 }
-
-const appPages: AppPage[] = [
-  {
-    title: "Mi cuenta",
-    url: "/folder/Login",
-    iosIcon: mailOutline,
-    mdIcon: mailSharp,
-  },
-  {
-    title: "Datos de perifl",
-    url: "/folder/Outbox",
-    iosIcon: paperPlaneOutline,
-    mdIcon: paperPlaneSharp,
-  },
-  {
-    title: "Historial servicios",
-    url: "/folder/Favorites",
-    iosIcon: heartOutline,
-    mdIcon: heartSharp,
-  },
-  {
-    title: "Inge Basic",
-    url: "/folder/Archived",
-    iosIcon: archiveOutline,
-    mdIcon: archiveSharp,
-  },
-  {
-    title: "Inge Pro",
-    url: "/folder/Trash",
-    iosIcon: trashOutline,
-    mdIcon: trashSharp,
-  },
-  {
-    title: "Idioma",
-    url: "/folder/Spam",
-    iosIcon: warningOutline,
-    mdIcon: warningSharp,
-  },
-  {
-    title: "Notificaciones",
-    url: "/folder/Spam",
-    iosIcon: warningOutline,
-    mdIcon: warningSharp,
-  },
-  {
-    title: "Cerrar sesión",
-    url: "/folder/Login",
-    iosIcon: warningOutline,
-    mdIcon: warningSharp,
-  },
-];
 
 const labels = [
   { title: "Términos y condiciones" },
@@ -92,8 +42,67 @@ const labels = [
   { title: "Autorización de tratamiento de datos personales" },
 ];
 
-const Menu: React.FC = () => {
+export default function Menu(props: { setIsLogged: (arg0: boolean) => any }) {
   const location = useLocation();
+
+  const appPages: AppPage[] = [
+    {
+      title: "Mi cuenta",
+      url: "/folder/Login",
+      iosIcon: mailOutline,
+      mdIcon: mailSharp,
+      click: "",
+    },
+    {
+      title: "Datos de perifl",
+      url: "/folder/Outbox",
+      iosIcon: paperPlaneOutline,
+      mdIcon: paperPlaneSharp,
+      click: "",
+    },
+    {
+      title: "Historial servicios",
+      url: "/folder/Favorites",
+      iosIcon: heartOutline,
+      mdIcon: heartSharp,
+      click: "",
+    },
+    {
+      title: "Inge Basic",
+      url: "/folder/Archived",
+      iosIcon: archiveOutline,
+      mdIcon: archiveSharp,
+      click: "",
+    },
+    {
+      title: "Inge Pro",
+      url: "/folder/Trash",
+      iosIcon: trashOutline,
+      mdIcon: trashSharp,
+      click: "",
+    },
+    {
+      title: "Idioma",
+      url: "/folder/Spam",
+      iosIcon: warningOutline,
+      mdIcon: warningSharp,
+      click: "",
+    },
+    {
+      title: "Notificaciones",
+      url: "/folder/Spam",
+      iosIcon: warningOutline,
+      mdIcon: warningSharp,
+      click: "",
+    },
+    {
+      title: "Cerrar sesión",
+      url: "/folder/Login",
+      iosIcon: warningOutline,
+      mdIcon: warningSharp,
+      click: props.setIsLogged,
+    },
+  ];
 
   return (
     <IonMenu contentId="main" type="overlay">
@@ -112,6 +121,7 @@ const Menu: React.FC = () => {
                   routerDirection="none"
                   lines="none"
                   detail={false}
+                  onClick={(e) => index === 7 && appPage.click(false)}
                 >
                   <IonIcon
                     aria-hidden="true"
@@ -138,6 +148,4 @@ const Menu: React.FC = () => {
       </IonContent>
     </IonMenu>
   );
-};
-
-export default Menu;
+}

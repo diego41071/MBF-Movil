@@ -14,6 +14,7 @@ import {
 } from "@ionic/react";
 import "./Login.css";
 import { home, personCircle, logoGoogle, logoFacebook } from "ionicons/icons";
+import validateEmail from "../../utils/validateEmail";
 
 export default function Login(props: { setIsLogged: (arg0: boolean) => void }) {
   const [email, setEmail] = useState("");
@@ -28,12 +29,15 @@ export default function Login(props: { setIsLogged: (arg0: boolean) => void }) {
     if (!email || !password) {
       setToastMessage("Por favor, complete todos los campos.");
       setShowToast(true);
+    } else if (!validateEmail(email)) {
+      setToastMessage("Por favor, introduce un correo electrónico válido.");
+      setShowToast(true);
     } else {
       // Simular un inicio de sesión exitoso
       setToastMessage("Inicio de sesión exitoso!");
-      history.push("/folder/Page");
       props.setIsLogged(true);
       setShowToast(true);
+      history.push("/folder/Page");
     }
   };
 
