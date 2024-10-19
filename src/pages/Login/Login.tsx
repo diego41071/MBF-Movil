@@ -21,6 +21,7 @@ export default function Login(props: { setIsLogged: (arg0: boolean) => void }) {
   const [password, setPassword] = useState("");
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
+  const [validItems, setValidItems] = useState(false);
 
   const history = useHistory();
 
@@ -67,7 +68,7 @@ export default function Login(props: { setIsLogged: (arg0: boolean) => void }) {
           <IonInput
             type="email"
             value={email}
-            onIonChange={(e) => setEmail(e.detail.value!)}
+            onIonInput={(e) => setEmail(e.detail.value!)}
             className="custom-input"
             placeholder="Correo Electrónico"
           />
@@ -77,7 +78,7 @@ export default function Login(props: { setIsLogged: (arg0: boolean) => void }) {
           <IonInput
             type="password"
             value={password}
-            onIonChange={(e) => setPassword(e.detail.value!)}
+            onIonInput={(e) => setPassword(e.detail.value!)}
             className="custom-input"
             placeholder="Contraseña"
           />

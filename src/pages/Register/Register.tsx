@@ -132,7 +132,7 @@ export default function Register(props: {
               ) : (
                 <IonInput
                   value={item.value}
-                  onIonChange={(e) => item.set(e.detail.value!)}
+                  onIonInput={(e) => item.set(e.detail.value!)}
                   className="custom-input"
                   placeholder={item.text}
                 />
