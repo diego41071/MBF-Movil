@@ -54,6 +54,9 @@ export default function Register(props: {
     } else if (!validateEmail(email)) {
       setToastMessage("Por favor, introduce un correo electrónico válido.");
       setShowToast(true);
+    } else if (password !== confirmpass) {
+      setToastMessage("Las contraseñas deben ser iguales");
+      setShowToast(true);
     } else {
       // Simular un registro exitoso
       setToastMessage("Registro exitoso!");
@@ -114,25 +117,15 @@ export default function Register(props: {
               </IonLabel>
               {index === 8 ? (
                 <IonRadioGroup
-                // value={selectedValue}
-                // onIonChange={handleRadioChange}
+                  value={check}
+                  onIonChange={(e) => setCheck(e.detail.value)}
                 >
                   <IonItem>
-                    <IonRadio
-                      className="custom-radio"
-                      slot="start"
-                      value="option1"
-                      onClick={(e) => setCheck(1)}
-                    />
+                    <IonRadio className="custom-radio" slot="start" value={1} />
                     <IonLabel>Sí</IonLabel>
                   </IonItem>
                   <IonItem>
-                    <IonRadio
-                      className="custom-radio"
-                      slot="start"
-                      value="option2"
-                      onClick={(e) => setCheck(2)}
-                    />
+                    <IonRadio className="custom-radio" slot="start" value={2} />
                     <IonLabel>No</IonLabel>
                   </IonItem>
                 </IonRadioGroup>
