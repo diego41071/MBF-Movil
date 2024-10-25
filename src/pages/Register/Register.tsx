@@ -91,10 +91,10 @@ export default function Register(props: {
         {[
           { text: "Nombre", value: name, set: setName },
           { text: "Apellido", value: lastname, set: setLastname },
+          { text: "Nombre empresa", value: company, set: setCompany },
+          { text: "Nit o C.C.", value: doc, set: setDoc },
           { text: "Cargo", value: position, set: setPosition },
           { text: "Correo Electrónico", value: email, set: setEmail },
-          { text: "Nit o C.C.", value: doc, set: setDoc },
-          { text: "Nombre empresa", value: company, set: setCompany },
           { text: "Contraseña", value: password, set: setPassword },
           {
             text: "Confirmar contraseña",

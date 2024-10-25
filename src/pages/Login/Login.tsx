@@ -15,17 +15,17 @@ import {
 import "./Login.css";
 import { home, personCircle, logoGoogle, logoFacebook } from "ionicons/icons";
 import validateEmail from "../../utils/validateEmail";
+import { login } from "../../services/authService";
 
 export default function Login(props: { setIsLogged: (arg0: boolean) => void }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
-  const [validItems, setValidItems] = useState(false);
 
   const history = useHistory();
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     // Aquí puedes manejar la lógica de inicio de sesión
     if (!email || !password) {
       setToastMessage("Por favor, complete todos los campos.");
@@ -35,10 +35,19 @@ export default function Login(props: { setIsLogged: (arg0: boolean) => void }) {
       setShowToast(true);
     } else {
       // Simular un inicio de sesión exitoso
-      setToastMessage("Inicio de sesión exitoso!");
-      props.setIsLogged(true);
-      setShowToast(true);
-      history.push("/folder/Page");
+
+      try {
+        const data = await login(email, password);
+        console.log("Logged in!", data);
+        setToastMessage("Inicio de sesión exitoso!");
+        props.setIsLogged(true);
+        setShowToast(true);
+        history.push("/folder/Page");
+        // Aquí puedes guardar el token en localStorage o en el estado
+      } catch (error) {
+        setToastMessage("Usuario o contraseña incorrectos");
+        setShowToast(true);
+      }
     }
   };
 
