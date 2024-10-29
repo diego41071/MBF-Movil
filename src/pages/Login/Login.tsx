@@ -1,5 +1,5 @@
 // src/components/Login.tsx
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import {
   IonContent,
@@ -13,7 +13,7 @@ import {
   IonIcon,
 } from "@ionic/react";
 import "./Login.css";
-import { home, personCircle, logoGoogle, logoFacebook } from "ionicons/icons";
+import { logoGoogle, logoFacebook } from "ionicons/icons";
 import validateEmail from "../../utils/validateEmail";
 import { login } from "../../services/authService";
 
@@ -22,8 +22,14 @@ export default function Login(props: { setIsLogged: (arg0: boolean) => void }) {
   const [password, setPassword] = useState("");
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
+  const [token, setToken] = useState("");
 
   const history = useHistory();
+
+  const saveToken = (newToken: string) => {
+    setToken(newToken);
+    localStorage.setItem("authToken", newToken); // Opcional, para persistencia
+  };
 
   const handleLogin = async () => {
     // Aquí puedes manejar la lógica de inicio de sesión
@@ -39,6 +45,7 @@ export default function Login(props: { setIsLogged: (arg0: boolean) => void }) {
       try {
         const data = await login(email, password);
         console.log("Logged in!", data);
+        saveToken(data.access_token);
         setToastMessage("Inicio de sesión exitoso!");
         props.setIsLogged(true);
         setShowToast(true);
