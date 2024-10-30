@@ -46,7 +46,6 @@ setupIonicReact();
 
 const App: React.FC = () => {
   const [isLogged, setIsLogged] = useState(false);
-  const logOut = () => {};
   return (
     <IonApp>
       <IonReactRouter>

@@ -27,6 +27,7 @@ import {
   warningSharp,
 } from "ionicons/icons";
 import "./Menu.css";
+import { logout } from "../../services/authService";
 
 interface AppPage {
   url: string;
@@ -121,7 +122,9 @@ export default function Menu(props: { setIsLogged: (arg0: boolean) => any }) {
                   routerDirection="none"
                   lines="none"
                   detail={false}
-                  onClick={(e) => index === 7 && appPage.click(false)}
+                  onClick={(e) =>
+                    index === 7 && (appPage.click(false), logout())
+                  }
                 >
                   <IonIcon
                     aria-hidden="true"
