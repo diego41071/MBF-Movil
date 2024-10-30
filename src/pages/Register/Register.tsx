@@ -14,7 +14,7 @@ import {
   IonRouterLink,
   IonIcon,
 } from "@ionic/react";
-import "./register.css";
+import "./Register.css";
 import { Link, useHistory } from "react-router-dom";
 import { logoGoogle, logoFacebook } from "ionicons/icons";
 import validateEmail from "../../utils/validateEmail";

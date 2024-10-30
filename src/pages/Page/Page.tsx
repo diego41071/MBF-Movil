@@ -9,7 +9,7 @@ import {
 } from "@ionic/react";
 import { useParams } from "react-router";
 import ExploreContainer from "../../components/ExplorerContainer/ExploreContainer";
-import "./page.css";
+import "./Page.css";
 
 const Page: React.FC = () => {
   const { name } = useParams<{ name: string }>();

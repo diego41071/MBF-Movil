@@ -12,7 +12,7 @@ import {
   IonImg,
   IonIcon,
 } from "@ionic/react";
-import "./login.css";
+import "./Login.css";
 import { logoGoogle, logoFacebook } from "ionicons/icons";
 import validateEmail from "../../utils/validateEmail";
 import { login } from "../../services/authService";
