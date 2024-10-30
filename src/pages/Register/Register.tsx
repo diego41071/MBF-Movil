@@ -18,6 +18,7 @@ import "./Register.css";
 import { Link, useHistory } from "react-router-dom";
 import { logoGoogle, logoFacebook } from "ionicons/icons";
 import validateEmail from "../../utils/validateEmail";
+import { register } from "../../services/authService";
 
 export default function Register(props: {
   setIsLogged: (arg0: boolean) => void;
@@ -36,34 +37,54 @@ export default function Register(props: {
 
   const history = useHistory();
 
-  const handleRegister = () => {
-    // Aquí puedes manejar la lógica de registro
+  const handleRegister = async () => {
+    // Validaciones
     if (
       !name ||
+      !lastname ||
+      !company ||
+      !doc ||
+      !position ||
       !email ||
       !password ||
-      !lastname ||
-      !position ||
-      !doc ||
-      !company ||
       !confirmpass ||
       check === 0
     ) {
       setToastMessage("Por favor, complete todos los campos.");
       setShowToast(true);
-    } else if (!validateEmail(email)) {
+      return;
+    }
+
+    if (!validateEmail(email)) {
       setToastMessage("Por favor, introduce un correo electrónico válido.");
       setShowToast(true);
-    } else if (password !== confirmpass) {
-      setToastMessage("Las contraseñas deben ser iguales");
+      return;
+    }
+
+    if (password !== confirmpass) {
+      setToastMessage("Las contraseñas deben ser iguales.");
       setShowToast(true);
-    } else {
-      // Simular un registro exitoso
+      return;
+    }
+
+    try {
+      await register(
+        name,
+        lastname,
+        company,
+        doc,
+        position,
+        email,
+        password,
+        confirmpass,
+        check
+      );
       setToastMessage("Registro exitoso!");
-      history.push("/page");
-      props.setIsLogged(true);
+      history.push("/login");
+    } catch (error: any) {
+      setToastMessage(error.message);
+    } finally {
       setShowToast(true);
-      // Aquí podrías añadir la lógica para enviar los datos a tu backend
     }
   };
 
