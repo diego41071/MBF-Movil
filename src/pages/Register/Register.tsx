@@ -1,4 +1,4 @@
-// src/components/Register.tsx
+// src/components/register.tsx
 import React, { useState } from "react";
 import {
   IonContent,
@@ -14,7 +14,7 @@ import {
   IonRouterLink,
   IonIcon,
 } from "@ionic/react";
-import "./Register.css";
+import "./register.css";
 import { Link, useHistory } from "react-router-dom";
 import { logoGoogle, logoFacebook } from "ionicons/icons";
 import validateEmail from "../../utils/validateEmail";
@@ -60,7 +60,7 @@ export default function Register(props: {
     } else {
       // Simular un registro exitoso
       setToastMessage("Registro exitoso!");
-      history.push("/folder/Page");
+      history.push("/page");
       props.setIsLogged(true);
       setShowToast(true);
       // Aquí podrías añadir la lógica para enviar los datos a tu backend
@@ -172,8 +172,7 @@ export default function Register(props: {
         </div>
         <div className="centered-link">
           <IonLabel className="sign-center">
-            Si ya tienes una cuenta,{" "}
-            <Link to="/folder/Login"> inicia sesión</Link>
+            Si ya tienes una cuenta, <Link to="/login"> inicia sesión</Link>
           </IonLabel>
         </div>
         <IonToast

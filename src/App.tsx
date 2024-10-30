@@ -53,18 +53,18 @@ const App: React.FC = () => {
           {isLogged && <Menu setIsLogged={setIsLogged} />}
           <IonRouterOutlet id="main">
             <Route path="/" exact={true}>
-              <Redirect to="/folder/Login" />
+              <Redirect to="/login" />
             </Route>
-            <Route path="/folder/Login" exact={true}>
+            <Route path="/login" exact={true}>
               <Login setIsLogged={setIsLogged} />
             </Route>
-            <Route path="/folder/Page" exact={true}>
+            <Route path="/page" exact={true}>
               <Page />
             </Route>
-            <Route path="/folder/Register" exact={true}>
+            <Route path="/register" exact={true}>
               <Register setIsLogged={setIsLogged} />
             </Route>
-            {/* <Route path="/folder/:name" exact={true}>
+            {/* <Route path="/:name" exact={true}>
               <Page />
             </Route> */}
           </IonRouterOutlet>

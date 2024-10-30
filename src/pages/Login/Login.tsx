@@ -1,4 +1,4 @@
-// src/components/Login.tsx
+// src/components/login.tsx
 import { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import {
@@ -12,7 +12,7 @@ import {
   IonImg,
   IonIcon,
 } from "@ionic/react";
-import "./Login.css";
+import "./login.css";
 import { logoGoogle, logoFacebook } from "ionicons/icons";
 import validateEmail from "../../utils/validateEmail";
 import { login } from "../../services/authService";
@@ -49,7 +49,7 @@ export default function Login(props: { setIsLogged: (arg0: boolean) => void }) {
         setToastMessage("Inicio de sesión exitoso!");
         props.setIsLogged(true);
         setShowToast(true);
-        history.push("/folder/Page");
+        history.push("/page");
         // Aquí puedes guardar el token en localStorage o en el estado
       } catch (error) {
         setToastMessage("Usuario o contraseña incorrectos");
@@ -100,7 +100,7 @@ export default function Login(props: { setIsLogged: (arg0: boolean) => void }) {
           />
         </IonItem>
         <div className="centered-link">
-          <Link to="/folder/Register">¿Olvidaste tu contraseña?</Link>
+          <Link to="/register">¿Olvidaste tu contraseña?</Link>
         </div>
         <div className="container-button">
           <IonButton
@@ -137,7 +137,7 @@ export default function Login(props: { setIsLogged: (arg0: boolean) => void }) {
         <div className="centered-link">
           <IonLabel>
             Si no tienes una cuenta{" "}
-            <Link className="custom-link" to="/folder/Register">
+            <Link className="custom-link" to="/register">
               regístrate aquí
             </Link>
           </IonLabel>
