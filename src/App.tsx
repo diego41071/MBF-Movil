@@ -41,6 +41,7 @@ import "./theme/variables.css";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
 import { useState } from "react";
+import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
 
 setupIonicReact();
 
@@ -63,6 +64,9 @@ const App: React.FC = () => {
             </Route>
             <Route path="/register" exact={true}>
               <Register setIsLogged={setIsLogged} />
+            </Route>
+            <Route path="/forgotpassword" exact={true}>
+              <ForgotPassword />
             </Route>
             {/* <Route path="/:name" exact={true}>
               <Page />

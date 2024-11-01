@@ -100,7 +100,7 @@ export default function Login(props: { setIsLogged: (arg0: boolean) => void }) {
           />
         </IonItem>
         <div className="centered-link">
-          <Link to="/register">¿Olvidaste tu contraseña?</Link>
+          <Link to="/forgotpassword">¿Olvidaste tu contraseña?</Link>
         </div>
         <div className="container-button">
           <IonButton
