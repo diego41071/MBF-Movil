@@ -80,3 +80,8 @@
     margin: 0 auto;
     margin-bottom: -22px;
 }
+
+.custom-item {
+    --background: transparent;
+    --border-color: transparent;
+}

@@ -50,3 +50,12 @@ export const register = async (
     }
   }
 };
+
+export const handleForgotPassword = async (username: string) => {
+  try {
+    await axios.post(`${API_URL}/forgot-password`, { username });
+    alert("Correo enviado para recuperación de contraseña");
+  } catch (error) {
+    alert("Error al solicitar recuperación de contraseña");
+  }
+};

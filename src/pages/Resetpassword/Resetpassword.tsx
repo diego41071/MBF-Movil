@@ -7,14 +7,18 @@ const ResetPassword: React.FC = () => {
   const [newPassword, setNewPassword] = useState("");
 
   const handleResetPassword = async () => {
-    try {
-      await axios.post("http://localhost:3000/auth/reset-password", {
-        token,
-        newPassword,
-      });
-      alert("Contraseña actualizada correctamente");
-    } catch (error) {
-      alert("Error al restablecer la contraseña");
+    if (!newPassword) {
+      alert("Complete el campo de contraseña");
+    } else {
+      try {
+        await axios.post("http://localhost:3000/auth/reset-password", {
+          token,
+          newPassword,
+        });
+        alert("Contraseña actualizada correctamente");
+      } catch (error) {
+        alert("Error al restablecer la contraseña");
+      }
     }
   };
 

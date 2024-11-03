@@ -79,7 +79,7 @@ export default function Login(props: { setIsLogged: (arg0: boolean) => void }) {
           alt="Logo"
           className="custom-img"
         />
-        <IonItem>
+        <IonItem className="custom-item">
           <IonLabel position="floating">Correo Electrónico</IonLabel>
           <IonInput
             type="email"
@@ -89,7 +89,7 @@ export default function Login(props: { setIsLogged: (arg0: boolean) => void }) {
             placeholder="Correo Electrónico"
           />
         </IonItem>
-        <IonItem>
+        <IonItem className="custom-item">
           <IonLabel position="floating">Contraseña</IonLabel>
           <IonInput
             type="password"
@@ -111,7 +111,7 @@ export default function Login(props: { setIsLogged: (arg0: boolean) => void }) {
             Iniciar Sesión
           </IonButton>
         </div>
-        <IonItem>
+        <IonItem className="custom-item">
           <IonLabel className="custom-label-login">
             Ó inicia sesión con
           </IonLabel>
