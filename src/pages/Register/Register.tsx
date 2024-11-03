@@ -129,7 +129,7 @@ export default function Register(props: {
           },
         ].map((item, index) => {
           return (
-            <IonItem key={index}>
+            <IonItem className="custom-item" key={index}>
               <IonLabel
                 position="floating"
                 className={index === 8 ? "custom-label" : ""}
@@ -141,11 +141,11 @@ export default function Register(props: {
                   value={check}
                   onIonChange={(e) => setCheck(e.detail.value)}
                 >
-                  <IonItem>
+                  <IonItem className="custom-item">
                     <IonRadio className="custom-radio" slot="start" value={1} />
                     <IonLabel>Sí</IonLabel>
                   </IonItem>
-                  <IonItem>
+                  <IonItem className="custom-item">
                     <IonRadio className="custom-radio" slot="start" value={2} />
                     <IonLabel>No</IonLabel>
                   </IonItem>
@@ -170,7 +170,7 @@ export default function Register(props: {
             Registrarse
           </IonButton>
         </div>
-        <IonItem>
+        <IonItem className="custom-item">
           <IonLabel className="custom-label-login">Ó regístrate con</IonLabel>
         </IonItem>
         <div className="flex-icons">
