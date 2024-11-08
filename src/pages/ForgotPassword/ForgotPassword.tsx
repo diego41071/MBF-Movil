@@ -1,6 +1,7 @@
 import { useState } from "react";
 import {
   IonButton,
+  IonContent,
   IonHeader,
   IonInput,
   IonItem,
@@ -23,25 +24,27 @@ const ForgotPassword: React.FC = () => {
           <IonTitle>Recuperación de contraseña</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonItem className="custom-itemforgot">
-        <IonLabel position="floating">Correo electrónico</IonLabel>
-        <IonInput
-          placeholder="Ingrese su correo"
-          value={email}
-          onIonChange={(e) => setEmail(e.detail.value!)}
-          className="custom-input"
-        />
-
-        <div className="container-button button-forgot">
+      <IonContent className="ion-padding">
+        <IonItem className="custom-item">
+          <IonLabel position="floating">Correo electrónico</IonLabel>
+          <IonInput
+            placeholder="Ingrese su correo"
+            value={email}
+            onIonChange={(e) => setEmail(e.detail.value!)}
+            className="custom-input"
+          />
+        </IonItem>
+        <div className="container-button">
           <IonButton
             onClick={(e) => handleForgotPassword(email)}
             routerLink="/resetpassword"
-            className="custom-button"
+            className="custom-button margin-button"
+            color={"danger"}
           >
             Recuperar Contraseña
           </IonButton>
         </div>
-      </IonItem>
+      </IonContent>
     </IonPage>
   );
 };

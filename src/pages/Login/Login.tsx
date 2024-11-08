@@ -74,11 +74,7 @@ export default function Login(props: { setIsLogged: (arg0: boolean) => void }) {
         </IonToolbar>
       </IonHeader> */}
       <IonContent className="ion-padding">
-        <IonImg
-          src="https://www.grupombf.com.co/wp-content/uploads/2023/08/MBF-BLANCO.png"
-          alt="Logo"
-          className="custom-img"
-        />
+        <IonImg src="/images/logo.png" alt="Logo" className="custom-img" />
         <IonItem className="custom-item">
           <IonLabel position="floating">Correo Electrónico</IonLabel>
           <IonInput
