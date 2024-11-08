@@ -71,13 +71,15 @@ const ResetPassword: React.FC = () => {
             className="custom-input"
           />
         </IonItem>
-        <IonButton
-          className="custom-button margin-button"
-          onClick={handleResetPassword}
-          color={"danger"}
-        >
-          Actualizar Contraseña
-        </IonButton>
+        <div className="container-button">
+          <IonButton
+            className="custom-button margin-button"
+            onClick={handleResetPassword}
+            color={"danger"}
+          >
+            Actualizar Contraseña
+          </IonButton>
+        </div>
       </IonContent>
     </IonPage>
   );
