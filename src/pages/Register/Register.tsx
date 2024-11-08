@@ -104,11 +104,7 @@ export default function Register(props: {
         </IonToolbar>
       </IonHeader> */}
       <IonContent className="ion-padding">
-        <IonImg
-          src="https://www.grupombf.com.co/wp-content/uploads/2023/08/MBF-BLANCO.png"
-          alt="Logo"
-          className="custom-img"
-        />
+        <IonImg src="/images/logo.png" alt="Logo" className="custom-img" />
         {[
           { text: "Nombre", value: name, set: setName },
           { text: "Apellido", value: lastname, set: setLastname },
@@ -136,7 +132,7 @@ export default function Register(props: {
               >
                 {item.text}
               </IonLabel>
-              {index === 8 ? (
+              {index === 9 ? (
                 <IonRadioGroup
                   value={check}
                   onIonChange={(e) => setCheck(e.detail.value)}
@@ -152,6 +148,7 @@ export default function Register(props: {
                 </IonRadioGroup>
               ) : (
                 <IonInput
+                  type={index === 4 ? "number" : "text"}
                   value={item.value}
                   onIonInput={(e) => item.set(e.detail.value!)}
                   className="custom-input"
