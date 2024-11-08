@@ -47,7 +47,7 @@ const ResetPassword: React.FC = () => {
           <IonInput
             placeholder="Ingrese el token"
             value={token}
-            onIonChange={(e) => setToken(e.detail.value!)}
+            onIonInput={(e) => setToken(e.detail.value!)}
             className="custom-input"
           />
         </IonItem>
@@ -57,7 +57,7 @@ const ResetPassword: React.FC = () => {
             placeholder="Ingrese su nueva contraseña"
             type="password"
             value={newPassword}
-            onIonChange={(e) => setNewPassword(e.detail.value!)}
+            onIonInput={(e) => setNewPassword(e.detail.value!)}
             className="custom-input"
           />
         </IonItem>
@@ -67,7 +67,7 @@ const ResetPassword: React.FC = () => {
             placeholder="Confirme su nueva contraseña"
             type="password"
             value={ConfirmnewPassword}
-            onIonChange={(e) => setConfirmNewPassword(e.detail.value!)}
+            onIonInput={(e) => setConfirmNewPassword(e.detail.value!)}
             className="custom-input"
           />
         </IonItem>

@@ -132,7 +132,7 @@ export default function Register(props: {
               >
                 {item.text}
               </IonLabel>
-              {index === 9 ? (
+              {index === 8 ? (
                 <IonRadioGroup
                   value={check}
                   onIonChange={(e) => setCheck(e.detail.value)}
@@ -148,7 +148,7 @@ export default function Register(props: {
                 </IonRadioGroup>
               ) : (
                 <IonInput
-                  type={index === 4 ? "number" : "text"}
+                  type={index === 3 ? "number" : "text"}
                   value={item.value}
                   onIonInput={(e) => item.set(e.detail.value!)}
                   className="custom-input"

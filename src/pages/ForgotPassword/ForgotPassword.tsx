@@ -30,7 +30,7 @@ const ForgotPassword: React.FC = () => {
           <IonInput
             placeholder="Ingrese su correo"
             value={email}
-            onIonChange={(e) => setEmail(e.detail.value!)}
+            onIonInput={(e) => setEmail(e.detail.value!)}
             className="custom-input"
           />
         </IonItem>
