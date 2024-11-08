@@ -67,3 +67,9 @@ http://ionicframework.com/docs/theming/ */
     --ion-text-color: #ffffff;
     /* Cambia el color del texto globalmente */
 }
+
+@media (prefers-color-scheme: dark) {
+    :root.md {
+        --ion-background-color: #000;
+    }
+}
