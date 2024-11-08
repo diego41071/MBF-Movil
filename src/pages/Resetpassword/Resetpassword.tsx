@@ -1,6 +1,14 @@
 import { useState } from "react";
-import { IonButton, IonInput, IonPage } from "@ionic/react";
+import {
+  IonButton,
+  IonContent,
+  IonInput,
+  IonItem,
+  IonLabel,
+  IonPage,
+} from "@ionic/react";
 import axios from "axios";
+import "./Resetpassword.css";
 
 const ResetPassword: React.FC = () => {
   const [token, setToken] = useState("");
@@ -24,18 +32,33 @@ const ResetPassword: React.FC = () => {
 
   return (
     <IonPage>
-      <IonInput
-        placeholder="Ingrese el token"
-        value={token}
-        onIonChange={(e) => setToken(e.detail.value!)}
-      />
-      <IonInput
-        placeholder="Ingrese su nueva contraseña"
-        type="password"
-        value={newPassword}
-        onIonChange={(e) => setNewPassword(e.detail.value!)}
-      />
-      <IonButton onClick={handleResetPassword}>Actualizar Contraseña</IonButton>
+      <IonContent className="ion-padding">
+        <IonItem className="custom-item">
+          <IonLabel position="floating">Token</IonLabel>
+          <IonInput
+            placeholder="Ingrese el token"
+            value={token}
+            onIonChange={(e) => setToken(e.detail.value!)}
+            className="custom-input"
+          />
+        </IonItem>
+        <IonItem className="custom-item">
+          <IonLabel position="floating">Contraseña</IonLabel>
+          <IonInput
+            placeholder="Ingrese su nueva contraseña"
+            type="password"
+            value={newPassword}
+            onIonChange={(e) => setNewPassword(e.detail.value!)}
+            className="custom-input"
+          />
+        </IonItem>
+        <IonButton
+          className="custom-button margin-button"
+          onClick={handleResetPassword}
+        >
+          Actualizar Contraseña
+        </IonButton>
+      </IonContent>
     </IonPage>
   );
 };

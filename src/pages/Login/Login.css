@@ -16,6 +16,7 @@
     --border-radius: 16px;
     text-transform: capitalize;
     width: 90%;
+    height: 50px;
 }
 
 .container-button {
@@ -80,6 +81,7 @@
     margin: 0 auto;
     margin-bottom: -22px;
 }
+
 
 .custom-item {
     --background: transparent;
