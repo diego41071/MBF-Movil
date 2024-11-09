@@ -104,7 +104,7 @@ export default function Register(props: {
         </IonToolbar>
       </IonHeader> */}
       <IonContent className="ion-padding">
-        <IonImg src="/images/logo.png" alt="Logo" className="custom-img" />
+        <IonImg src="/images/logo.webp" alt="Logo" className="custom-img" />
         {[
           { text: "Nombre", value: name, set: setName },
           { text: "Apellido", value: lastname, set: setLastname },
