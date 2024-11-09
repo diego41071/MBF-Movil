@@ -41,7 +41,7 @@ const ForgotPassword: React.FC = () => {
             className="custom-button margin-button"
             color={"danger"}
           >
-            Recuperar Contraseña
+            Enviar Código
           </IonButton>
         </div>
       </IonContent>
