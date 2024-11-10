@@ -51,33 +51,18 @@ export const register = async (
   }
 };
 
-export const handleForgotPassword = async (username: string) => {
-  try {
-    await axios.post(`${API_URL}/forgot-password`, { username });
-    alert("Correo enviado para recuperación de contraseña");
-  } catch (error) {
-    alert("Error al solicitar recuperación de contraseña");
-  }
-};
+export const handleForgot = (username: string) =>
+  axios.post(`${API_URL}/forgot-password`, {
+    username: username,
+  });
 
-export const handleResetPassword = async (
+export const handleReset = (
   username: string,
   code: number,
-  newPassword: string,
-  ConfirmnewPassword: string
-) => {
-  if (!newPassword || !ConfirmnewPassword) {
-    alert("Complete el campo de contraseña");
-  } else {
-    try {
-      await axios.post(`${API_URL}/reset-password`, {
-        username,
-        code: code, // Asegúrate de convertir a número
-        newPassword,
-      });
-      alert("Contraseña restablecida");
-    } catch (error) {
-      alert("Código inválido o expirado");
-    }
-  }
-};
+  newPassword: string
+) =>
+  axios.post(`${API_URL}/reset-password`, {
+    username,
+    code, // Asegúrate de convertir a número
+    newPassword,
+  });

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   IonButton,
   IonContent,
@@ -8,16 +8,41 @@ import {
   IonLabel,
   IonPage,
   IonTitle,
+  IonToast,
   IonToolbar,
 } from "@ionic/react";
 import axios from "axios";
-import { handleForgotPassword } from "../../services/authService";
 import "./Forgotpassword.css";
+import { useHistory } from "react-router-dom";
+import { handleForgot } from "../../services/authService";
 
 export default function ForgotPassword(props: {
   email: string;
   setEmail: (arg0: string) => void;
 }) {
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
+  const history = useHistory();
+
+  const handleForgotPassword = async () => {
+    try {
+      const responseForgot = await handleForgot(props.email);
+      if (responseForgot.status === 201) {
+        setToastMessage("Correo enviado para recuperación de contraseña");
+        setShowToast(true);
+        history.push("/resetpassword");
+      } else {
+        setToastMessage(
+          "Error inesperado al solicitar recuperación de contraseña"
+        );
+        setShowToast(true);
+      }
+    } catch (error) {
+      setToastMessage("Error al solicitar recuperación de contraseña");
+      setShowToast(true);
+    }
+  };
+
   return (
     <IonPage>
       <IonHeader>
@@ -37,14 +62,21 @@ export default function ForgotPassword(props: {
         </IonItem>
         <div className="container-button">
           <IonButton
-            onClick={(e) => handleForgotPassword(props.email)}
-            routerLink="/resetpassword"
+            onClick={(e) => {
+              handleForgotPassword();
+            }}
             className="custom-button margin-button"
             color={"danger"}
           >
             Enviar Código
           </IonButton>
         </div>
+        <IonToast
+          isOpen={showToast}
+          onDidDismiss={() => setShowToast(false)}
+          message={toastMessage}
+          duration={2000}
+        />
       </IonContent>
     </IonPage>
   );
