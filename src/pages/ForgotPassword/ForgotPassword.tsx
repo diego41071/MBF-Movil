@@ -14,9 +14,10 @@ import axios from "axios";
 import { handleForgotPassword } from "../../services/authService";
 import "./Forgotpassword.css";
 
-const ForgotPassword: React.FC = () => {
-  const [email, setEmail] = useState("");
-
+export default function ForgotPassword(props: {
+  email: string;
+  setEmail: (arg0: string) => void;
+}) {
   return (
     <IonPage>
       <IonHeader>
@@ -29,14 +30,14 @@ const ForgotPassword: React.FC = () => {
           <IonLabel position="floating">Correo electrónico</IonLabel>
           <IonInput
             placeholder="Ingrese su correo"
-            value={email}
-            onIonInput={(e) => setEmail(e.detail.value!)}
+            value={props.email}
+            onIonInput={(e) => props.setEmail(e.detail.value!)}
             className="custom-input"
           />
         </IonItem>
         <div className="container-button">
           <IonButton
-            onClick={(e) => handleForgotPassword(email)}
+            onClick={(e) => handleForgotPassword(props.email)}
             routerLink="/resetpassword"
             className="custom-button margin-button"
             color={"danger"}
@@ -47,6 +48,4 @@ const ForgotPassword: React.FC = () => {
       </IonContent>
     </IonPage>
   );
-};
-
-export default ForgotPassword;
+}

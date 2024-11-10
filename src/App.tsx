@@ -48,6 +48,7 @@ setupIonicReact();
 
 const App: React.FC = () => {
   const [isLogged, setIsLogged] = useState(false);
+  const [email, setEmail] = useState("");
   return (
     <IonApp>
       <IonReactRouter>
@@ -67,10 +68,10 @@ const App: React.FC = () => {
               <Register setIsLogged={setIsLogged} />
             </Route>
             <Route path="/forgotpassword" exact={true}>
-              <ForgotPassword />
+              <ForgotPassword email={email} setEmail={setEmail} />
             </Route>
             <Route path="/resetpassword" exact={true}>
-              <ResetPassword />
+              <ResetPassword email={email} />
             </Route>
             {/* <Route path="/:name" exact={true}>
               <Page />

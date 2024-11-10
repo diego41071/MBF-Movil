@@ -59,3 +59,25 @@ export const handleForgotPassword = async (username: string) => {
     alert("Error al solicitar recuperación de contraseña");
   }
 };
+
+export const handleResetPassword = async (
+  username: string,
+  code: number,
+  newPassword: string,
+  ConfirmnewPassword: string
+) => {
+  if (!newPassword || !ConfirmnewPassword) {
+    alert("Complete el campo de contraseña");
+  } else {
+    try {
+      await axios.post(`${API_URL}/reset-password`, {
+        username,
+        code: code, // Asegúrate de convertir a número
+        newPassword,
+      });
+      alert("Contraseña restablecida");
+    } catch (error) {
+      alert("Código inválido o expirado");
+    }
+  }
+};

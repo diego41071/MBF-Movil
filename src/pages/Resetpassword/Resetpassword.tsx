@@ -10,29 +10,13 @@ import {
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
-import axios from "axios";
 import "./Resetpassword.css";
+import { handleResetPassword } from "../../services/authService";
 
-const ResetPassword: React.FC = () => {
-  const [token, setToken] = useState("");
+export default function ResetPassword(props: { email: string }) {
+  const [code, setCode] = useState(0);
   const [newPassword, setNewPassword] = useState("");
   const [ConfirmnewPassword, setConfirmNewPassword] = useState("");
-
-  const handleResetPassword = async () => {
-    if (!newPassword || !ConfirmnewPassword) {
-      alert("Complete el campo de contraseña");
-    } else {
-      try {
-        await axios.post("http://localhost:3000/auth/reset-password", {
-          token,
-          newPassword,
-        });
-        alert("Contraseña actualizada correctamente");
-      } catch (error) {
-        alert("Error al restablecer la contraseña");
-      }
-    }
-  };
 
   return (
     <IonPage>
@@ -43,12 +27,13 @@ const ResetPassword: React.FC = () => {
       </IonHeader>
       <IonContent className="ion-padding">
         <IonItem className="custom-item">
-          <IonLabel position="floating">Token</IonLabel>
+          <IonLabel position="floating">Código</IonLabel>
           <IonInput
-            placeholder="Ingrese el token"
-            value={token}
-            onIonInput={(e) => setToken(e.detail.value!)}
+            placeholder="Ingrese el código"
+            value={code === 0 ? "" : code}
+            onIonInput={(e) => setCode(Number(e.detail.value!))}
             className="custom-input"
+            type="number"
           />
         </IonItem>
         <IonItem className="custom-item">
@@ -74,7 +59,14 @@ const ResetPassword: React.FC = () => {
         <div className="container-button">
           <IonButton
             className="custom-button margin-button"
-            onClick={handleResetPassword}
+            onClick={(e) =>
+              handleResetPassword(
+                props.email,
+                code,
+                newPassword,
+                ConfirmnewPassword
+              )
+            }
             color={"danger"}
           >
             Actualizar Contraseña
@@ -83,6 +75,4 @@ const ResetPassword: React.FC = () => {
       </IonContent>
     </IonPage>
   );
-};
-
-export default ResetPassword;
+}
