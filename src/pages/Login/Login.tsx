@@ -35,7 +35,7 @@ export default function Login(props: { setIsLogged: (arg0: boolean) => void }) {
 
   const handleLogin = async () => {
     if (!captchaToken) {
-      setToastMessage("Por favor, complete todos los campos.");
+      setToastMessage("Por favor, completa el recaptcha.");
       setShowToast(true);
       return;
     }

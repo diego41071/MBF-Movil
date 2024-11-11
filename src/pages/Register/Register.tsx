@@ -19,6 +19,7 @@ import { Link, useHistory } from "react-router-dom";
 import { logoGoogle, logoFacebook } from "ionicons/icons";
 import validateEmail from "../../utils/validateEmail";
 import { register } from "../../services/authService";
+import ReCAPTCHA from "react-google-recaptcha";
 
 export default function Register(props: {
   setIsLogged: (arg0: boolean) => void;
@@ -34,10 +35,16 @@ export default function Register(props: {
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
   const [check, setCheck] = useState(0);
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
 
   const history = useHistory();
 
   const handleRegister = async () => {
+    if (!captchaToken) {
+      setToastMessage("Por favor, completa el recaptcha.");
+      setShowToast(true);
+      return;
+    }
     // Validaciones
     if (
       !name ||
@@ -77,7 +84,8 @@ export default function Register(props: {
         email,
         password,
         confirmpass,
-        check
+        check,
+        captchaToken
       );
       setToastMessage("Registro exitoso!");
       history.push("/login");
@@ -95,6 +103,10 @@ export default function Register(props: {
   function handleFacebookLogin(): void {
     throw new Error("Function not implemented.");
   }
+
+  const onRecaptchaChange = (token: string | null) => {
+    setCaptchaToken(token);
+  };
 
   return (
     <IonPage>
@@ -148,7 +160,13 @@ export default function Register(props: {
                 </IonRadioGroup>
               ) : (
                 <IonInput
-                  type={index === 3 ? "number" : "text"}
+                  type={
+                    index === 3
+                      ? "number"
+                      : index === 6 || index === 7
+                      ? "password"
+                      : "text"
+                  }
                   value={item.value}
                   onIonInput={(e) => item.set(e.detail.value!)}
                   className="custom-input"
@@ -167,6 +185,10 @@ export default function Register(props: {
             Registrarse
           </IonButton>
         </div>
+        <ReCAPTCHA
+          sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI" // Tu clave de sitio
+          onChange={onRecaptchaChange}
+        />
         <IonItem className="custom-item">
           <IonLabel className="custom-label-login">Ó regístrate con</IonLabel>
         </IonItem>
