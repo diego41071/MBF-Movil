@@ -1,5 +1,5 @@
 // src/components/login.tsx
-import { useState } from "react";
+import { SetStateAction, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import {
   IonContent,
@@ -16,6 +16,7 @@ import "./Login.css";
 import { logoGoogle, logoFacebook } from "ionicons/icons";
 import validateEmail from "../../utils/validateEmail";
 import { login } from "../../services/authService";
+import ReCAPTCHA from "react-google-recaptcha";
 
 export default function Login(props: { setIsLogged: (arg0: boolean) => void }) {
   const [email, setEmail] = useState("");
@@ -23,6 +24,7 @@ export default function Login(props: { setIsLogged: (arg0: boolean) => void }) {
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
   const [token, setToken] = useState("");
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
 
   const history = useHistory();
 
@@ -32,7 +34,11 @@ export default function Login(props: { setIsLogged: (arg0: boolean) => void }) {
   };
 
   const handleLogin = async () => {
-    // Aquí puedes manejar la lógica de inicio de sesión
+    if (!captchaToken) {
+      setToastMessage("Por favor, complete todos los campos.");
+      setShowToast(true);
+      return;
+    }
     if (!email || !password) {
       setToastMessage("Por favor, complete todos los campos.");
       setShowToast(true);
@@ -43,7 +49,7 @@ export default function Login(props: { setIsLogged: (arg0: boolean) => void }) {
       // Simular un inicio de sesión exitoso
 
       try {
-        const data = await login(email, password);
+        const data = await login(email, password, captchaToken);
         console.log("Logged in!", data);
         saveToken(data.access_token);
         setToastMessage("Inicio de sesión exitoso!");
@@ -56,6 +62,10 @@ export default function Login(props: { setIsLogged: (arg0: boolean) => void }) {
         setShowToast(true);
       }
     }
+  };
+
+  const onRecaptchaChange = (token: string | null) => {
+    setCaptchaToken(token);
   };
 
   function handleGoogleLogin() {
@@ -107,6 +117,10 @@ export default function Login(props: { setIsLogged: (arg0: boolean) => void }) {
             Iniciar Sesión
           </IonButton>
         </div>
+        <ReCAPTCHA
+          sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI" // Tu clave de sitio
+          onChange={onRecaptchaChange}
+        />
         <IonItem className="custom-item">
           <IonLabel className="custom-label-login">
             Ó inicia sesión con

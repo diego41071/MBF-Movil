@@ -2,8 +2,16 @@ import axios from "axios";
 
 export const API_URL = "http://localhost:3000/auth";
 
-export const login = async (username: string, password: string) => {
-  const response = await axios.post(`${API_URL}/login`, { username, password });
+export const login = async (
+  username: string,
+  password: string,
+  captchaToken: string
+) => {
+  const response = await axios.post(`${API_URL}/login`, {
+    username,
+    password,
+    captchaToken,
+  });
   return response.data;
 };
 
