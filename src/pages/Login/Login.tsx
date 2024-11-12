@@ -1,5 +1,5 @@
 // src/components/login.tsx
-import { SetStateAction, useState } from "react";
+import { SetStateAction, useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import {
   IonContent,
@@ -11,12 +11,15 @@ import {
   IonToast,
   IonImg,
   IonIcon,
+  isPlatform,
 } from "@ionic/react";
 import "./Login.css";
 import { logoGoogle, logoFacebook } from "ionicons/icons";
 import validateEmail from "../../utils/validateEmail";
 import { login } from "../../services/authService";
 import ReCAPTCHA from "react-google-recaptcha";
+import { GoogleAuth } from "@codetrix-studio/capacitor-google-auth";
+import axios from "axios";
 
 export default function Login(props: { setIsLogged: (arg0: boolean) => void }) {
   const [email, setEmail] = useState("");
@@ -67,11 +70,52 @@ export default function Login(props: { setIsLogged: (arg0: boolean) => void }) {
   const onRecaptchaChange = (token: string | null) => {
     setCaptchaToken(token);
   };
+  const [isAuthenticating, setIsAuthenticating] = useState(false);
+  // Cargar el script de Google para el navegador
+  useEffect(() => {
+    if (!isPlatform("capacitor")) {
+      const script = document.createElement("script");
+      script.src = "https://accounts.google.com/gsi/client";
+      script.async = true;
+      document.body.appendChild(script);
 
-  function handleGoogleLogin() {
-    throw new Error("Function not implemented.");
-  }
+      script.onload = () => {
+        window.google?.accounts.id.initialize({
+          client_id:
+            "143084504266-m64qjq4oio23hrpc55s0qs86fq84o7sq.apps.googleusercontent.com",
+          callback: handleCredentialResponse,
+        });
+      };
+    }
+  }, []);
 
+  const handleGoogleLogin = async () => {
+    // if (isAuthenticating) return; // Previene múltiples solicitudes
+    // setIsAuthenticating(true);
+    alert("hola");
+    // try {
+    //   if (isPlatform("capacitor")) {
+    //     // Autenticación en dispositivos móviles
+    //     const googleUser = await GoogleAuth.signIn();
+    //     console.log("Usuario autenticado:", googleUser);
+    //     const idToken = googleUser.authentication.idToken;
+    //     await axios.post(`${process.env.API_URL}/google`, { idToken });
+    //   } else {
+    // Autenticación en el navegador
+    // window.google?.accounts.id.prompt();
+    //   }
+    // } catch (error) {
+    //   console.error("Error al iniciar sesión con Google:", error);
+    // } finally {
+    //   setIsAuthenticating(false);
+    // }
+  };
+
+  // Maneja la respuesta de autenticación de Google en el navegador
+  const handleCredentialResponse = (response: any) => {
+    console.log("Respuesta de Google en el navegador:", response);
+    // Procesa la respuesta y envía el token al backend si es necesario
+  };
   function handleFacebookLogin() {
     throw new Error("Function not implemented.");
   }
