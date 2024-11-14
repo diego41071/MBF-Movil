@@ -43,6 +43,11 @@ import Register from "./pages/Register/Register";
 import { useState } from "react";
 import ForgotPassword from "./pages/ForgotPassword/Forgotpassword";
 import ResetPassword from "./pages/Resetpassword/Resetpassword";
+import Schedule from "./pages/Schedule/Schedule";
+import TechnicalDataSheet from "./pages/TechnicalDataSheet/TechnicalDataSheet";
+import TechnicalService from "./pages/TechnicalService/TechnicalService";
+import Report from "./pages/QRScan/QRScan";
+import QRScan from "./pages/Report/Report";
 
 setupIonicReact();
 
@@ -72,6 +77,21 @@ const App: React.FC = () => {
             </Route>
             <Route path="/resetpassword" exact={true}>
               <ResetPassword email={email} />
+            </Route>
+            <Route path="/schedule" exact={true}>
+              <Schedule />
+            </Route>
+            <Route path="/technicaldatasheet" exact={true}>
+              <TechnicalDataSheet />
+            </Route>
+            <Route path="/technicalservice" exact={true}>
+              <TechnicalService />
+            </Route>
+            <Route path="/report" exact={true}>
+              <Report />
+            </Route>
+            <Route path="/qrscan" exact={true}>
+              <QRScan />
             </Route>
             {/* <Route path="/:name" exact={true}>
               <Page />
