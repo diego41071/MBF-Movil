@@ -87,3 +87,8 @@
     --background: transparent;
     --border-color: transparent;
 }
+
+.custom-captcha {
+    display: flex;
+    justify-content: center;
+}

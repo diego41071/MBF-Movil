@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   IonButton,
   IonContent,
@@ -11,7 +11,6 @@ import {
   IonToast,
   IonToolbar,
 } from "@ionic/react";
-import axios from "axios";
 import "./Forgotpassword.css";
 import { useHistory } from "react-router-dom";
 import { handleForgot } from "../../services/authService";

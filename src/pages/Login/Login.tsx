@@ -162,6 +162,7 @@ export default function Login(props: { setIsLogged: (arg0: boolean) => void }) {
         <ReCAPTCHA
           sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI" // Tu clave de sitio
           onChange={onRecaptchaChange}
+          className="custom-captcha"
         />
         <IonItem className="custom-item">
           <IonLabel className="custom-label-login">

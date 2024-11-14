@@ -18,6 +18,7 @@ import {
   calendarOutline,
   clipboard,
   clipboardOutline,
+  qrCodeOutline,
   reader,
   readerOutline,
 } from "ionicons/icons";
@@ -35,6 +36,7 @@ const ExploreContainer: React.FC<ContainerProps> = ({ name }) => {
           { name: "Fichas técnicas", icon: readerOutline },
           { name: "Solicitar servicio técnico", icon: buildOutline },
           { name: "Informe", icon: clipboardOutline },
+          { name: "Escaneo de QR", icon: qrCodeOutline },
         ].map((item) => {
           return (
             <div className="profile-container">
