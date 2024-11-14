@@ -1,4 +1,26 @@
-import './ExploreContainer.css';
+import {
+  IonButton,
+  IonCard,
+  IonCardContent,
+  IonCardHeader,
+  IonCardSubtitle,
+  IonCardTitle,
+  IonContent,
+  IonIcon,
+  IonImg,
+  IonTitle,
+} from "@ionic/react";
+import "./ExploreContainer.css";
+import {
+  build,
+  buildOutline,
+  calendar,
+  calendarOutline,
+  clipboard,
+  clipboardOutline,
+  reader,
+  readerOutline,
+} from "ionicons/icons";
 
 interface ContainerProps {
   name: string;
@@ -6,10 +28,27 @@ interface ContainerProps {
 
 const ExploreContainer: React.FC<ContainerProps> = ({ name }) => {
   return (
-    <div id="container">
-      <strong>{name}</strong>
-      <p>Explore <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-    </div>
+    <IonContent className="ion-padding">
+      <div className="profile-grid">
+        {[
+          { name: "Cronograma", icon: calendarOutline },
+          { name: "Fichas técnicas", icon: readerOutline },
+          { name: "Solicitar servicio técnico", icon: buildOutline },
+          { name: "Informe", icon: clipboardOutline },
+        ].map((item) => {
+          return (
+            <div className="profile-container">
+              <div className="image-container">
+                <div className="custom-image">
+                  <IonIcon className="custom-icon-explore" icon={item.icon} />
+                </div>
+              </div>
+              <p>{item.name}</p>
+            </div>
+          );
+        })}
+      </div>
+    </IonContent>
   );
 };
 

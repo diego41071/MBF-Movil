@@ -90,25 +90,23 @@ export default function Login(props: { setIsLogged: (arg0: boolean) => void }) {
   }, []);
 
   const handleGoogleLogin = async () => {
-    // if (isAuthenticating) return; // Previene múltiples solicitudes
-    // setIsAuthenticating(true);
-    alert("hola");
-    // try {
-    //   if (isPlatform("capacitor")) {
-    //     // Autenticación en dispositivos móviles
-    //     const googleUser = await GoogleAuth.signIn();
-    //     console.log("Usuario autenticado:", googleUser);
-    //     const idToken = googleUser.authentication.idToken;
-    //     await axios.post(`${process.env.API_URL}/google`, { idToken });
-    //   } else {
-    // Autenticación en el navegador
-    // window.google?.accounts.id.prompt();
-    //   }
-    // } catch (error) {
-    //   console.error("Error al iniciar sesión con Google:", error);
-    // } finally {
-    //   setIsAuthenticating(false);
-    // }
+    if (isAuthenticating) return; // Previene múltiples solicitudes
+    setIsAuthenticating(true);
+    try {
+      if (isPlatform("capacitor")) {
+        // Autenticación en dispositivos móviles
+        const googleUser = await GoogleAuth.signIn();
+        console.log("Usuario autenticado:", googleUser);
+        const idToken = googleUser.authentication.idToken;
+        await axios.post(`${process.env.API_URL}/google`, { idToken });
+      } else {
+        window.google?.accounts.id.prompt();
+      }
+    } catch (error) {
+      console.error("Error al iniciar sesión con Google:", error);
+    } finally {
+      setIsAuthenticating(false);
+    }
   };
 
   // Maneja la respuesta de autenticación de Google en el navegador

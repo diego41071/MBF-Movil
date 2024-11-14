@@ -21,7 +21,7 @@ const Page: React.FC = () => {
           <IonButtons slot="start">
             <IonMenuButton />
           </IonButtons>
-          <IonTitle>{name}</IonTitle>
+          <IonTitle className="custom-title">Opciones</IonTitle>
         </IonToolbar>
       </IonHeader>
 
