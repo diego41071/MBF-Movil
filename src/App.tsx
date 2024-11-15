@@ -49,6 +49,10 @@ import TechnicalService from "./pages/TechnicalService/TechnicalService";
 import Report from "./pages/Report/Report";
 import QRScan from "./pages/QRScan/QRScan";
 import Bluetooth from "./pages/Bluetooth/Bluetooth";
+import IngePro from "./pages/IngePro/IngePro";
+import Notifications from "./pages/Notifications/Notifications";
+import ProfileData from "./pages/ProfileData/ProfileData";
+import ServiceHistory from "./pages/ServiceHistory/ServiceHistory";
 
 setupIonicReact();
 
@@ -94,6 +98,18 @@ const App: React.FC = () => {
             </Route>
             <Route path="/bluetooth" exact={true}>
               <Bluetooth />
+            </Route>
+            <Route path="/ingepro" exact={true}>
+              <IngePro />
+            </Route>
+            <Route path="/notifications" exact={true}>
+              <Notifications />
+            </Route>
+            <Route path="/profiledata" exact={true}>
+              <ProfileData />
+            </Route>
+            <Route path="/servicehistory" exact={true}>
+              <ServiceHistory />
             </Route>
             {/* <Route path="/:name" exact={true}>
               <Page />
