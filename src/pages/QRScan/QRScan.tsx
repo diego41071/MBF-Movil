@@ -1,6 +1,6 @@
 import { IonHeader, IonPage, IonTitle, IonToolbar } from "@ionic/react";
 
-const Report: React.FC = () => {
+const QRScan: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
@@ -12,4 +12,4 @@ const Report: React.FC = () => {
   );
 };
 
-export default Report;
+export default QRScan;

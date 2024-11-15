@@ -46,8 +46,8 @@ import ResetPassword from "./pages/Resetpassword/Resetpassword";
 import Schedule from "./pages/Schedule/Schedule";
 import TechnicalDataSheet from "./pages/TechnicalDataSheet/TechnicalDataSheet";
 import TechnicalService from "./pages/TechnicalService/TechnicalService";
-import Report from "./pages/QRScan/QRScan";
-import QRScan from "./pages/Report/Report";
+import Report from "./pages/Report/Report";
+import QRScan from "./pages/QRScan/QRScan";
 import Bluetooth from "./pages/Bluetooth/Bluetooth";
 
 setupIonicReact();

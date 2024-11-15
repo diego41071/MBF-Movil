@@ -188,6 +188,7 @@ export default function Register(props: {
         <ReCAPTCHA
           sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI" // Tu clave de sitio
           onChange={onRecaptchaChange}
+          className="custom-captcha"
         />
         <IonItem className="custom-item">
           <IonLabel className="custom-label-login">Ó regístrate con</IonLabel>
