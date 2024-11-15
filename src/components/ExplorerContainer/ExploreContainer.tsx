@@ -39,7 +39,7 @@ const ExploreContainer: React.FC<ContainerProps> = ({ name }) => {
         {[
           { name: "Cronograma", icon: calendarOutline, route: "/schedule" },
           {
-            name: "/Fichas técnicas",
+            name: "Fichas técnicas",
             icon: readerOutline,
             route: "/technicaldatasheet",
           },

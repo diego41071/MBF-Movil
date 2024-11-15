@@ -52,7 +52,7 @@ const TechnicalService: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Solicitud de Soporte</IonTitle>
+          <IonTitle>Soporte técnico</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">
