@@ -12,18 +12,16 @@ import {
 
 import { useLocation } from "react-router-dom";
 import {
-  archiveOutline,
-  archiveSharp,
   bookmarkOutline,
-  heartOutline,
+  cardOutline,
+  folderOutline,
   heartSharp,
-  mailOutline,
-  mailSharp,
-  paperPlaneOutline,
+  languageOutline,
+  logOutOutline,
+  notificationsCircleOutline,
   paperPlaneSharp,
-  trashOutline,
+  personCircleOutline,
   trashSharp,
-  warningOutline,
   warningSharp,
 } from "ionicons/icons";
 import "./Menu.css";
@@ -48,58 +46,44 @@ export default function Menu(props: { setIsLogged: (arg0: boolean) => any }) {
 
   const appPages: AppPage[] = [
     {
-      title: "Mi cuenta",
-      url: "/login",
-      iosIcon: mailOutline,
-      mdIcon: mailSharp,
-      click: "",
-    },
-    {
       title: "Datos de perifl",
       url: "/Outbox",
-      iosIcon: paperPlaneOutline,
+      iosIcon: personCircleOutline,
       mdIcon: paperPlaneSharp,
       click: "",
     },
     {
       title: "Historial servicios",
       url: "/Favorites",
-      iosIcon: heartOutline,
+      iosIcon: folderOutline,
       mdIcon: heartSharp,
-      click: "",
-    },
-    {
-      title: "Inge Basic",
-      url: "/Archived",
-      iosIcon: archiveOutline,
-      mdIcon: archiveSharp,
       click: "",
     },
     {
       title: "Inge Pro",
       url: "/Trash",
-      iosIcon: trashOutline,
+      iosIcon: cardOutline,
       mdIcon: trashSharp,
       click: "",
     },
     {
       title: "Idioma",
       url: "/Spam",
-      iosIcon: warningOutline,
+      iosIcon: languageOutline,
       mdIcon: warningSharp,
       click: "",
     },
     {
       title: "Notificaciones",
       url: "/Spam",
-      iosIcon: warningOutline,
+      iosIcon: notificationsCircleOutline,
       mdIcon: warningSharp,
       click: "",
     },
     {
       title: "Cerrar sesión",
       url: "/login",
-      iosIcon: warningOutline,
+      iosIcon: logOutOutline,
       mdIcon: warningSharp,
       click: props.setIsLogged,
     },
@@ -140,10 +124,9 @@ export default function Menu(props: { setIsLogged: (arg0: boolean) => any }) {
         </IonList>
 
         <IonList id="labels-list">
-          <IonListHeader>Labels</IonListHeader>
+          <IonListHeader>Políticas y términos</IonListHeader>
           {labels.map((label, index) => (
             <IonItem lines="none" key={index} routerLink={label.title}>
-              <IonIcon aria-hidden="true" slot="start" icon={bookmarkOutline} />
               <IonLabel>{label.title}</IonLabel>
             </IonItem>
           ))}
