@@ -1,5 +1,7 @@
+import { IonPage } from "@ionic/react";
+
 const TechnicalDataSheet: React.FC = () => {
-  return <div>hola</div>;
+  return <IonPage>hola</IonPage>;
 };
 
 export default TechnicalDataSheet;

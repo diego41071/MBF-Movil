@@ -1,5 +1,7 @@
+import { IonPage } from "@ionic/react";
+
 const Schedule: React.FC = () => {
-  return <div>hola</div>;
+  return <IonPage>hola</IonPage>;
 };
 
 export default Schedule;

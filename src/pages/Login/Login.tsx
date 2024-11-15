@@ -72,41 +72,43 @@ export default function Login(props: { setIsLogged: (arg0: boolean) => void }) {
   };
   const [isAuthenticating, setIsAuthenticating] = useState(false);
   // Cargar el script de Google para el navegador
-  useEffect(() => {
-    if (!isPlatform("capacitor")) {
-      const script = document.createElement("script");
-      script.src = "https://accounts.google.com/gsi/client";
-      script.async = true;
-      document.body.appendChild(script);
+  // useEffect(() => {
+  //   if (!isPlatform("capacitor")) {
+  //     const script = document.createElement("script");
+  //     script.src = "https://accounts.google.com/gsi/client";
+  //     script.async = true;
+  //     document.body.appendChild(script);
 
-      script.onload = () => {
-        window.google?.accounts.id.initialize({
-          client_id:
-            "143084504266-m64qjq4oio23hrpc55s0qs86fq84o7sq.apps.googleusercontent.com",
-          callback: handleCredentialResponse,
-        });
-      };
-    }
-  }, []);
+  //     script.onload = () => {
+  //       window.google?.accounts.id.initialize({
+  //         client_id:
+  //           "143084504266-m64qjq4oio23hrpc55s0qs86fq84o7sq.apps.googleusercontent.com",
+  //         callback: handleCredentialResponse,
+  //       });
+  //     };
+  //   }
+  // }, []);
 
   const handleGoogleLogin = async () => {
-    if (isAuthenticating) return; // Previene múltiples solicitudes
-    setIsAuthenticating(true);
-    try {
-      if (isPlatform("capacitor")) {
-        // Autenticación en dispositivos móviles
-        const googleUser = await GoogleAuth.signIn();
-        console.log("Usuario autenticado:", googleUser);
-        const idToken = googleUser.authentication.idToken;
-        await axios.post(`${process.env.API_URL}/google`, { idToken });
-      } else {
-        window.google?.accounts.id.prompt();
-      }
-    } catch (error) {
-      console.error("Error al iniciar sesión con Google:", error);
-    } finally {
-      setIsAuthenticating(false);
-    }
+    // if (isAuthenticating) return; // Previene múltiples solicitudes
+    // setIsAuthenticating(true);
+    // try {
+    // if (isPlatform("capacitor")) {
+    // Autenticación en dispositivos móviles
+    // const googleUser = await GoogleAuth.signIn();
+    // console.log("Usuario autenticado:", googleUser);
+    // const idToken = googleUser.authentication.idToken;
+    // await axios.post(`${process.env.API_URL}/google`, { idToken });
+    alert("Inicio con Google");
+    // } else {
+    //   window.google?.accounts.id.prompt();
+    // }
+    // } catch (error) {
+    //   console.error("Error al iniciar sesión con Google:", error);
+    // }
+    // } finally {
+    //   setIsAuthenticating(false);
+    // }
   };
 
   // Maneja la respuesta de autenticación de Google en el navegador

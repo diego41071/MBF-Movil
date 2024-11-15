@@ -66,9 +66,7 @@ const App: React.FC = () => {
             <Route path="/login" exact={true}>
               <Login setIsLogged={setIsLogged} />
             </Route>
-            <Route path="/page" exact={true}>
-              <Page />
-            </Route>
+            <Route path="/page" exact={true} component={Page} />
             <Route path="/register" exact={true}>
               <Register setIsLogged={setIsLogged} />
             </Route>
