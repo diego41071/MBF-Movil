@@ -1,7 +1,15 @@
-import { IonPage } from "@ionic/react";
+import { IonHeader, IonPage, IonTitle, IonToolbar } from "@ionic/react";
 
 const Report: React.FC = () => {
-  return <IonPage>hola</IonPage>;
+  return (
+    <IonPage>
+      <IonHeader>
+        <IonToolbar>
+          <IonTitle>Escaneo de QR</IonTitle>
+        </IonToolbar>
+      </IonHeader>
+    </IonPage>
+  );
 };
 
 export default Report;
