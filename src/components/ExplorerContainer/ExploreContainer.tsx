@@ -1,25 +1,11 @@
-import {
-  IonButton,
-  IonCard,
-  IonCardContent,
-  IonCardHeader,
-  IonCardSubtitle,
-  IonCardTitle,
-  IonContent,
-  IonIcon,
-  IonImg,
-  IonTitle,
-} from "@ionic/react";
+import { IonContent, IonIcon } from "@ionic/react";
 import "./ExploreContainer.css";
 import {
-  build,
+  bluetoothOutline,
   buildOutline,
-  calendar,
   calendarOutline,
-  clipboard,
   clipboardOutline,
   qrCodeOutline,
-  reader,
   readerOutline,
 } from "ionicons/icons";
 import { useHistory } from "react-router-dom";
@@ -50,6 +36,11 @@ const ExploreContainer: React.FC<ContainerProps> = ({ name }) => {
           },
           { name: "Informe", icon: clipboardOutline, route: "/report" },
           { name: "Escaneo de QR", icon: qrCodeOutline, route: "/qrscan" },
+          {
+            name: "Báscula por bluetooth",
+            icon: bluetoothOutline,
+            route: "/bluetooth",
+          },
         ].map((item) => {
           return (
             <div

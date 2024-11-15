@@ -48,6 +48,7 @@ import TechnicalDataSheet from "./pages/TechnicalDataSheet/TechnicalDataSheet";
 import TechnicalService from "./pages/TechnicalService/TechnicalService";
 import Report from "./pages/QRScan/QRScan";
 import QRScan from "./pages/Report/Report";
+import Bluetooth from "./pages/Bluetooth/Bluetooth";
 
 setupIonicReact();
 
@@ -90,6 +91,9 @@ const App: React.FC = () => {
             </Route>
             <Route path="/qrscan" exact={true}>
               <QRScan />
+            </Route>
+            <Route path="/bluetooth" exact={true}>
+              <Bluetooth />
             </Route>
             {/* <Route path="/:name" exact={true}>
               <Page />
