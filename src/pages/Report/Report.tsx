@@ -70,43 +70,59 @@ const Report: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">
-        {/* Barra de búsqueda */}
         <IonSearchbar
           value={searchText}
           onIonInput={(e) => setSearchText(e.detail.value!)}
           placeholder="Buscar equipo..."
         />
-
-        {/* Tabla */}
         <IonGrid>
-          <IonRow>
-            <IonCol>
+          {/* Encabezados en pantallas grandes */}
+          <IonRow className="ion-hide-sm-down">
+            <IonCol size="2">
               <strong>Nombre</strong>
             </IonCol>
-            <IonCol>
+            <IonCol size="2">
               <strong>Marca</strong>
             </IonCol>
-            <IonCol>
+            <IonCol size="2">
               <strong>Modelo</strong>
             </IonCol>
-            <IonCol>
+            <IonCol size="2">
               <strong>Serial</strong>
             </IonCol>
-            <IonCol>
+            <IonCol size="2">
               <strong>Falla</strong>
             </IonCol>
-            <IonCol>
+            <IonCol size="2">
               <strong>Foto</strong>
             </IonCol>
           </IonRow>
+
+          {/* Filas dinámicas */}
           {filteredEquipment.map((equipment) => (
             <IonRow key={equipment.id}>
-              <IonCol>{equipment.name}</IonCol>
-              <IonCol>{equipment.brand}</IonCol>
-              <IonCol>{equipment.model}</IonCol>
-              <IonCol>{equipment.serial}</IonCol>
-              <IonCol>{equipment.issue}</IonCol>
-              <IonCol>
+              {/* En dispositivos pequeños, apilamos columnas */}
+              <IonCol size="12" size-sm="2">
+                <strong className="ion-hide-sm-up">Nombre:</strong>{" "}
+                {equipment.name}
+              </IonCol>
+              <IonCol size="12" size-sm="2">
+                <strong className="ion-hide-sm-up">Marca:</strong>{" "}
+                {equipment.brand}
+              </IonCol>
+              <IonCol size="12" size-sm="2">
+                <strong className="ion-hide-sm-up">Modelo:</strong>{" "}
+                {equipment.model}
+              </IonCol>
+              <IonCol size="12" size-sm="2">
+                <strong className="ion-hide-sm-up">Serial:</strong>{" "}
+                {equipment.serial}
+              </IonCol>
+              <IonCol size="12" size-sm="2">
+                <strong className="ion-hide-sm-up">Falla:</strong>{" "}
+                {equipment.issue}
+              </IonCol>
+              <IonCol size="12" size-sm="2">
                 {equipment.photo ? (
                   <img
                     src={equipment.photo}
@@ -124,9 +140,11 @@ const Report: React.FC = () => {
               </IonCol>
             </IonRow>
           ))}
+
+          {/* Mensaje de vacío */}
           {filteredEquipment.length === 0 && (
             <IonRow>
-              <IonCol colSpan={6} className="ion-text-center">
+              <IonCol size="12" className="ion-text-center">
                 <IonLabel>No se encontraron resultados.</IonLabel>
               </IonCol>
             </IonRow>
