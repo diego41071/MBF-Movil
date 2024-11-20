@@ -12,6 +12,7 @@ import {
   IonImg,
 } from "@ionic/react";
 import { useState } from "react";
+import "./TechnicalService.css";
 
 const TechnicalService: React.FC = () => {
   const [nombreEquipo, setNombreEquipo] = useState("");
@@ -20,6 +21,7 @@ const TechnicalService: React.FC = () => {
   const [serial, setSerial] = useState("");
   const [falla, setFalla] = useState("");
   const [foto, setFoto] = useState<string | null>(null);
+  const [selectedFileName, setSelectedFileName] = useState<string | null>(null);
 
   const handleFotoChange = async (
     event: React.ChangeEvent<HTMLInputElement>
@@ -56,54 +58,42 @@ const TechnicalService: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">
-        <IonItem>
-          <IonLabel position="floating">Nombre del equipo</IonLabel>
-          <IonInput
-            value={nombreEquipo}
-            onIonChange={(e) => setNombreEquipo(e.detail.value!)}
-            className="custom-input"
-          />
-        </IonItem>
+        {[
+          {
+            name: "Nombre del equipo",
+            value: nombreEquipo,
+            setvalue: setNombreEquipo,
+          },
+          { name: "Marca", value: marca, setvalue: setMarca },
+          { name: "Modelo", value: modelo, setvalue: setModelo },
+          { name: "Serial", value: serial, setvalue: setSerial },
+          {
+            name: "Falla de funcionamiento",
+            value: falla,
+            setvalue: setFalla,
+          },
+        ].map((item) => {
+          return (
+            <IonItem>
+              <IonLabel position="floating">{item.name}</IonLabel>
+              <IonInput
+                value={item.value}
+                onIonChange={(e) => item.setvalue(e.detail.value!)}
+                className="custom-input"
+                placeholder={item.name}
+              />
+            </IonItem>
+          );
+        })}
 
         <IonItem>
-          <IonLabel position="floating">Marca</IonLabel>
-          <IonInput
-            value={marca}
-            onIonChange={(e) => setMarca(e.detail.value!)}
-            className="custom-input"
-          />
-        </IonItem>
-
-        <IonItem>
-          <IonLabel position="floating">Modelo</IonLabel>
-          <IonInput
-            value={modelo}
-            onIonChange={(e) => setModelo(e.detail.value!)}
-            className="custom-input"
-          />
-        </IonItem>
-
-        <IonItem>
-          <IonLabel position="floating">Serial</IonLabel>
-          <IonInput
-            value={serial}
-            onIonChange={(e) => setSerial(e.detail.value!)}
-            className="custom-input"
-          />
-        </IonItem>
-
-        <IonItem>
-          <IonLabel position="floating">Falla de funcionamiento</IonLabel>
-          <IonTextarea
-            value={falla}
-            onIonChange={(e) => setFalla(e.detail.value!)}
-            className="custom-input"
-          />
-        </IonItem>
-
-        <IonItem>
-          <IonLabel>Adjuntar foto</IonLabel>
-          <input type="file" accept="image/*" onChange={handleFotoChange} />
+          <div className="file-input-container">
+            <input type="file" accept="image/*" onChange={handleFotoChange} />
+            Adjuntar foto
+            <span className="file-name">
+              {selectedFileName || "No se seleccionó ningún archivo"}
+            </span>
+          </div>
         </IonItem>
 
         {foto && <IonImg src={foto} alt="Foto adjunta" />}

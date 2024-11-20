@@ -10,7 +10,9 @@ import {
   IonRow,
   IonCol,
   IonLabel,
+  IonItem,
 } from "@ionic/react";
+import "./Report.css";
 
 interface Equipment {
   id: number;
@@ -100,45 +102,47 @@ const Report: React.FC = () => {
 
           {/* Filas dinámicas */}
           {filteredEquipment.map((equipment) => (
-            <IonRow key={equipment.id}>
-              {/* En dispositivos pequeños, apilamos columnas */}
-              <IonCol size="12" size-sm="2">
-                <strong className="ion-hide-sm-up">Nombre:</strong>{" "}
-                {equipment.name}
-              </IonCol>
-              <IonCol size="12" size-sm="2">
-                <strong className="ion-hide-sm-up">Marca:</strong>{" "}
-                {equipment.brand}
-              </IonCol>
-              <IonCol size="12" size-sm="2">
-                <strong className="ion-hide-sm-up">Modelo:</strong>{" "}
-                {equipment.model}
-              </IonCol>
-              <IonCol size="12" size-sm="2">
-                <strong className="ion-hide-sm-up">Serial:</strong>{" "}
-                {equipment.serial}
-              </IonCol>
-              <IonCol size="12" size-sm="2">
-                <strong className="ion-hide-sm-up">Falla:</strong>{" "}
-                {equipment.issue}
-              </IonCol>
-              <IonCol size="12" size-sm="2">
-                {equipment.photo ? (
-                  <img
-                    src={equipment.photo}
-                    alt={`Foto de ${equipment.name}`}
-                    style={{
-                      width: "50px",
-                      height: "50px",
-                      objectFit: "cover",
-                      borderRadius: "4px",
-                    }}
-                  />
-                ) : (
-                  <IonLabel>No disponible</IonLabel>
-                )}
-              </IonCol>
-            </IonRow>
+            <IonItem key={equipment.id} className="custom-item border-item">
+              <IonRow>
+                {/* En dispositivos pequeños, apilamos columnas */}
+                <IonCol size="12" size-sm="2">
+                  <strong className="ion-hide-sm-up">Nombre:</strong>{" "}
+                  {equipment.name}
+                </IonCol>
+                <IonCol size="12" size-sm="2">
+                  <strong className="ion-hide-sm-up">Marca:</strong>{" "}
+                  {equipment.brand}
+                </IonCol>
+                <IonCol size="12" size-sm="2">
+                  <strong className="ion-hide-sm-up">Modelo:</strong>{" "}
+                  {equipment.model}
+                </IonCol>
+                <IonCol size="12" size-sm="2">
+                  <strong className="ion-hide-sm-up">Serial:</strong>{" "}
+                  {equipment.serial}
+                </IonCol>
+                <IonCol size="12" size-sm="2">
+                  <strong className="ion-hide-sm-up">Falla:</strong>{" "}
+                  {equipment.issue}
+                </IonCol>
+                <IonCol size="12" size-sm="2">
+                  {equipment.photo ? (
+                    <img
+                      src={equipment.photo}
+                      alt={`Foto de ${equipment.name}`}
+                      style={{
+                        width: "50px",
+                        height: "50px",
+                        objectFit: "cover",
+                        borderRadius: "4px",
+                      }}
+                    />
+                  ) : (
+                    <IonLabel>No disponible</IonLabel>
+                  )}
+                </IonCol>
+              </IonRow>
+            </IonItem>
           ))}
 
           {/* Mensaje de vacío */}

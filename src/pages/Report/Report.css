@@ -1,0 +1,29 @@
+.ion-grid {
+  padding: 16px;
+}
+
+.ion-label {
+  font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+  .ion-row {
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 8px;
+  }
+
+  .ion-col {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    text-align: left;
+  }
+
+  .ion-col img {
+    margin: 0 auto;
+  }
+
+  .border-item {
+    border-bottom: 1px solid white;
+  }
+}

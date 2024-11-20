@@ -12,6 +12,7 @@ import {
   IonText,
   IonRow,
   IonCol,
+  IonSearchbar,
 } from "@ionic/react";
 import { useState } from "react";
 
@@ -37,31 +38,28 @@ const TechnicalService: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Fichas técnicas</IonTitle>
+          <IonTitle>Fichas Técnicas</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent>
+      <IonContent className="ion-padding">
         {/* Campo de búsqueda */}
-        <IonItem>
-          <IonLabel position="floating">Buscar</IonLabel>
-          <IonInput
-            value={searchText}
-            onIonInput={(e) => setSearchText(e.detail.value!)}
-            placeholder="Buscar por ficha, nombre o fecha"
-            className="custom-input"
-          />
-        </IonItem>
+        <IonSearchbar
+          value={searchText}
+          onIonInput={(e) => setSearchText(e.detail.value!)}
+          placeholder="Buscar por ficha, nombre o fecha"
+        />
 
-        {/* Tabla */}
+        {/* Tabla responsiva */}
         <IonList>
-          <IonRow>
-            <IonCol>
+          {/* Encabezados visibles solo en pantallas grandes */}
+          <IonRow className="ion-hide-sm-down">
+            <IonCol size="4">
               <strong>Número de Ficha Técnica</strong>
             </IonCol>
-            <IonCol>
+            <IonCol size="4">
               <strong>Nombre</strong>
             </IonCol>
-            <IonCol>
+            <IonCol size="4">
               <strong>Fecha Último Servicio</strong>
             </IonCol>
           </IonRow>
@@ -70,11 +68,21 @@ const TechnicalService: React.FC = () => {
             <IonText color="danger">No se encontraron resultados</IonText>
           ) : (
             filteredData.map((item) => (
-              <IonItem key={item.id}>
+              <IonItem key={item.id} className="custom-item border-item">
                 <IonRow>
-                  <IonCol>{item.ficha}</IonCol>
-                  <IonCol>{item.nombre}</IonCol>
-                  <IonCol>{item.fechaServicio}</IonCol>
+                  {/* Contenido responsivo */}
+                  <IonCol size="12" size-sm="4">
+                    <strong className="ion-hide-sm-up">Ficha:</strong>{" "}
+                    {item.ficha}
+                  </IonCol>
+                  <IonCol size="12" size-sm="4">
+                    <strong className="ion-hide-sm-up">Nombre:</strong>{" "}
+                    {item.nombre}
+                  </IonCol>
+                  <IonCol size="12" size-sm="4">
+                    <strong className="ion-hide-sm-up">Fecha:</strong>{" "}
+                    {item.fechaServicio}
+                  </IonCol>
                 </IonRow>
               </IonItem>
             ))
