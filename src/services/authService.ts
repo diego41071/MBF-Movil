@@ -48,7 +48,7 @@ export const register = async (
       confirmPassword,
       check,
       captchaToken,
-      Role: "Cliente",
+      role: "Cliente",
     });
     return response.data; // Devolver datos de la respuesta
   } catch (error: unknown) {
