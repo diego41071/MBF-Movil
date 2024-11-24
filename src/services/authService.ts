@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const API_URL = "http://localhost:3000/auth";
+export const API_URL = "https://mbf-backend.onrender.com/auth";
 
 export const login = async (
   username: string,
@@ -33,7 +33,8 @@ export const register = async (
   password: string,
   confirmPassword: string,
   check: number,
-  captchaToken: string
+  captchaToken: string,
+  Role: string
 ) => {
   try {
     const response = await axios.post(`${API_URL}/register`, {
@@ -47,6 +48,7 @@ export const register = async (
       confirmPassword,
       check,
       captchaToken,
+      Role: "Cliente",
     });
     return response.data; // Devolver datos de la respuesta
   } catch (error: unknown) {
