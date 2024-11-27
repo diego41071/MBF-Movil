@@ -53,6 +53,7 @@ import IngePro from "./pages/IngePro/IngePro";
 import Notifications from "./pages/Notifications/Notifications";
 import ProfileData from "./pages/ProfileData/ProfileData";
 import ServiceHistory from "./pages/ServiceHistory/ServiceHistory";
+import Inventory from "./pages/Inventory/Inventory";
 
 setupIonicReact();
 
@@ -116,6 +117,7 @@ const App: React.FC = () => {
             <Route path="/servicehistory" exact={true}>
               <ServiceHistory />
             </Route>
+            <Route path="/inventory" exact={true} component={Inventory} />
             {/* <Route path="/:name" exact={true}>
               <Page />
             </Route> */}

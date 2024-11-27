@@ -7,6 +7,7 @@ import {
   clipboardOutline,
   qrCodeOutline,
   readerOutline,
+  receiptOutline,
 } from "ionicons/icons";
 import { useHistory } from "react-router-dom";
 
@@ -27,6 +28,7 @@ export default function ExploreContainer(props: { role: string }) {
               icon: readerOutline,
               route: "/technicaldatasheet",
             },
+            { name: "Inventario", icon: receiptOutline, route: "/inventory" },
             {
               name: "Solicitar servicio técnico",
               icon: buildOutline,
@@ -68,6 +70,7 @@ export default function ExploreContainer(props: { role: string }) {
               icon: readerOutline,
               route: "/technicaldatasheet",
             },
+            { name: "Inventario", icon: receiptOutline, route: "/inventory" },
             {
               name: "Solicitar servicio técnico",
               icon: buildOutline,
@@ -96,7 +99,7 @@ export default function ExploreContainer(props: { role: string }) {
             );
           })}
         </div>
-      ) : props.role === "Tecnico" ? (
+      ) : props.role === "Técnico" ? (
         <div className="profile-grid">
           {[
             { name: "Cronograma", icon: calendarOutline, route: "/schedule" },
@@ -105,6 +108,8 @@ export default function ExploreContainer(props: { role: string }) {
               icon: readerOutline,
               route: "/technicaldatasheet",
             },
+            { name: "Inventario", icon: receiptOutline, route: "/inventory" },
+
             { name: "Informe", icon: clipboardOutline, route: "/report" },
             { name: "Escaneo de QR", icon: qrCodeOutline, route: "/qrscan" },
             {
