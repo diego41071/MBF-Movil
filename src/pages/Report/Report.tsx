@@ -76,6 +76,7 @@ const Report: React.FC = () => {
           value={searchText}
           onIonInput={(e) => setSearchText(e.detail.value!)}
           placeholder="Buscar equipo..."
+          className="custom-input-search"
         />
         <IonGrid>
           {/* Encabezados en pantallas grandes */}
