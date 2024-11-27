@@ -17,7 +17,7 @@ export default function ExploreContainer(props: { role: string }) {
   };
   return (
     <IonContent className="ion-padding">
-      <IonTitle className="text-center">{props.role}</IonTitle>
+      <h4 className="text-center">{props.role}</h4>
       {props.role === "Cliente" ? (
         <div className="profile-grid">
           {[

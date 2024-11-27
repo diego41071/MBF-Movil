@@ -24,13 +24,7 @@ export default function Page(props: { role: any }) {
           <IonTitle className="custom-title">Opciones</IonTitle>
         </IonToolbar>
       </IonHeader>
-
-      <IonContent fullscreen>
-        <IonHeader collapse="condense">
-          <IonToolbar>
-            <IonTitle size="large">{name}</IonTitle>
-          </IonToolbar>
-        </IonHeader>
+      <IonContent>
         <ExploreContainer role={props.role} />
       </IonContent>
     </IonPage>
