@@ -15,6 +15,7 @@ import {
   IonSearchbar,
 } from "@ionic/react";
 import { useState } from "react";
+import "./TechnicalDataSheet.css";
 
 const TechnicalService: React.FC = () => {
   const [searchText, setSearchText] = useState("");
@@ -47,10 +48,11 @@ const TechnicalService: React.FC = () => {
           value={searchText}
           onIonInput={(e) => setSearchText(e.detail.value!)}
           placeholder="Buscar por ficha, nombre o fecha"
+          className="custom-input-search"
         />
 
         {/* Tabla responsiva */}
-        <IonList>
+        <IonList className="custom-list">
           {/* Encabezados visibles solo en pantallas grandes */}
           <IonRow className="ion-hide-sm-down">
             <IonCol size="4">

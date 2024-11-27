@@ -73,7 +73,7 @@ const TechnicalService: React.FC = () => {
           },
         ].map((item) => {
           return (
-            <IonItem>
+            <IonItem className="custom-item">
               <IonLabel position="floating">{item.name}</IonLabel>
               <IonInput
                 value={item.value}
@@ -85,7 +85,7 @@ const TechnicalService: React.FC = () => {
           );
         })}
 
-        <IonItem>
+        <IonItem className="custom-item">
           <div className="file-input-container">
             <input type="file" accept="image/*" onChange={handleFotoChange} />
             Adjuntar foto

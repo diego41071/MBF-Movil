@@ -59,6 +59,8 @@ setupIonicReact();
 const App: React.FC = () => {
   const [isLogged, setIsLogged] = useState(false);
   const [email, setEmail] = useState("");
+  const [role, setRole] = useState("");
+
   return (
     <IonApp>
       <IonReactRouter>
@@ -69,9 +71,12 @@ const App: React.FC = () => {
               <Redirect to="/login" />
             </Route>
             <Route path="/login" exact={true}>
-              <Login setIsLogged={setIsLogged} />
+              <Login setIsLogged={setIsLogged} setRole={setRole} />
             </Route>
-            <Route path="/page" exact={true} component={Page} />
+            <Route path="/page" exact={true}>
+              <Page role={role} />
+            </Route>
+
             <Route path="/register" exact={true}>
               <Register setIsLogged={setIsLogged} />
             </Route>

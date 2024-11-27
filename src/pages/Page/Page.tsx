@@ -11,7 +11,7 @@ import { useParams } from "react-router";
 import ExploreContainer from "../../components/ExplorerContainer/ExploreContainer";
 import "./Page.css";
 
-const Page: React.FC = () => {
+export default function Page(props: { role: any }) {
   const { name } = useParams<{ name: string }>();
 
   return (
@@ -31,10 +31,8 @@ const Page: React.FC = () => {
             <IonTitle size="large">{name}</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <ExploreContainer name={name} />
+        <ExploreContainer role={props.role} />
       </IonContent>
     </IonPage>
   );
-};
-
-export default Page;
+}

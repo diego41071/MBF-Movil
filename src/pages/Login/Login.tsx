@@ -21,7 +21,10 @@ import ReCAPTCHA from "react-google-recaptcha";
 import { GoogleAuth } from "@codetrix-studio/capacitor-google-auth";
 import axios from "axios";
 
-export default function Login(props: { setIsLogged: (arg0: boolean) => void }) {
+export default function Login(props: {
+  [x: string]: any;
+  setIsLogged: (arg0: boolean) => void;
+}) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showToast, setShowToast] = useState(false);
@@ -55,6 +58,7 @@ export default function Login(props: { setIsLogged: (arg0: boolean) => void }) {
         const data = await login(email, password, captchaToken);
         console.log("Logged in!", data);
         saveToken(data.access_token);
+        props.setRole(data.role);
         setToastMessage("Inicio de sesión exitoso!");
         props.setIsLogged(true);
         setShowToast(true);
