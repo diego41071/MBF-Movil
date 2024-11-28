@@ -2,7 +2,6 @@ import {
   IonButton,
   IonContent,
   IonHeader,
-  IonInput,
   IonItem,
   IonLabel,
   IonPage,
@@ -20,26 +19,55 @@ import "./TechnicalDataSheet.css";
 const TechnicalService: React.FC = () => {
   const [searchText, setSearchText] = useState("");
   const [data] = useState([
-    { id: 1, ficha: "FT001", nombre: "Equipo A", fechaServicio: "2023-01-15" },
-    { id: 2, ficha: "FT002", nombre: "Equipo B", fechaServicio: "2023-02-20" },
-    { id: 3, ficha: "FT003", nombre: "Equipo C", fechaServicio: "2023-03-10" },
-    { id: 4, ficha: "FT004", nombre: "Equipo D", fechaServicio: "2023-04-05" },
-    { id: 5, ficha: "FT005", nombre: "Equipo E", fechaServicio: "2023-05-30" },
+    {
+      id: 1,
+      nombre: "Equipo A",
+      marca: "Marca A",
+      modelo: "Modelo A",
+      serial: "Serial001",
+      ubicacion: "Ubicación A",
+      fechaCompra: "2023-01-15",
+      voltaje: "220V",
+      potencia: "50W",
+      peso: "10kg",
+      uso: "Fijo",
+      capacidad: "5L",
+      material: "Acero",
+      tecnologia: "Mecánico",
+      prioridad: "Alta",
+    },
+    {
+      id: 2,
+      nombre: "Equipo B",
+      marca: "Marca B",
+      modelo: "Modelo B",
+      serial: "Serial002",
+      ubicacion: "Ubicación B",
+      fechaCompra: "2023-02-20",
+      voltaje: "110V",
+      potencia: "40W",
+      peso: "8kg",
+      uso: "Móvil",
+      capacidad: "3L",
+      material: "Plástico",
+      tecnologia: "Eléctrico",
+      prioridad: "Media",
+    },
   ]);
 
   // Filtrar los datos según el texto de búsqueda
   const filteredData = data.filter(
     (item) =>
-      item.ficha.toLowerCase().includes(searchText.toLowerCase()) ||
       item.nombre.toLowerCase().includes(searchText.toLowerCase()) ||
-      item.fechaServicio.includes(searchText)
+      item.marca.toLowerCase().includes(searchText.toLowerCase()) ||
+      item.serial.toLowerCase().includes(searchText.toLowerCase())
   );
 
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Fichas Técnicas</IonTitle>
+          <IonTitle>Inventario</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">
@@ -47,7 +75,7 @@ const TechnicalService: React.FC = () => {
         <IonSearchbar
           value={searchText}
           onIonInput={(e) => setSearchText(e.detail.value!)}
-          placeholder="Buscar por ficha, nombre o fecha"
+          placeholder="Buscar por nombre, marca o serial"
           className="custom-input-search"
         />
 
@@ -55,14 +83,23 @@ const TechnicalService: React.FC = () => {
         <IonList className="custom-list">
           {/* Encabezados visibles solo en pantallas grandes */}
           <IonRow className="ion-hide-sm-down">
-            <IonCol size="4">
-              <strong>Número de Ficha Técnica</strong>
-            </IonCol>
-            <IonCol size="4">
+            <IonCol size="2">
               <strong>Nombre</strong>
             </IonCol>
-            <IonCol size="4">
-              <strong>Fecha Último Servicio</strong>
+            <IonCol size="2">
+              <strong>Marca</strong>
+            </IonCol>
+            <IonCol size="2">
+              <strong>Modelo</strong>
+            </IonCol>
+            <IonCol size="2">
+              <strong>Serial</strong>
+            </IonCol>
+            <IonCol size="2">
+              <strong>Voltaje</strong>
+            </IonCol>
+            <IonCol size="2">
+              <strong>Prioridad</strong>
             </IonCol>
           </IonRow>
 
@@ -73,17 +110,29 @@ const TechnicalService: React.FC = () => {
               <IonItem key={item.id} className="custom-item border-item">
                 <IonRow>
                   {/* Contenido responsivo */}
-                  <IonCol size="12" size-sm="4">
-                    <strong className="ion-hide-sm-up">Ficha:</strong>{" "}
-                    {item.ficha}
-                  </IonCol>
-                  <IonCol size="12" size-sm="4">
+                  <IonCol size="12" size-sm="2">
                     <strong className="ion-hide-sm-up">Nombre:</strong>{" "}
                     {item.nombre}
                   </IonCol>
-                  <IonCol size="12" size-sm="4">
-                    <strong className="ion-hide-sm-up">Fecha:</strong>{" "}
-                    {item.fechaServicio}
+                  <IonCol size="12" size-sm="2">
+                    <strong className="ion-hide-sm-up">Marca:</strong>{" "}
+                    {item.marca}
+                  </IonCol>
+                  <IonCol size="12" size-sm="2">
+                    <strong className="ion-hide-sm-up">Modelo:</strong>{" "}
+                    {item.modelo}
+                  </IonCol>
+                  <IonCol size="12" size-sm="2">
+                    <strong className="ion-hide-sm-up">Serial:</strong>{" "}
+                    {item.serial}
+                  </IonCol>
+                  <IonCol size="12" size-sm="2">
+                    <strong className="ion-hide-sm-up">Voltaje:</strong>{" "}
+                    {item.voltaje}
+                  </IonCol>
+                  <IonCol size="12" size-sm="2">
+                    <strong className="ion-hide-sm-up">Prioridad:</strong>{" "}
+                    {item.prioridad}
                   </IonCol>
                 </IonRow>
               </IonItem>
