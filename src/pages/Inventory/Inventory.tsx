@@ -13,58 +13,94 @@ import {
   IonToolbar,
 } from "@ionic/react";
 import { useState } from "react";
+import "./Inventory.css";
 
 const Inventory: React.FC = () => {
-  const [nombre, setNombre] = useState<string>("");
-  const [marca, setMarca] = useState<string>("");
-  const [modelo, setModelo] = useState<string>("");
-  const [serial, setSerial] = useState<string>("");
-  const [ubicacion, setUbicacion] = useState<string>("");
-  const [fechaCompra, setFechaCompra] = useState<string>("");
-  const [voltaje, setVoltaje] = useState<string>("");
-  const [potencia, setPotencia] = useState<string>("");
-  const [peso, setPeso] = useState<string>("");
-  const [uso, setUso] = useState<string>("Fijo");
-  const [capacidad, setCapacidad] = useState<string>("");
-  const [material, setMaterial] = useState<string>("");
-  const [tecnologia, setTecnologia] = useState<string>("Mecánico");
-  const [prioridad, setPrioridad] = useState<string>("Baja");
+  const [formData, setFormData] = useState({
+    nombre: "",
+    marca: "",
+    modelo: "",
+    serial: "",
+    ubicacion: "",
+    fechaCompra: "",
+    voltaje: "",
+    potencia: "",
+    peso: "",
+    uso: "Fijo",
+    capacidad: "",
+    material: "",
+    tecnologia: "Mecánico",
+    prioridad: "Baja",
+  });
+
+  const handleInputChange = (key: string, value: string) => {
+    setFormData((prev) => ({ ...prev, [key]: value }));
+  };
+
+  const fields = [
+    { label: "Nombre del equipo*", key: "nombre", type: "input" },
+    { label: "Marca*", key: "marca", type: "input" },
+    { label: "Modelo*", key: "modelo", type: "input" },
+    { label: "Serial*", key: "serial", type: "input" },
+    { label: "Ubicación*", key: "ubicacion", type: "input" },
+    { label: "Fecha de compra", key: "fechaCompra", type: "date" },
+    { label: "Voltaje del equipo", key: "voltaje", type: "input" },
+    { label: "Potencia del equipo", key: "potencia", type: "input" },
+    { label: "Peso aprox. del equipo", key: "peso", type: "input" },
+    { label: "Capacidad", key: "capacidad", type: "input" },
+    { label: "Material", key: "material", type: "input" },
+  ];
+
+  const selects = [
+    {
+      label: "De uso*",
+      key: "uso",
+      options: [
+        { value: "Fijo", label: "Fijo" },
+        { value: "Movil", label: "Móvil" },
+      ],
+    },
+    {
+      label: "Tecnología predominante*",
+      key: "tecnologia",
+      options: [
+        { value: "Mecánico", label: "Mecánico" },
+        { value: "Eléctrico", label: "Eléctrico" },
+        { value: "Hidráulico", label: "Hidráulico" },
+        { value: "Electrónico", label: "Electrónico" },
+        { value: "Neumático", label: "Neumático" },
+      ],
+    },
+    {
+      label: "Prioridad de mantenimiento*",
+      key: "prioridad",
+      options: [
+        { value: "Baja", label: "Baja" },
+        { value: "Media", label: "Media" },
+        { value: "Alta", label: "Alta" },
+      ],
+    },
+  ];
 
   const handleSubmit = () => {
-    const data = {
-      nombre,
-      marca,
-      modelo,
-      serial,
-      ubicacion,
-      fechaCompra,
-      voltaje,
-      potencia,
-      peso,
-      uso,
-      capacidad,
-      material,
-      tecnologia,
-      prioridad,
-    };
-
-    console.log("Datos enviados:", data);
-
-    // Resetear formulario
-    setNombre("");
-    setMarca("");
-    setModelo("");
-    setSerial("");
-    setUbicacion("");
-    setFechaCompra("");
-    setVoltaje("");
-    setPotencia("");
-    setPeso("");
-    setUso("Fijo");
-    setCapacidad("");
-    setMaterial("");
-    setTecnologia("Mecánico");
-    setPrioridad("Baja");
+    console.log("Datos enviados:", formData);
+    // Reinicia los datos del formulario
+    setFormData({
+      nombre: "",
+      marca: "",
+      modelo: "",
+      serial: "",
+      ubicacion: "",
+      fechaCompra: "",
+      voltaje: "",
+      potencia: "",
+      peso: "",
+      uso: "Fijo",
+      capacidad: "",
+      material: "",
+      tecnologia: "Mecánico",
+      prioridad: "Baja",
+    });
   };
 
   return (
@@ -76,132 +112,56 @@ const Inventory: React.FC = () => {
       </IonHeader>
       <IonContent className="ion-padding">
         <form>
-          <IonItem>
-            <IonLabel position="stacked">Nombre del equipo*</IonLabel>
-            <IonInput
-              value={nombre}
-              onIonChange={(e) => setNombre(e.detail.value!)}
-            />
-          </IonItem>
+          {fields.map((field) => (
+            <IonItem key={field.key} className="custom-item">
+              <IonLabel position="floating">{field.label}</IonLabel>
+              {field.type === "date" ? (
+                <input
+                  type="date"
+                  value={formData[field.key]}
+                  onChange={(e) => handleInputChange(field.key, e.target.value)}
+                  className="custom-date"
+                />
+              ) : (
+                <IonInput
+                  value={formData[field.key]}
+                  onIonChange={(e) =>
+                    handleInputChange(field.key, e.detail.value!)
+                  }
+                  className="custom-input"
+                  placeholder={field.label}
+                />
+              )}
+            </IonItem>
+          ))}
 
-          <IonItem>
-            <IonLabel position="stacked">Marca*</IonLabel>
-            <IonInput
-              value={marca}
-              onIonChange={(e) => setMarca(e.detail.value!)}
-            />
-          </IonItem>
-
-          <IonItem>
-            <IonLabel position="stacked">Modelo*</IonLabel>
-            <IonInput
-              value={modelo}
-              onIonChange={(e) => setModelo(e.detail.value!)}
-            />
-          </IonItem>
-
-          <IonItem>
-            <IonLabel position="stacked">Serial*</IonLabel>
-            <IonInput
-              value={serial}
-              onIonChange={(e) => setSerial(e.detail.value!)}
-            />
-          </IonItem>
-
-          <IonItem>
-            <IonLabel position="stacked">Ubicación*</IonLabel>
-            <IonTextarea
-              value={ubicacion}
-              onIonChange={(e) => setUbicacion(e.detail.value!)}
-            />
-          </IonItem>
-
-          <IonItem>
-            <IonLabel position="stacked">Fecha de compra</IonLabel>
-            <input
-              type="date"
-              value={fechaCompra}
-              onChange={(e) => setFechaCompra(e.target.value)}
-            />
-          </IonItem>
-
-          <IonItem>
-            <IonLabel position="stacked">Voltaje del equipo</IonLabel>
-            <IonInput
-              value={voltaje}
-              onIonChange={(e) => setVoltaje(e.detail.value!)}
-            />
-          </IonItem>
-
-          <IonItem>
-            <IonLabel position="stacked">Potencia del equipo</IonLabel>
-            <IonInput
-              value={potencia}
-              onIonChange={(e) => setPotencia(e.detail.value!)}
-            />
-          </IonItem>
-
-          <IonItem>
-            <IonLabel position="stacked">Peso aprox. del equipo</IonLabel>
-            <IonInput
-              value={peso}
-              onIonChange={(e) => setPeso(e.detail.value!)}
-            />
-          </IonItem>
-
-          <IonItem>
-            <IonLabel position="stacked">De uso*</IonLabel>
-            <IonSelect value={uso} onIonChange={(e) => setUso(e.detail.value!)}>
-              <IonSelectOption value="Fijo">Fijo</IonSelectOption>
-              <IonSelectOption value="Movil">Móvil</IonSelectOption>
-            </IonSelect>
-          </IonItem>
-
-          <IonItem>
-            <IonLabel position="stacked">Capacidad</IonLabel>
-            <IonInput
-              value={capacidad}
-              onIonChange={(e) => setCapacidad(e.detail.value!)}
-            />
-          </IonItem>
-
-          <IonItem>
-            <IonLabel position="stacked">Material</IonLabel>
-            <IonInput
-              value={material}
-              onIonChange={(e) => setMaterial(e.detail.value!)}
-            />
-          </IonItem>
-
-          <IonItem>
-            <IonLabel position="stacked">Tecnología predominante*</IonLabel>
-            <IonSelect
-              value={tecnologia}
-              onIonChange={(e) => setTecnologia(e.detail.value!)}
+          {selects.map((select) => (
+            <IonItem key={select.key} className="custom-item">
+              <IonLabel position="floating">{select.label}</IonLabel>
+              <IonSelect
+                value={formData[select.key]}
+                onIonChange={(e) =>
+                  handleInputChange(select.key, e.detail.value!)
+                }
+                className="custom-select"
+              >
+                {select.options.map((option) => (
+                  <IonSelectOption key={option.value} value={option.value}>
+                    {option.label}
+                  </IonSelectOption>
+                ))}
+              </IonSelect>
+            </IonItem>
+          ))}
+          <div className="container-button">
+            <IonButton
+              onClick={handleSubmit}
+              className="custom-button margin-button"
+              color="danger"
             >
-              <IonSelectOption value="Mecánico">Mecánico</IonSelectOption>
-              <IonSelectOption value="Eléctrico">Eléctrico</IonSelectOption>
-              <IonSelectOption value="Hidráulico">Hidráulico</IonSelectOption>
-              <IonSelectOption value="Electrónico">Electrónico</IonSelectOption>
-              <IonSelectOption value="Neumático">Neumático</IonSelectOption>
-            </IonSelect>
-          </IonItem>
-
-          <IonItem>
-            <IonLabel position="stacked">Prioridad de mantenimiento*</IonLabel>
-            <IonSelect
-              value={prioridad}
-              onIonChange={(e) => setPrioridad(e.detail.value!)}
-            >
-              <IonSelectOption value="Baja">Baja</IonSelectOption>
-              <IonSelectOption value="Media">Media</IonSelectOption>
-              <IonSelectOption value="Alta">Alta</IonSelectOption>
-            </IonSelect>
-          </IonItem>
-
-          <IonButton expand="full" onClick={handleSubmit}>
-            Enviar
-          </IonButton>
+              Enviar
+            </IonButton>
+          </div>
         </form>
       </IonContent>
     </IonPage>
