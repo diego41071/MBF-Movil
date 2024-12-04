@@ -16,6 +16,20 @@ import {
 import { useState } from "react";
 import "./TechnicalDataSheet.css";
 
+const fields = [
+  { label: "Nombre del equipo*", key: "nombre", type: "input" },
+  { label: "Marca*", key: "marca", type: "input" },
+  { label: "Modelo*", key: "modelo", type: "input" },
+  { label: "Serial*", key: "serial", type: "input" },
+  { label: "Ubicación*", key: "ubicacion", type: "input" },
+  { label: "Fecha de compra", key: "fechaCompra", type: "date" },
+  { label: "Voltaje del equipo", key: "voltaje", type: "input" },
+  { label: "Potencia del equipo", key: "potencia", type: "input" },
+  { label: "Peso aprox. del equipo", key: "peso", type: "input" },
+  { label: "Capacidad", key: "capacidad", type: "input" },
+  { label: "Material", key: "material", type: "input" },
+];
+
 const TechnicalService: React.FC = () => {
   const [searchText, setSearchText] = useState("");
   const [data] = useState([
@@ -56,11 +70,10 @@ const TechnicalService: React.FC = () => {
   ]);
 
   // Filtrar los datos según el texto de búsqueda
-  const filteredData = data.filter(
-    (item) =>
-      item.nombre.toLowerCase().includes(searchText.toLowerCase()) ||
-      item.marca.toLowerCase().includes(searchText.toLowerCase()) ||
-      item.serial.toLowerCase().includes(searchText.toLowerCase())
+  const filteredData = data.filter((item) =>
+    fields.some((field) =>
+      item[field.key]?.toLowerCase().includes(searchText.toLowerCase())
+    )
   );
 
   return (
@@ -75,7 +88,7 @@ const TechnicalService: React.FC = () => {
         <IonSearchbar
           value={searchText}
           onIonInput={(e) => setSearchText(e.detail.value!)}
-          placeholder="Buscar por nombre, marca o serial"
+          placeholder="Buscar por cualquier campo"
           className="custom-input-search"
         />
 
@@ -83,24 +96,11 @@ const TechnicalService: React.FC = () => {
         <IonList className="custom-list">
           {/* Encabezados visibles solo en pantallas grandes */}
           <IonRow className="ion-hide-sm-down">
-            <IonCol size="2">
-              <strong>Nombre</strong>
-            </IonCol>
-            <IonCol size="2">
-              <strong>Marca</strong>
-            </IonCol>
-            <IonCol size="2">
-              <strong>Modelo</strong>
-            </IonCol>
-            <IonCol size="2">
-              <strong>Serial</strong>
-            </IonCol>
-            <IonCol size="2">
-              <strong>Voltaje</strong>
-            </IonCol>
-            <IonCol size="2">
-              <strong>Prioridad</strong>
-            </IonCol>
+            {fields.map((field) => (
+              <IonCol key={field.key} size="2">
+                <strong>{field.label.replace("*", "")}</strong>
+              </IonCol>
+            ))}
           </IonRow>
 
           {filteredData.length === 0 ? (
@@ -109,31 +109,14 @@ const TechnicalService: React.FC = () => {
             filteredData.map((item) => (
               <IonItem key={item.id} className="custom-item border-item">
                 <IonRow>
-                  {/* Contenido responsivo */}
-                  <IonCol size="12" size-sm="2">
-                    <strong className="ion-hide-sm-up">Nombre:</strong>{" "}
-                    {item.nombre}
-                  </IonCol>
-                  <IonCol size="12" size-sm="2">
-                    <strong className="ion-hide-sm-up">Marca:</strong>{" "}
-                    {item.marca}
-                  </IonCol>
-                  <IonCol size="12" size-sm="2">
-                    <strong className="ion-hide-sm-up">Modelo:</strong>{" "}
-                    {item.modelo}
-                  </IonCol>
-                  <IonCol size="12" size-sm="2">
-                    <strong className="ion-hide-sm-up">Serial:</strong>{" "}
-                    {item.serial}
-                  </IonCol>
-                  <IonCol size="12" size-sm="2">
-                    <strong className="ion-hide-sm-up">Voltaje:</strong>{" "}
-                    {item.voltaje}
-                  </IonCol>
-                  <IonCol size="12" size-sm="2">
-                    <strong className="ion-hide-sm-up">Prioridad:</strong>{" "}
-                    {item.prioridad}
-                  </IonCol>
+                  {fields.map((field) => (
+                    <IonCol key={field.key} size="12" size-sm="2">
+                      <strong className="ion-hide-sm-up">
+                        {field.label.replace("*", "")}:
+                      </strong>{" "}
+                      {item[field.key]}
+                    </IonCol>
+                  ))}
                 </IonRow>
               </IonItem>
             ))

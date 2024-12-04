@@ -1,0 +1,25 @@
+@import "@fullcalendar/common/main.css";
+
+.fc-daygrid-day-number {
+    display: block;
+    /* Asegura que los números de los días se rendericen */
+    color: white;
+    /* Ajusta el color según sea necesario */
+}
+
+.fc-daygrid-day {
+    min-height: 100px;
+    /* Ajusta el tamaño mínimo de las celdas si están colapsadas */
+}
+
+.fc {
+    width: 100%;
+    height: 100%;
+}
+
+.calendar-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    max-height: 100vh;
+}
