@@ -16,7 +16,25 @@ import { useState } from "react";
 import "./Inventory.css";
 
 const Inventory: React.FC = () => {
-  const [formData, setFormData] = useState({
+  interface FormData {
+    [key: string]: string; // Índice genérico
+    nombre: string;
+    marca: string;
+    modelo: string;
+    serial: string;
+    ubicacion: string;
+    fechaCompra: string;
+    voltaje: string;
+    potencia: string;
+    peso: string;
+    uso: string;
+    capacidad: string;
+    material: string;
+    tecnologia: string;
+    prioridad: string;
+  }
+
+  const initialFormData: FormData = {
     nombre: "",
     marca: "",
     modelo: "",
@@ -31,13 +49,15 @@ const Inventory: React.FC = () => {
     material: "",
     tecnologia: "Mecánico",
     prioridad: "Baja",
-  });
+  };
 
-  const handleInputChange = (key: string, value: string) => {
+  const [formData, setFormData] = useState<FormData>(initialFormData);
+
+  const handleInputChange = (key: keyof FormData, value: string) => {
     setFormData((prev) => ({ ...prev, [key]: value }));
   };
 
-  const fields = [
+  const fields: { label: string; key: keyof FormData; type: string }[] = [
     { label: "Nombre del equipo*", key: "nombre", type: "input" },
     { label: "Marca*", key: "marca", type: "input" },
     { label: "Modelo*", key: "modelo", type: "input" },

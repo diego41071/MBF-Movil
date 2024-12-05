@@ -30,9 +30,28 @@ const fields = [
   { label: "Material", key: "material", type: "input" },
 ];
 
+interface Equipment {
+  id: number;
+  nombre: string;
+  marca: string;
+  modelo: string;
+  serial: string;
+  ubicacion: string;
+  fechaCompra: string;
+  voltaje: string;
+  potencia: string;
+  peso: string;
+  uso: string;
+  capacidad: string;
+  material: string;
+  tecnologia: string;
+  prioridad: string;
+  [key: string]: string | number; // Permitir claves dinámicas
+}
+
 const TechnicalService: React.FC = () => {
   const [searchText, setSearchText] = useState("");
-  const [data] = useState([
+  const [data] = useState<Equipment[]>([
     {
       id: 1,
       nombre: "Equipo A",
@@ -71,9 +90,13 @@ const TechnicalService: React.FC = () => {
 
   // Filtrar los datos según el texto de búsqueda
   const filteredData = data.filter((item) =>
-    fields.some((field) =>
-      item[field.key]?.toLowerCase().includes(searchText.toLowerCase())
-    )
+    fields.some((field) => {
+      const value = item[field.key];
+      return (
+        typeof value === "string" &&
+        value.toLowerCase().includes(searchText.toLowerCase())
+      );
+    })
   );
 
   return (

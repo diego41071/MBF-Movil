@@ -7,7 +7,8 @@ const config: CapacitorConfig = {
   plugins: {
     SplashScreen: {
       backgroundColor: "#000000",
-      launchShowDuration: 0, // Desactiva la pantalla de espera
+      launchShowDuration: 3000,
+      showSpinner: false,
     },
     GoogleAuth: {
       scopes: ["profile", "email"],

@@ -33,8 +33,7 @@ export const register = async (
   password: string,
   confirmPassword: string,
   check: number,
-  captchaToken: string,
-  role: string
+  captchaToken: string
 ) => {
   try {
     const response = await axios.post(`${API_URL}/register`, {

@@ -5,6 +5,7 @@ import {
   buildOutline,
   calendarOutline,
   clipboardOutline,
+  documentsOutline,
   qrCodeOutline,
   readerOutline,
   receiptOutline,
@@ -83,6 +84,11 @@ export default function ExploreContainer(props: { role: string }) {
               icon: bluetoothOutline,
               route: "/bluetooth",
             },
+            {
+              name: "Preagendados",
+              icon: documentsOutline,
+              route: "/preagends",
+            },
           ].map((item) => {
             return (
               <div
@@ -99,7 +105,7 @@ export default function ExploreContainer(props: { role: string }) {
             );
           })}
         </div>
-      ) : props.role === "Técnico" ? (
+      ) : props.role === "Tecnico" ? (
         <div className="profile-grid">
           {[
             { name: "Cronograma", icon: calendarOutline, route: "/schedule" },
@@ -116,6 +122,11 @@ export default function ExploreContainer(props: { role: string }) {
               name: "Báscula por bluetooth",
               icon: bluetoothOutline,
               route: "/bluetooth",
+            },
+            {
+              name: "Preagendados",
+              icon: documentsOutline,
+              route: "/preagends",
             },
           ].map((item) => {
             return (
