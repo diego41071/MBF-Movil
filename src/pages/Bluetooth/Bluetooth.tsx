@@ -11,6 +11,8 @@ import {
   IonButton,
   IonItem,
   IonLabel,
+  IonButtons,
+  IonMenuButton,
 } from "@ionic/react";
 import "./Bluetooth.css"; // Asegúrate de personalizar los estilos
 
@@ -40,6 +42,9 @@ const Bluetooth: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
+          <IonButtons slot="start">
+            <IonMenuButton />
+          </IonButtons>
           <IonTitle>Báscula por bluetooth</IonTitle>
         </IonToolbar>
       </IonHeader>

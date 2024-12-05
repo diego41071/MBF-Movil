@@ -1,8 +1,10 @@
 import FullCalendar from "@fullcalendar/react";
 import {
   IonButton,
+  IonButtons,
   IonContent,
   IonHeader,
+  IonMenuButton,
   IonModal,
   IonPage,
   IonTitle,
@@ -72,6 +74,9 @@ const Schedule: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
+          <IonButtons slot="start">
+            <IonMenuButton />
+          </IonButtons>
           <IonTitle>Cronograma</IonTitle>
         </IonToolbar>
       </IonHeader>

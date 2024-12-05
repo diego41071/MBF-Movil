@@ -1,11 +1,13 @@
 import { useState } from "react";
 import {
   IonButton,
+  IonButtons,
   IonContent,
   IonHeader,
   IonInput,
   IonItem,
   IonLabel,
+  IonMenuButton,
   IonPage,
   IonTitle,
   IonToast,
@@ -46,6 +48,9 @@ export default function ResetPassword(props: { email: string }) {
     <IonPage>
       <IonHeader>
         <IonToolbar>
+          <IonButtons slot="start">
+            <IonMenuButton />
+          </IonButtons>
           <IonTitle>Cambiar contraseña</IonTitle>
         </IonToolbar>
       </IonHeader>

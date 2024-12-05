@@ -6,6 +6,8 @@ import {
   IonTitle,
   IonContent,
   IonButton,
+  IonButtons,
+  IonMenuButton,
 } from "@ionic/react";
 import QrScanner from "react-qr-scanner";
 
@@ -33,6 +35,9 @@ const QRScan: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
+          <IonButtons slot="start">
+            <IonMenuButton />
+          </IonButtons>
           <IonTitle>Escáner QR</IonTitle>
         </IonToolbar>
       </IonHeader>

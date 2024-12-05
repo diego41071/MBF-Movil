@@ -11,6 +11,8 @@ import {
   IonCol,
   IonLabel,
   IonItem,
+  IonButtons,
+  IonMenuButton,
 } from "@ionic/react";
 import "./Report.css";
 
@@ -68,6 +70,9 @@ const Report: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
+          <IonButtons slot="start">
+            <IonMenuButton />
+          </IonButtons>
           <IonTitle>Informe</IonTitle>
         </IonToolbar>
       </IonHeader>

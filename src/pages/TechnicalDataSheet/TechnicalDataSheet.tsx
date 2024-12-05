@@ -12,6 +12,8 @@ import {
   IonRow,
   IonCol,
   IonSearchbar,
+  IonButtons,
+  IonMenuButton,
 } from "@ionic/react";
 import { useState } from "react";
 import "./TechnicalDataSheet.css";
@@ -103,6 +105,9 @@ const TechnicalService: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
+          <IonButtons slot="start">
+            <IonMenuButton />
+          </IonButtons>
           <IonTitle>Inventario</IonTitle>
         </IonToolbar>
       </IonHeader>

@@ -1,10 +1,12 @@
 import {
   IonButton,
+  IonButtons,
   IonContent,
   IonHeader,
   IonInput,
   IonItem,
   IonLabel,
+  IonMenuButton,
   IonPage,
   IonSelect,
   IonSelectOption,
@@ -127,6 +129,9 @@ const Inventory: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
+          <IonButtons slot="start">
+            <IonMenuButton />
+          </IonButtons>
           <IonTitle>Inventario</IonTitle>
         </IonToolbar>
       </IonHeader>

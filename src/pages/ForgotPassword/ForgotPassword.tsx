@@ -1,11 +1,13 @@
 import { useState } from "react";
 import {
   IonButton,
+  IonButtons,
   IonContent,
   IonHeader,
   IonInput,
   IonItem,
   IonLabel,
+  IonMenuButton,
   IonPage,
   IonTitle,
   IonToast,
@@ -46,6 +48,9 @@ export default function ForgotPassword(props: {
     <IonPage>
       <IonHeader>
         <IonToolbar>
+          <IonButtons slot="start">
+            <IonMenuButton />
+          </IonButtons>
           <IonTitle>Recuperación de contraseña</IonTitle>
         </IonToolbar>
       </IonHeader>
