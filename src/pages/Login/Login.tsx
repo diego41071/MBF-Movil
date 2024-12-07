@@ -12,6 +12,7 @@ import {
   IonImg,
   IonIcon,
   isPlatform,
+  IonSpinner,
 } from "@ionic/react";
 import "./Login.css";
 import { logoGoogle, logoFacebook } from "ionicons/icons";
@@ -31,6 +32,7 @@ export default function Login(props: {
   const [toastMessage, setToastMessage] = useState("");
   const [token, setToken] = useState("");
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const history = useHistory();
 
@@ -52,9 +54,8 @@ export default function Login(props: {
       setToastMessage("Por favor, introduce un correo electrónico válido.");
       setShowToast(true);
     } else {
-      // Simular un inicio de sesión exitoso
-
       try {
+        setIsLoading(true); // Activa el loader
         const data = await login(email, password, captchaToken);
         console.log("Logged in!", data);
         saveToken(data.access_token);
@@ -63,10 +64,11 @@ export default function Login(props: {
         props.setIsLogged(true);
         setShowToast(true);
         history.push("/page");
-        // Aquí puedes guardar el token en localStorage o en el estado
+        setIsLoading(false); // Desactiva el loader
       } catch (error) {
         setToastMessage("Usuario o contraseña incorrectos");
         setShowToast(true);
+        setIsLoading(false); // Desactiva el loader
       }
     }
   };
@@ -162,7 +164,7 @@ export default function Login(props: {
             className="custom-button"
             onClick={handleLogin}
           >
-            Iniciar Sesión
+            {isLoading ? <IonSpinner /> : "Iniciar Sesión"}
           </IonButton>
         </div>
         <ReCAPTCHA

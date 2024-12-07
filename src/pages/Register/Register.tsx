@@ -13,6 +13,7 @@ import {
   IonImg,
   IonRouterLink,
   IonIcon,
+  IonSpinner,
 } from "@ionic/react";
 import "./Register.css";
 import { Link, useHistory } from "react-router-dom";
@@ -36,6 +37,7 @@ export default function Register(props: {
   const [toastMessage, setToastMessage] = useState("");
   const [check, setCheck] = useState(0);
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const history = useHistory();
 
@@ -75,6 +77,7 @@ export default function Register(props: {
     }
 
     try {
+      setIsLoading(true); // Activa el loader
       await register(
         name,
         lastname,
@@ -89,10 +92,12 @@ export default function Register(props: {
       );
       setToastMessage("Registro exitoso!");
       history.push("/login");
+      setIsLoading(false); // Desactiva el loader
     } catch (error: any) {
       setToastMessage(error.message);
     } finally {
       setShowToast(true);
+      setIsLoading(false); // Desactiva el loader
     }
   };
 
@@ -182,7 +187,7 @@ export default function Register(props: {
             className="custom-button-register"
             onClick={handleRegister}
           >
-            Registrarse
+            {isLoading ? <IonSpinner /> : "Registrarse"}
           </IonButton>
         </div>
         <ReCAPTCHA
