@@ -12,17 +12,11 @@ import {
 
 import { useLocation } from "react-router-dom";
 import {
-  bookmarkOutline,
   cardOutline,
-  folderOutline,
-  heartSharp,
   languageOutline,
   logOutOutline,
   notificationsCircleOutline,
-  paperPlaneSharp,
   personCircleOutline,
-  trashSharp,
-  warningSharp,
 } from "ionicons/icons";
 import "./Menu.css";
 import { logout } from "../../services/authService";
@@ -41,7 +35,11 @@ const labels = [
   { title: "Autorización de tratamiento de datos personales" },
 ];
 
-export default function Menu(props: { setIsLogged: (arg0: boolean) => any }) {
+export default function Menu(props: {
+  setIsLogged: any;
+  email: any;
+  name: string;
+}) {
   const location = useLocation();
 
   const appPages: AppPage[] = [
@@ -86,8 +84,8 @@ export default function Menu(props: { setIsLogged: (arg0: boolean) => any }) {
     <IonMenu contentId="main" type="overlay">
       <IonContent>
         <IonList id="inbox-list">
-          <IonListHeader>Inbox</IonListHeader>
-          <IonNote>hi@ionicframework.com</IonNote>
+          <IonListHeader>{props.name}</IonListHeader>
+          <IonNote>{props.email}</IonNote>
           {appPages.map((appPage, index) => {
             return (
               <IonMenuToggle key={index} autoHide={false}>

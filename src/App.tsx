@@ -62,18 +62,27 @@ const App: React.FC = () => {
   const [isLogged, setIsLogged] = useState(false);
   const [email, setEmail] = useState("");
   const [role, setRole] = useState("");
+  const [name, setName] = useState("");
 
   return (
     <IonApp>
       <IonReactRouter>
         <IonSplitPane contentId="main">
-          {isLogged && <Menu setIsLogged={setIsLogged} />}
+          {isLogged && (
+            <Menu email={email} setIsLogged={setIsLogged} name={name} />
+          )}
           <IonRouterOutlet id="main">
             <Route path="/" exact={true}>
               <Redirect to="/login" />
             </Route>
             <Route path="/login" exact={true}>
-              <Login setIsLogged={setIsLogged} setRole={setRole} />
+              <Login
+                email={email}
+                setEmail={setEmail}
+                setIsLogged={setIsLogged}
+                setRole={setRole}
+                setName={setName}
+              />
             </Route>
             <Route path="/page" exact={true}>
               <Page role={role} />

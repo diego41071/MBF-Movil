@@ -26,7 +26,6 @@ export default function Login(props: {
   [x: string]: any;
   setIsLogged: (arg0: boolean) => void;
 }) {
-  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
@@ -47,19 +46,21 @@ export default function Login(props: {
       setShowToast(true);
       return;
     }
-    if (!email || !password) {
+    if (!props.email || !password) {
       setToastMessage("Por favor, complete todos los campos.");
       setShowToast(true);
-    } else if (!validateEmail(email)) {
+    } else if (!validateEmail(props.email)) {
       setToastMessage("Por favor, introduce un correo electrónico válido.");
       setShowToast(true);
     } else {
       try {
         setIsLoading(true); // Activa el loader
-        const data = await login(email, password, captchaToken);
+        const data = await login(props.email, password, captchaToken);
         console.log("Logged in!", data);
         saveToken(data.access_token);
         props.setRole(data.role);
+        props.setEmail(data.email);
+        props.setName(`${data.name + " " + data.lastname}`);
         setToastMessage("Inicio de sesión exitoso!");
         props.setIsLogged(true);
         setShowToast(true);
@@ -139,8 +140,8 @@ export default function Login(props: {
           <IonLabel position="floating">Correo Electrónico</IonLabel>
           <IonInput
             type="email"
-            value={email}
-            onIonInput={(e) => setEmail(e.detail.value!)}
+            value={props.email}
+            onIonInput={(e) => props.setEmail(e.detail.value!)}
             className="custom-input"
             placeholder="Correo Electrónico"
           />
