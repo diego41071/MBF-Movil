@@ -81,7 +81,6 @@ const ProfileData: React.FC = () => {
             <IonInput
               value={profileData.phone}
               type="tel"
-              w
               onIonChange={(e) =>
                 handleInputChange("phone", e.detail.value || "")
               }
