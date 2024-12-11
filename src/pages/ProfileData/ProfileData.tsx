@@ -57,7 +57,7 @@ const ProfileData: React.FC = () => {
           </IonRow>
         </IonGrid>
         <form>
-          <IonItem>
+          <IonItem className="custom-item">
             <IonLabel position="floating">Nombre</IonLabel>
             <IonInput
               value={profileData.name}
@@ -66,7 +66,7 @@ const ProfileData: React.FC = () => {
               }
             />
           </IonItem>
-          <IonItem>
+          <IonItem className="custom-item">
             <IonLabel position="floating">Correo</IonLabel>
             <IonInput
               value={profileData.email}
@@ -76,7 +76,7 @@ const ProfileData: React.FC = () => {
               }
             />
           </IonItem>
-          <IonItem>
+          <IonItem className="custom-item">
             <IonLabel position="floating">Teléfono</IonLabel>
             <IonInput
               value={profileData.phone}
@@ -86,7 +86,7 @@ const ProfileData: React.FC = () => {
               }
             />
           </IonItem>
-          <IonItem>
+          <IonItem className="custom-item">
             <IonLabel position="floating">Dirección</IonLabel>
             <IonInput
               value={profileData.address}
@@ -95,8 +95,13 @@ const ProfileData: React.FC = () => {
               }
             />
           </IonItem>
-          <div className="ion-padding">
-            <IonButton expand="block" onClick={handleSave}>
+          <div className="container-button">
+            <IonButton
+              expand="block"
+              onClick={handleSave}
+              className="custom-button"
+              color={"danger"}
+            >
               Guardar Cambios
             </IonButton>
           </div>
