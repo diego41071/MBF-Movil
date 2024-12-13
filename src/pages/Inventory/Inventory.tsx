@@ -10,73 +10,130 @@ import {
   IonPage,
   IonSelect,
   IonSelectOption,
-  IonTextarea,
   IonTitle,
   IonToolbar,
+  useIonToast,
 } from "@ionic/react";
 import { useState } from "react";
 import "./Inventory.css";
+import { saveEquipment } from "../../services/inventoryService"; // Servicio de API
 
 const Inventory: React.FC = () => {
   interface FormData {
-    [key: string]: string; // Índice genérico
-    nombre: string;
-    marca: string;
-    modelo: string;
-    serial: string;
-    ubicacion: string;
-    fechaCompra: string;
-    voltaje: string;
-    potencia: string;
-    peso: string;
-    uso: string;
-    capacidad: string;
+    [key: string]: string;
+    name: string;
+    brand: string;
+    model: string;
+    serialNumber: string;
+    location: string;
+    purchaseDate: string;
+    voltage: string;
+    power: string;
+    weight: string;
+    usage: string;
+    capacity: string;
     material: string;
-    tecnologia: string;
-    prioridad: string;
+    technology: string;
+    maintenancePriority: string;
   }
 
   const initialFormData: FormData = {
-    nombre: "",
-    marca: "",
-    modelo: "",
-    serial: "",
-    ubicacion: "",
-    fechaCompra: "",
-    voltaje: "",
-    potencia: "",
-    peso: "",
-    uso: "Fijo",
-    capacidad: "",
+    name: "",
+    brand: "",
+    model: "",
+    serialNumber: "",
+    location: "",
+    purchaseDate: "",
+    voltage: "",
+    power: "",
+    weight: "",
+    usage: "Fijo",
+    capacity: "",
     material: "",
-    tecnologia: "Mecánico",
-    prioridad: "Baja",
+    technology: "Neumatico",
+    maintenancePriority: "Baja",
   };
 
   const [formData, setFormData] = useState<FormData>(initialFormData);
+  const [presentToast] = useIonToast();
 
   const handleInputChange = (key: keyof FormData, value: string) => {
     setFormData((prev) => ({ ...prev, [key]: value }));
   };
 
-  const fields: { label: string; key: keyof FormData; type: string }[] = [
-    { label: "Nombre del equipo*", key: "nombre", type: "input" },
-    { label: "Marca*", key: "marca", type: "input" },
-    { label: "Modelo*", key: "modelo", type: "input" },
-    { label: "Serial*", key: "serial", type: "input" },
-    { label: "Ubicación*", key: "ubicacion", type: "input" },
-    { label: "Fecha de compra", key: "fechaCompra", type: "date" },
-    { label: "Voltaje del equipo", key: "voltaje", type: "input" },
-    { label: "Potencia del equipo", key: "potencia", type: "input" },
-    { label: "Peso aprox. del equipo", key: "peso", type: "input" },
-    { label: "Capacidad", key: "capacidad", type: "input" },
-    { label: "Material", key: "material", type: "input" },
+  const fields = [
+    {
+      label: "Nombre del equipo*",
+      key: "name",
+      placeholder: "Ingrese el nombre",
+      type: "input",
+    },
+    {
+      label: "Marca*",
+      key: "brand",
+      placeholder: "Ingrese la marca",
+      type: "input",
+    },
+    {
+      label: "Modelo*",
+      key: "model",
+      placeholder: "Ingrese el modelo",
+      type: "input",
+    },
+    {
+      label: "Serial*",
+      key: "serialNumber",
+      placeholder: "Ingrese el serial",
+      type: "input",
+    },
+    {
+      label: "Ubicación*",
+      key: "location",
+      placeholder: "Ingrese la ubicación",
+      type: "input",
+    },
+    {
+      label: "Fecha de compra",
+      key: "purchaseDate",
+      placeholder: "Seleccione una fecha",
+      type: "date",
+    },
+    {
+      label: "Voltaje del equipo",
+      key: "voltage",
+      placeholder: "Ingrese el voltaje",
+      type: "input",
+    },
+    {
+      label: "Potencia del equipo",
+      key: "power",
+      placeholder: "Ingrese la potencia",
+      type: "input",
+    },
+    {
+      label: "Peso aprox. del equipo",
+      key: "weight",
+      placeholder: "Ingrese el peso",
+      type: "input",
+    },
+    {
+      label: "Capacidad",
+      key: "capacity",
+      placeholder: "Ingrese la capacidad",
+      type: "input",
+    },
+    {
+      label: "Material",
+      key: "material",
+      placeholder: "Ingrese el material",
+      type: "input",
+    },
   ];
 
   const selects = [
     {
       label: "De uso*",
-      key: "uso",
+      key: "usage",
       options: [
         { value: "Fijo", label: "Fijo" },
         { value: "Movil", label: "Móvil" },
@@ -84,18 +141,18 @@ const Inventory: React.FC = () => {
     },
     {
       label: "Tecnología predominante*",
-      key: "tecnologia",
+      key: "technology",
       options: [
-        { value: "Mecánico", label: "Mecánico" },
-        { value: "Eléctrico", label: "Eléctrico" },
-        { value: "Hidráulico", label: "Hidráulico" },
-        { value: "Electrónico", label: "Electrónico" },
-        { value: "Neumático", label: "Neumático" },
+        { value: "Mecanico", label: "Mecánico" },
+        { value: "Electrico", label: "Eléctrico" },
+        { value: "Hidraulico", label: "Hidráulico" },
+        { value: "Electronico", label: "Electrónico" },
+        { value: "Neumatico", label: "Neumático" },
       ],
     },
     {
       label: "Prioridad de mantenimiento*",
-      key: "prioridad",
+      key: "maintenancePriority",
       options: [
         { value: "Baja", label: "Baja" },
         { value: "Media", label: "Media" },
@@ -104,25 +161,23 @@ const Inventory: React.FC = () => {
     },
   ];
 
-  const handleSubmit = () => {
-    console.log("Datos enviados:", formData);
-    // Reinicia los datos del formulario
-    setFormData({
-      nombre: "",
-      marca: "",
-      modelo: "",
-      serial: "",
-      ubicacion: "",
-      fechaCompra: "",
-      voltaje: "",
-      potencia: "",
-      peso: "",
-      uso: "Fijo",
-      capacidad: "",
-      material: "",
-      tecnologia: "Mecánico",
-      prioridad: "Baja",
-    });
+  const handleSubmit = async () => {
+    try {
+      await saveEquipment(formData); // Envía los datos directamente al backend
+      presentToast({
+        message: "Equipo guardado exitosamente.",
+        duration: 2000,
+        color: "success",
+      });
+      setFormData(initialFormData); // Reinicia el formulario
+    } catch (error) {
+      presentToast({
+        message: "Error al guardar el equipo.",
+        duration: 2000,
+        color: "danger",
+      });
+      console.error("Error saving:", error);
+    }
   };
 
   return (
@@ -146,6 +201,7 @@ const Inventory: React.FC = () => {
                   value={formData[field.key]}
                   onChange={(e) => handleInputChange(field.key, e.target.value)}
                   className="custom-date"
+                  placeholder={field.placeholder}
                 />
               ) : (
                 <IonInput
@@ -154,7 +210,7 @@ const Inventory: React.FC = () => {
                     handleInputChange(field.key, e.detail.value!)
                   }
                   className="custom-input"
-                  placeholder={field.label}
+                  placeholder={field.placeholder}
                 />
               )}
             </IonItem>
@@ -178,6 +234,7 @@ const Inventory: React.FC = () => {
               </IonSelect>
             </IonItem>
           ))}
+
           <div className="container-button">
             <IonButton
               onClick={handleSubmit}

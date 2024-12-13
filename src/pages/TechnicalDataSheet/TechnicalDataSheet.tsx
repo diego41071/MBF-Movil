@@ -24,7 +24,7 @@ const fields = [
   { label: "Nombre del equipo*", key: "name", type: "input" },
   { label: "Marca*", key: "brand", type: "input" },
   { label: "Modelo*", key: "model", type: "input" },
-  { label: "Serial*", key: "serial", type: "input" },
+  { label: "Serial*", key: "serialNumber", type: "input" },
   { label: "Ubicación*", key: "location", type: "input" },
   { label: "Fecha de compra", key: "purchaseDate", type: "date" },
   { label: "Voltaje del equipo", key: "voltage", type: "input" },
