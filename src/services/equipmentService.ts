@@ -11,3 +11,21 @@ export const getEquipment = async () => {
     throw error;
   }
 };
+
+// Función para enviar los datos del formulario
+export const submitTechnicalServiceRequest = async (data: {
+  name: string;
+  brand: string;
+  model: string;
+  serial: string;
+  issue: string;
+  photo?: string | null;
+}) => {
+  try {
+    const response = await axios.post(`${API_URL}`, data);
+    return response.data; // Devuelve la respuesta del backend
+  } catch (error) {
+    console.error("Error while sending the request:", error);
+    throw error; // Propaga el error para manejarlo en el componente
+  }
+};

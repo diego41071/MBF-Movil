@@ -13,42 +13,58 @@ import {
   IonMenuButton,
 } from "@ionic/react";
 import { useState } from "react";
+import { submitTechnicalServiceRequest } from "../../services/equipmentService"; // Importamos el servicio
 import "./TechnicalService.css";
 
 const TechnicalService: React.FC = () => {
-  const [nombreEquipo, setNombreEquipo] = useState("");
-  const [marca, setMarca] = useState("");
-  const [modelo, setModelo] = useState("");
+  const [name, setName] = useState("");
+  const [brand, setBrand] = useState("");
+  const [model, setModel] = useState("");
   const [serial, setSerial] = useState("");
-  const [falla, setFalla] = useState("");
-  const [foto, setFoto] = useState<string | null>(null);
+  const [issue, setIssue] = useState("");
+  const [photo, setPhoto] = useState<string | null>(null);
   const [selectedFileName, setSelectedFileName] = useState<string | null>(null);
 
-  const handleFotoChange = async (
+  const handlePhotoChange = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     const file = event.target.files?.[0];
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
-        setFoto(reader.result as string);
+        setPhoto(reader.result as string);
       };
       reader.readAsDataURL(file);
+      setSelectedFileName(file.name); // Guarda el nombre del archivo seleccionado
     }
   };
 
-  const handleSubmit = () => {
-    // Procesa los datos del formulario
-    console.log({
-      nombreEquipo,
-      marca,
-      modelo,
+  const handleSubmit = async () => {
+    const requestData = {
+      name,
+      brand,
+      model,
       serial,
-      falla,
-      foto,
-    });
-    // Aquí puedes añadir la lógica para enviar la solicitud a un backend
-    alert("Solicitud enviada");
+      issue,
+      photo,
+    };
+
+    try {
+      const response = await submitTechnicalServiceRequest(requestData); // Llamamos al servicio
+      alert("Request sent successfully!");
+      console.log("Response from server:", response);
+
+      // Resetear campos del formulario
+      setName("");
+      setBrand("");
+      setModel("");
+      setSerial("");
+      setIssue("");
+      setPhoto(null);
+      setSelectedFileName(null);
+    } catch (error) {
+      alert("An error occurred while sending the request. Please try again.");
+    }
   };
 
   return (
@@ -58,49 +74,47 @@ const TechnicalService: React.FC = () => {
           <IonButtons slot="start">
             <IonMenuButton />
           </IonButtons>
-          <IonTitle>Soporte técnico</IonTitle>
+          <IonTitle>Technical Support</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">
         {[
           {
-            name: "Nombre del equipo",
-            value: nombreEquipo,
-            setvalue: setNombreEquipo,
+            label: "Equipment Name",
+            value: name,
+            setter: setName,
           },
-          { name: "Marca", value: marca, setvalue: setMarca },
-          { name: "Modelo", value: modelo, setvalue: setModelo },
-          { name: "Serial", value: serial, setvalue: setSerial },
+          { label: "Brand", value: brand, setter: setBrand },
+          { label: "Model", value: model, setter: setModel },
           {
-            name: "Falla de funcionamiento",
-            value: falla,
-            setvalue: setFalla,
+            label: "Serial Number",
+            value: serial,
+            setter: setSerial,
           },
-        ].map((item) => {
-          return (
-            <IonItem className="custom-item">
-              <IonLabel position="floating">{item.name}</IonLabel>
-              <IonInput
-                value={item.value}
-                onIonChange={(e) => item.setvalue(e.detail.value!)}
-                className="custom-input"
-                placeholder={item.name}
-              />
-            </IonItem>
-          );
-        })}
+          { label: "Issue Description", value: issue, setter: setIssue },
+        ].map((field, index) => (
+          <IonItem key={index} className="custom-item">
+            <IonLabel position="floating">{field.label}</IonLabel>
+            <IonInput
+              value={field.value}
+              onIonChange={(e) => field.setter(e.detail.value!)}
+              className="custom-input"
+              placeholder={field.label}
+            />
+          </IonItem>
+        ))}
 
         <IonItem className="custom-item">
           <div className="file-input-container">
-            <input type="file" accept="image/*" onChange={handleFotoChange} />
-            Adjuntar foto
+            <input type="file" accept="image/*" onChange={handlePhotoChange} />
+            Attach Photo
             <span className="file-name">
-              {selectedFileName || "No se seleccionó ningún archivo"}
+              {selectedFileName || "No file selected"}
             </span>
           </div>
         </IonItem>
 
-        {foto && <IonImg src={foto} alt="Foto adjunta" />}
+        {photo && <IonImg src={photo} alt="Attached Photo" />}
         <div className="container-button">
           <IonButton
             expand="block"
@@ -108,7 +122,7 @@ const TechnicalService: React.FC = () => {
             className="custom-button"
             color={"danger"}
           >
-            Solicitar
+            Submit Request
           </IonButton>
         </div>
       </IonContent>
