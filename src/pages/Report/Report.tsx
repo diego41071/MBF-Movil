@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   IonPage,
   IonHeader,
@@ -10,53 +10,44 @@ import {
   IonRow,
   IonCol,
   IonLabel,
-  IonItem,
+  IonSpinner,
   IonButtons,
   IonMenuButton,
+  IonItem,
 } from "@ionic/react";
+import { getEquipment } from "../../services/equipmentService";
 import "./Report.css";
 
 interface Equipment {
-  id: number;
+  _id: string;
   name: string;
   brand: string;
   model: string;
   serial: string;
   issue: string;
-  photo?: string; // URL o base64 de la imagen
+  photo?: string;
 }
 
 const Report: React.FC = () => {
   const [searchText, setSearchText] = useState<string>("");
-  const [equipmentList] = useState<Equipment[]>([
-    {
-      id: 1,
-      name: "Impresora",
-      brand: "HP",
-      model: "LaserJet Pro",
-      serial: "12345ABC",
-      issue: "No imprime",
-      photo: "https://via.placeholder.com/50", // URL de la imagen
-    },
-    {
-      id: 2,
-      name: "Computadora",
-      brand: "Dell",
-      model: "Inspiron 15",
-      serial: "67890XYZ",
-      issue: "Pantalla azul",
-      photo: "https://via.placeholder.com/50", // URL de la imagen
-    },
-    {
-      id: 3,
-      name: "Proyector",
-      brand: "Epson",
-      model: "XGA",
-      serial: "11223EFG",
-      issue: "Imagen borrosa",
-      photo: "https://via.placeholder.com/50", // URL de la imagen
-    },
-  ]);
+  const [equipmentList, setEquipmentList] = useState<Equipment[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchEquipment = async () => {
+      try {
+        const data = await getEquipment();
+        setEquipmentList(data);
+      } catch (err) {
+        setError("No se pudo cargar la lista de equipos. Inténtalo más tarde.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchEquipment();
+  }, []);
 
   // Filtrar los equipos según el texto de búsqueda
   const filteredEquipment = equipmentList.filter((equipment) =>
@@ -83,83 +74,75 @@ const Report: React.FC = () => {
           placeholder="Buscar equipo..."
           className="custom-input-search"
         />
-        <IonGrid>
-          {/* Encabezados en pantallas grandes */}
-          <IonRow className="ion-hide-sm-down">
-            <IonCol size="2">
-              <strong>Nombre</strong>
-            </IonCol>
-            <IonCol size="2">
-              <strong>Marca</strong>
-            </IonCol>
-            <IonCol size="2">
-              <strong>Modelo</strong>
-            </IonCol>
-            <IonCol size="2">
-              <strong>Serial</strong>
-            </IonCol>
-            <IonCol size="2">
-              <strong>Falla</strong>
-            </IonCol>
-            <IonCol size="2">
-              <strong>Foto</strong>
-            </IonCol>
-          </IonRow>
+        {loading ? (
+          <IonSpinner name="crescent" className="ion-text-center" />
+        ) : error ? (
+          <p className="ion-text-center">{error}</p>
+        ) : (
+          <IonGrid>
+            {/* Encabezados en pantallas grandes */}
+            <IonRow className="ion-hide-sm-down">
+              {["Nombre", "Marca", "Modelo", "Serial", "Falla", "Foto"].map(
+                (header) => (
+                  <IonCol key={header} size="2">
+                    <strong>{header}</strong>
+                  </IonCol>
+                )
+              )}
+            </IonRow>
 
-          {/* Filas dinámicas */}
-          {filteredEquipment.map((equipment) => (
-            <IonItem key={equipment.id} className="custom-item border-item">
+            {/* Filas dinámicas */}
+            {filteredEquipment.map((equipment) => (
+              <IonItem key={equipment._id} className="custom-item border-item">
+                <IonRow>
+                  {[
+                    { label: "Nombre", value: equipment.name },
+                    { label: "Marca", value: equipment.brand },
+                    { label: "Modelo", value: equipment.model },
+                    { label: "Serial", value: equipment.serial },
+                    { label: "Falla", value: equipment.issue },
+                    { label: "Foto", value: equipment.photo },
+                  ].map((field, index) => (
+                    <IonCol key={index} size="12" size-sm="2">
+                      {field.label === "Foto" ? (
+                        field.value ? (
+                          <img
+                            src={field.value as string}
+                            alt={`Foto de ${equipment.name}`}
+                            style={{
+                              width: "50px",
+                              height: "50px",
+                              objectFit: "cover",
+                              borderRadius: "4px",
+                            }}
+                          />
+                        ) : (
+                          <IonLabel>No disponible</IonLabel>
+                        )
+                      ) : (
+                        <>
+                          <strong className="ion-hide-sm-up">
+                            {field.label}:
+                          </strong>{" "}
+                          {field.value}
+                        </>
+                      )}
+                    </IonCol>
+                  ))}
+                </IonRow>
+              </IonItem>
+            ))}
+
+            {/* Mensaje de vacío */}
+            {filteredEquipment.length === 0 && (
               <IonRow>
-                {/* En dispositivos pequeños, apilamos columnas */}
-                <IonCol size="12" size-sm="2">
-                  <strong className="ion-hide-sm-up">Nombre:</strong>{" "}
-                  {equipment.name}
-                </IonCol>
-                <IonCol size="12" size-sm="2">
-                  <strong className="ion-hide-sm-up">Marca:</strong>{" "}
-                  {equipment.brand}
-                </IonCol>
-                <IonCol size="12" size-sm="2">
-                  <strong className="ion-hide-sm-up">Modelo:</strong>{" "}
-                  {equipment.model}
-                </IonCol>
-                <IonCol size="12" size-sm="2">
-                  <strong className="ion-hide-sm-up">Serial:</strong>{" "}
-                  {equipment.serial}
-                </IonCol>
-                <IonCol size="12" size-sm="2">
-                  <strong className="ion-hide-sm-up">Falla:</strong>{" "}
-                  {equipment.issue}
-                </IonCol>
-                <IonCol size="12" size-sm="2">
-                  {equipment.photo ? (
-                    <img
-                      src={equipment.photo}
-                      alt={`Foto de ${equipment.name}`}
-                      style={{
-                        width: "50px",
-                        height: "50px",
-                        objectFit: "cover",
-                        borderRadius: "4px",
-                      }}
-                    />
-                  ) : (
-                    <IonLabel>No disponible</IonLabel>
-                  )}
+                <IonCol size="12" className="ion-text-center">
+                  <IonLabel>No se encontraron resultados.</IonLabel>
                 </IonCol>
               </IonRow>
-            </IonItem>
-          ))}
-
-          {/* Mensaje de vacío */}
-          {filteredEquipment.length === 0 && (
-            <IonRow>
-              <IonCol size="12" className="ion-text-center">
-                <IonLabel>No se encontraron resultados.</IonLabel>
-              </IonCol>
-            </IonRow>
-          )}
-        </IonGrid>
+            )}
+          </IonGrid>
+        )}
       </IonContent>
     </IonPage>
   );

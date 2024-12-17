@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const API_URL = `${import.meta.env.VITE_API_URL_TEST}/inventory`;
+export const API_URL = `${import.meta.env.VITE_API_URL}/inventory`;
 
 export const fetchInventory = async (): Promise<any[]> => {
   try {
