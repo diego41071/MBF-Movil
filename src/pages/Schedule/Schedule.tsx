@@ -28,9 +28,9 @@ const Schedule: React.FC = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [events, setEvents] = useState<Event[]>([
     { date: "2024-12-05", title: "Team Meeting", type: "meeting" },
+    { date: "2024-12-05", title: "Lunch with Client", type: "lunch" },
     { date: "2024-12-12", title: "Project Deadline", type: "deadline" },
     { date: "2024-12-25", title: "Christmas Day", type: "holiday" },
-    { date: "2024-12-25", title: "Christmas Day 2", type: "holiday" },
   ]);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [selectedEvents, setSelectedEvents] = useState<Event[]>([]);
@@ -156,7 +156,7 @@ const Schedule: React.FC = () => {
 
           {/* Generación de días */}
           {Array.from({ length: 6 }).map((_, rowIndex) => (
-            <IonRow key={rowIndex}>
+            <IonRow key={rowIndex} className="calendar-row">
               {days
                 .slice(rowIndex * 7, rowIndex * 7 + 7)
                 .map((dayObj, index) => (
@@ -168,17 +168,18 @@ const Schedule: React.FC = () => {
                     onClick={() => handleDayClick(dayObj.date)}
                   >
                     <span>{dayObj.date.getDate()}</span>
-                    {/* Mostrar eventos */}
-                    {getEventsForDate(formatDate(dayObj.date)).map(
-                      (event, idx) => (
-                        <div
-                          key={idx}
-                          className={`calendar-event ${event.type}`}
-                        >
-                          {event.title}
-                        </div>
-                      )
-                    )}
+                    {/* Mostrar barras horizontales para eventos */}
+                    <div className="event-bars">
+                      {getEventsForDate(formatDate(dayObj.date)).map(
+                        (event, idx) => (
+                          <div
+                            key={idx}
+                            className={`event-bar ${event.type}`}
+                            title={event.title}
+                          />
+                        )
+                      )}
+                    </div>
                   </IonCol>
                 ))}
             </IonRow>

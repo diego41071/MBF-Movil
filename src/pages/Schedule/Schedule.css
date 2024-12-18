@@ -16,22 +16,21 @@
     flex-direction: column;
     height: 80px;
     text-align: center;
-    border: none;
-    /* Elimina todos los bordes */
+    border-right: none;
     cursor: pointer;
     position: relative;
 }
 
-
+.calendar-row:last-child {
+    border-bottom: none;
+}
 
 .calendar-day-outside {
     color: #bbb;
-    /* Gris claro */
 }
 
 .calendar-row {
     border-bottom: 1px solid #ccc;
-    /* Mantiene una línea horizontal entre filas */
 }
 
 .calendar-event {
@@ -44,7 +43,6 @@
     text-align: center;
 }
 
-/* Estilos para eventos */
 .calendar-event.meeting {
     background-color: #007bff;
     color: white;
@@ -69,8 +67,30 @@
     border-radius: 3px;
 }
 
+.event-bars {
+    display: flex;
+    margin-top: 5px;
+    gap: 2px;
+}
 
+.event-bar {
+    height: 5px;
+    width: 100%;
+    border-radius: 3px;
+}
 
-.calendar-day-outside {
-    color: #ccc;
+.event-bar.meeting {
+    background-color: blue;
+}
+
+.event-bar.lunch {
+    background-color: green;
+}
+
+.event-bar.deadline {
+    background-color: red;
+}
+
+.event-bar.holiday {
+    background-color: orange;
 }
