@@ -18,7 +18,13 @@ import {
   IonIcon,
 } from "@ionic/react";
 import "./Schedule.css";
-import { add, chevronBack, chevronForward, search } from "ionicons/icons";
+import {
+  add,
+  chevronBack,
+  chevronForward,
+  search,
+  timeOutline,
+} from "ionicons/icons";
 import { createGesture } from "@ionic/core";
 
 interface Event {
@@ -279,7 +285,9 @@ const Schedule: React.FC = () => {
         {selectedEvents.length > 0 && (
           <IonList>
             <IonListHeader>
-              <h2>Eventos del {selectedDate}</h2>
+              <IonLabel>
+                <h3>Eventos del {selectedDate}</h3>
+              </IonLabel>
             </IonListHeader>
             {selectedEvents.map((event, index) => (
               <IonItem key={index}>
@@ -297,38 +305,54 @@ const Schedule: React.FC = () => {
         <IonModal isOpen={showModal} onDidDismiss={() => setShowModal(false)}>
           <IonContent className="ion-padding">
             <h2>Agregar Evento</h2>
-            <IonItem>
+            <IonItem className="custom-item">
               <IonLabel position="floating">Título del Evento</IonLabel>
               <IonInput
                 value={eventTitle}
                 onIonChange={(e) => setEventTitle(e.detail.value!)}
                 placeholder="Ingrese el título del evento"
+                className="custom-input"
               />
             </IonItem>
-            <IonItem>
+            <IonItem className="custom-item">
               <IonLabel position="floating">Tipo de Evento</IonLabel>
               <IonInput
                 value={eventType}
                 onIonChange={(e) => setEventType(e.detail.value!)}
                 placeholder="Ingrese el tipo de evento"
+                className="custom-input"
               />
             </IonItem>
-            <IonLabel position="floating">Hora del Evento</IonLabel>
-            <IonInput
-              type="time"
-              value={eventTime}
-              onIonChange={(e) => setEventTime(e.detail.value!)}
-            />
-            <IonButton expand="block" onClick={addEvent}>
-              Guardar
-            </IonButton>
-            <IonButton
-              expand="block"
-              color="medium"
-              onClick={() => setShowModal(false)}
-            >
-              Cancelar
-            </IonButton>
+            <IonItem className="custom-item">
+              <IonLabel position="floating">Hora del Evento</IonLabel>
+              <IonInput
+                type="time"
+                value={eventTime}
+                onIonChange={(e) => setEventTime(e.detail.value!)}
+                className="custom-input"
+                placeholder="Select Time"
+              ></IonInput>
+            </IonItem>
+            <div className="container-button">
+              <IonButton
+                expand="block"
+                onClick={addEvent}
+                className="custom-button margin-button"
+                color={"danger"}
+              >
+                Guardar
+              </IonButton>
+            </div>
+            <div className="container-button">
+              <IonButton
+                expand="block"
+                color="medium"
+                onClick={() => setShowModal(false)}
+                className="custom-button"
+              >
+                Cancelar
+              </IonButton>
+            </div>
           </IonContent>
         </IonModal>
         <IonModal

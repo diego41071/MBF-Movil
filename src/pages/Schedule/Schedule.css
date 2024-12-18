@@ -134,6 +134,10 @@
     animation: slide-right 0.3s forwards;
 }
 
+.custom-input input[type="time"]::-webkit-calendar-picker-indicator {
+    filter: invert(50%) sepia(100%) saturate(100%) hue-rotate(180deg) brightness(80%) contrast(100%);
+}
+
 /* Animación para deslizar a la izquierda */
 @keyframes slide-left {
     from {
