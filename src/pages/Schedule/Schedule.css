@@ -13,12 +13,11 @@
 
 .calendar-day {
     display: flex;
+    justify-content: center;
     flex-direction: column;
-    height: 80px;
     text-align: center;
-    border-right: none;
     cursor: pointer;
-    position: relative;
+    align-items: center;
 }
 
 .calendar-row:last-child {
@@ -31,6 +30,7 @@
 
 .calendar-row {
     border-bottom: 1px solid #ccc;
+    height: 50px;
 }
 
 .calendar-event {
@@ -93,4 +93,25 @@
 
 .event-bar.holiday {
     background-color: orange;
+}
+
+.selected-day {
+    border-radius: 50%;
+    /* Círculo */
+    background-color: white;
+    height: 30px;
+    width: 30px;
+    /* Fondo blanco */
+    color: black;
+    /* Texto negro para contraste */
+    font-weight: bold;
+    /* Sombra para destacar */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.selected-day span {
+    font-weight: bold;
+    /* Resalta el número */
 }

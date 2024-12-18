@@ -160,23 +160,31 @@ const Schedule: React.FC = () => {
               {days
                 .slice(rowIndex * 7, rowIndex * 7 + 7)
                 .map((dayObj, index) => (
-                  <IonCol
-                    key={index}
-                    className={`calendar-day ${
-                      dayObj.isCurrentMonth ? "" : "calendar-day-outside"
-                    }`}
-                    onClick={() => handleDayClick(dayObj.date)}
-                  >
-                    <span>{dayObj.date.getDate()}</span>
-                    {/* Mostrar barras horizontales para eventos */}
+                  <IonCol key={index}>
+                    <div
+                      className={`calendar-day ${
+                        dayObj.isCurrentMonth ? "" : "calendar-day-outside"
+                      }`}
+                      onClick={() => handleDayClick(dayObj.date)}
+                    >
+                      <div
+                        className={`${
+                          selectedDate === formatDate(dayObj.date)
+                            ? "selected-day"
+                            : ""
+                        }`}
+                      >
+                        {dayObj.date.getDate()}
+                      </div>{" "}
+                    </div>
+                    {/* Mostrar las barras de eventos */}
                     <div className="event-bars">
                       {getEventsForDate(formatDate(dayObj.date)).map(
                         (event, idx) => (
                           <div
                             key={idx}
                             className={`event-bar ${event.type}`}
-                            title={event.title}
-                          />
+                          ></div>
                         )
                       )}
                     </div>
