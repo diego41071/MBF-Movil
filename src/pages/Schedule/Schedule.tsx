@@ -18,7 +18,7 @@ import {
   IonIcon,
 } from "@ionic/react";
 import "./Schedule.css";
-import { chevronBack, chevronForward } from "ionicons/icons";
+import { add, chevronBack, chevronForward, search } from "ionicons/icons";
 import { createGesture } from "@ionic/core";
 
 interface Event {
@@ -203,6 +203,10 @@ const Schedule: React.FC = () => {
             year: "numeric",
           })}
           <IonIcon icon={chevronForward} onClick={goToNextMonth} />
+          <IonIcon icon={search} />
+          {selectedDate && (
+            <IonIcon icon={add} onClick={(e) => setShowModal(true)} />
+          )}
         </div>
         <div
           ref={calendarRef}
