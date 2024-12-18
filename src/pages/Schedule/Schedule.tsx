@@ -22,15 +22,36 @@ interface Event {
   date: string; // Fecha en formato "YYYY-MM-DD"
   title: string;
   type: string; // Tipo de evento (meeting, holiday, etc.)
+  time: string;
 }
 
 const Schedule: React.FC = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [events, setEvents] = useState<Event[]>([
-    { date: "2024-12-05", title: "Team Meeting", type: "meeting" },
-    { date: "2024-12-05", title: "Lunch with Client", type: "lunch" },
-    { date: "2024-12-12", title: "Project Deadline", type: "deadline" },
-    { date: "2024-12-25", title: "Christmas Day", type: "holiday" },
+    {
+      date: "2024-12-05",
+      title: "Team Meeting",
+      type: "meeting",
+      time: "12:00",
+    },
+    {
+      date: "2024-12-05",
+      title: "Lunch with Client",
+      type: "lunch",
+      time: "13:00",
+    },
+    {
+      date: "2024-12-12",
+      title: "Project Deadline",
+      type: "deadline",
+      time: "14:00",
+    },
+    {
+      date: "2024-12-25",
+      title: "Christmas Day",
+      type: "holiday",
+      time: "15:00",
+    },
   ]);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [selectedEvents, setSelectedEvents] = useState<Event[]>([]);
@@ -92,17 +113,22 @@ const Schedule: React.FC = () => {
     );
   };
 
+  const [eventTime, setEventTime] = useState("12:00"); // Estado para la hora del evento
+
   const addEvent = () => {
     if (selectedDate && eventTitle.trim()) {
-      const newEvent = {
-        date: selectedDate,
-        title: eventTitle,
-        type: eventType,
-      };
-      setEvents((prevEvents) => [...prevEvents, newEvent]);
-      setSelectedEvents((prev) => [...prev, newEvent]);
+      setEvents((prevEvents) => [
+        ...prevEvents,
+        {
+          date: selectedDate,
+          title: eventTitle,
+          type: eventType,
+          time: eventTime,
+        },
+      ]);
       setEventTitle("");
       setEventType("meeting");
+      setEventTime("12:00"); // Reinicia la hora predeterminada
       setShowModal(false);
     }
   };
@@ -117,6 +143,7 @@ const Schedule: React.FC = () => {
 
   const handleDayClick = (date: Date) => {
     const formattedDate = formatDate(date);
+    // setShowModal(true);
     setSelectedDate(formattedDate);
     setSelectedEvents(getEventsForDate(formattedDate));
   };
@@ -205,6 +232,7 @@ const Schedule: React.FC = () => {
                 <IonLabel>
                   <h3>{event.title}</h3>
                   <p>Tipo: {event.type}</p>
+                  <p>Hora: {event.time}</p>
                 </IonLabel>
               </IonItem>
             ))}
@@ -231,6 +259,12 @@ const Schedule: React.FC = () => {
                 placeholder="Ingrese el tipo de evento"
               />
             </IonItem>
+            <IonLabel position="floating">Hora del Evento</IonLabel>
+            <IonInput
+              type="time"
+              value={eventTime}
+              onIonChange={(e) => setEventTime(e.detail.value!)}
+            />
             <IonButton expand="block" onClick={addEvent}>
               Guardar
             </IonButton>
