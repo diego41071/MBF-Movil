@@ -115,3 +115,43 @@
     font-weight: bold;
     /* Resalta el número */
 }
+
+/* Schedule.css */
+
+/* Contenedor del calendario con animación */
+.calendar-container {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    transition: transform 0.3s ease-in-out;
+}
+
+.calendar-container.left {
+    animation: slide-left 0.3s forwards;
+}
+
+.calendar-container.right {
+    animation: slide-right 0.3s forwards;
+}
+
+/* Animación para deslizar a la izquierda */
+@keyframes slide-left {
+    from {
+        transform: translateX(100%);
+    }
+
+    to {
+        transform: translateX(0%);
+    }
+}
+
+/* Animación para deslizar a la derecha */
+@keyframes slide-right {
+    from {
+        transform: translateX(-100%);
+    }
+
+    to {
+        transform: translateX(0%);
+    }
+}

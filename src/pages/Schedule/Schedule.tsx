@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   IonPage,
   IonHeader,
@@ -15,8 +15,11 @@ import {
   IonItem,
   IonList,
   IonListHeader,
+  IonIcon,
 } from "@ionic/react";
 import "./Schedule.css";
+import { chevronBack, chevronForward } from "ionicons/icons";
+import { createGesture } from "@ionic/core";
 
 interface Event {
   date: string; // Fecha en formato "YYYY-MM-DD"
@@ -58,6 +61,10 @@ const Schedule: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const [eventTitle, setEventTitle] = useState("");
   const [eventType, setEventType] = useState("meeting"); // Tipo de evento
+  const calendarRef = useRef<HTMLDivElement>(null);
+  const [animationDirection, setAnimationDirection] = useState<
+    "left" | "right" | ""
+  >("");
 
   // Generar los días del calendario
   const generateCalendarDays = () => {
@@ -105,12 +112,26 @@ const Schedule: React.FC = () => {
     setCurrentDate(
       new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1)
     );
+    setAnimationDirection("right");
+    setTimeout(() => {
+      setCurrentDate(
+        new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1)
+      );
+      setAnimationDirection("");
+    }, 300); // Duración de la animación
   };
 
   const goToNextMonth = () => {
     setCurrentDate(
       new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1)
     );
+    setAnimationDirection("left");
+    setTimeout(() => {
+      setCurrentDate(
+        new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1)
+      );
+      setAnimationDirection("");
+    }, 300); // Duración de la animación
   };
 
   const [eventTime, setEventTime] = useState("12:00"); // Estado para la hora del evento
@@ -150,6 +171,23 @@ const Schedule: React.FC = () => {
 
   const days = generateCalendarDays();
 
+  useEffect(() => {
+    const gesture = createGesture({
+      el: calendarRef.current!, // Elemento objetivo del gesto
+      gestureName: "calendar-swipe",
+      onMove: (ev) => {
+        if (ev.deltaX > 50) {
+          goToPreviousMonth(); // Deslizar a la derecha
+        } else if (ev.deltaX < -50) {
+          goToNextMonth(); // Deslizar a la izquierda
+        }
+      },
+    });
+    gesture.enable();
+
+    return () => gesture.destroy(); // Limpia el gesto al desmontar
+  }, [currentDate]);
+
   return (
     <IonPage>
       <IonHeader>
@@ -159,68 +197,67 @@ const Schedule: React.FC = () => {
       </IonHeader>
       <IonContent className="ion-padding">
         <div className="calendar-controls">
-          <IonButton onClick={goToPreviousMonth} color={"danger"}>
-            Anterior
-          </IonButton>
+          <IonIcon icon={chevronBack} onClick={goToPreviousMonth} />
           {currentDate.toLocaleDateString("es-ES", {
             month: "long",
             year: "numeric",
           })}
-          <IonButton onClick={goToNextMonth} color={"danger"}>
-            Siguiente
-          </IonButton>
+          <IonIcon icon={chevronForward} onClick={goToNextMonth} />
         </div>
-
-        <IonGrid>
-          {/* Encabezados de días de la semana */}
-          <IonRow>
-            {["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab"].map((day) => (
-              <IonCol key={day} className="calendar-header">
-                {day}
-              </IonCol>
-            ))}
-          </IonRow>
-
-          {/* Generación de días */}
-          {Array.from({ length: 6 }).map((_, rowIndex) => (
-            <IonRow key={rowIndex} className="calendar-row">
-              {days
-                .slice(rowIndex * 7, rowIndex * 7 + 7)
-                .map((dayObj, index) => (
-                  <IonCol key={index}>
-                    <div
-                      className={`calendar-day ${
-                        dayObj.isCurrentMonth ? "" : "calendar-day-outside"
-                      }`}
-                      onClick={() => handleDayClick(dayObj.date)}
-                    >
-                      <div
-                        className={`${
-                          selectedDate === formatDate(dayObj.date)
-                            ? "selected-day"
-                            : ""
-                        }`}
-                      >
-                        {dayObj.date.getDate()}
-                      </div>{" "}
-                    </div>
-                    {/* Mostrar las barras de eventos */}
-                    <div className="event-bars">
-                      {getEventsForDate(formatDate(dayObj.date)).map(
-                        (event, idx) => (
-                          <div
-                            key={idx}
-                            className={`event-bar ${event.type}`}
-                          ></div>
-                        )
-                      )}
-                    </div>
-                  </IonCol>
-                ))}
+        <div
+          ref={calendarRef}
+          className={`calendar-container ${animationDirection}`}
+        >
+          <IonGrid>
+            {/* Encabezados de días de la semana */}
+            <IonRow>
+              {["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab"].map((day) => (
+                <IonCol key={day} className="calendar-header">
+                  {day}
+                </IonCol>
+              ))}
             </IonRow>
-          ))}
-        </IonGrid>
 
+            {/* Generación de días */}
+            {Array.from({ length: 6 }).map((_, rowIndex) => (
+              <IonRow key={rowIndex} className="calendar-row">
+                {days
+                  .slice(rowIndex * 7, rowIndex * 7 + 7)
+                  .map((dayObj, index) => (
+                    <IonCol key={index}>
+                      <div
+                        className={`calendar-day ${
+                          dayObj.isCurrentMonth ? "" : "calendar-day-outside"
+                        }`}
+                        onClick={() => handleDayClick(dayObj.date)}
+                      >
+                        <div
+                          className={`${
+                            selectedDate === formatDate(dayObj.date)
+                              ? "selected-day"
+                              : ""
+                          }`}
+                        >
+                          {dayObj.date.getDate()}
+                        </div>{" "}
+                      </div>
+                      {/* Mostrar las barras de eventos */}
+                      <div className="event-bars">
+                        {getEventsForDate(formatDate(dayObj.date)).map(
+                          (event, idx) => (
+                            <div
+                              key={idx}
+                              className={`event-bar ${event.type}`}
+                            ></div>
+                          )
+                        )}
+                      </div>
+                    </IonCol>
+                  ))}
+              </IonRow>
+            ))}
+          </IonGrid>
+        </div>
         {/* Lista de eventos debajo del calendario */}
         {selectedEvents.length > 0 && (
           <IonList>
