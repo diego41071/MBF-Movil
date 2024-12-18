@@ -65,6 +65,19 @@ const Schedule: React.FC = () => {
   const [animationDirection, setAnimationDirection] = useState<
     "left" | "right" | ""
   >("");
+  const [showSearchModal, setShowSearchModal] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState<Event[]>([]);
+
+  const searchEvents = () => {
+    const results = events.filter(
+      (event) =>
+        event.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        event.type.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        event.date.includes(searchQuery)
+    );
+    setSearchResults(results);
+  };
 
   // Generar los días del calendario
   const generateCalendarDays = () => {
@@ -203,7 +216,7 @@ const Schedule: React.FC = () => {
             year: "numeric",
           })}
           <IonIcon icon={chevronForward} onClick={goToNextMonth} />
-          <IonIcon icon={search} />
+          <IonIcon icon={search} onClick={() => setShowSearchModal(true)} />
           {selectedDate && (
             <IonIcon icon={add} onClick={(e) => setShowModal(true)} />
           )}
@@ -316,6 +329,56 @@ const Schedule: React.FC = () => {
             >
               Cancelar
             </IonButton>
+          </IonContent>
+        </IonModal>
+        <IonModal
+          isOpen={showSearchModal}
+          onDidDismiss={() => setShowSearchModal(false)}
+        >
+          <IonContent className="ion-padding">
+            <h2>Buscar Eventos</h2>
+            <IonItem>
+              <IonLabel position="floating">Criterio de Búsqueda</IonLabel>
+              <IonInput
+                value={searchQuery}
+                onIonChange={(e) => setSearchQuery(e.detail.value!)}
+                placeholder="Ingrese título, tipo o fecha (YYYY-MM-DD)"
+              />
+            </IonItem>
+            <IonButton expand="block" onClick={searchEvents}>
+              Buscar
+            </IonButton>
+            <IonButton
+              expand="block"
+              color="medium"
+              onClick={() => setShowSearchModal(false)}
+            >
+              Cerrar
+            </IonButton>
+
+            {searchResults.length > 0 && (
+              <IonList>
+                <IonListHeader>
+                  <h3>Resultados de la Búsqueda</h3>
+                </IonListHeader>
+                {searchResults.map((event, index) => (
+                  <IonItem key={index}>
+                    <IonLabel>
+                      <h3>{event.title}</h3>
+                      <p>Fecha: {event.date}</p>
+                      <p>Tipo: {event.type}</p>
+                      <p>Hora: {event.time}</p>
+                    </IonLabel>
+                  </IonItem>
+                ))}
+              </IonList>
+            )}
+            {searchResults.length === 0 && searchQuery.trim() && (
+              <p>
+                No se encontraron eventos que coincidan con el criterio de
+                búsqueda.
+              </p>
+            )}
           </IonContent>
         </IonModal>
       </IonContent>
