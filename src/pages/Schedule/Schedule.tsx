@@ -74,6 +74,7 @@ const Schedule: React.FC = () => {
   const [showSearchModal, setShowSearchModal] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<Event[]>([]);
+  const [isSearched, setIsSearched] = useState(false);
 
   const searchEvents = () => {
     const results = events.filter(
@@ -83,6 +84,7 @@ const Schedule: React.FC = () => {
         event.date.includes(searchQuery)
     );
     setSearchResults(results);
+    setIsSearched(true); // Marca que se ha realizado una búsqueda
   };
 
   // Generar los días del calendario
@@ -309,7 +311,7 @@ const Schedule: React.FC = () => {
               <IonLabel position="floating">Título del Evento</IonLabel>
               <IonInput
                 value={eventTitle}
-                onIonChange={(e) => setEventTitle(e.detail.value!)}
+                onIonInput={(e) => setEventTitle(e.detail.value!)}
                 placeholder="Ingrese el título del evento"
                 className="custom-input"
               />
@@ -318,7 +320,7 @@ const Schedule: React.FC = () => {
               <IonLabel position="floating">Tipo de Evento</IonLabel>
               <IonInput
                 value={eventType}
-                onIonChange={(e) => setEventType(e.detail.value!)}
+                onIonInput={(e) => setEventType(e.detail.value!)}
                 placeholder="Ingrese el tipo de evento"
                 className="custom-input"
               />
@@ -328,7 +330,7 @@ const Schedule: React.FC = () => {
               <IonInput
                 type="time"
                 value={eventTime}
-                onIonChange={(e) => setEventTime(e.detail.value!)}
+                onIonInput={(e) => setEventTime(e.detail.value!)}
                 className="custom-input"
                 placeholder="Select Time"
               ></IonInput>
@@ -365,7 +367,7 @@ const Schedule: React.FC = () => {
               <IonLabel position="floating">Criterio de Búsqueda</IonLabel>
               <IonInput
                 value={searchQuery}
-                onIonChange={(e) => setSearchQuery(e.detail.value!)}
+                onIonInput={(e) => setSearchQuery(e.detail.value!)}
                 placeholder="Ingrese título, tipo o fecha (YYYY-MM-DD)"
                 className="custom-input"
               />
@@ -407,7 +409,7 @@ const Schedule: React.FC = () => {
                 ))}
               </IonList>
             )}
-            {searchResults.length === 0 && searchQuery.trim() && (
+            {searchResults.length === 0 && isSearched && searchQuery.trim() && (
               <p>
                 No se encontraron eventos que coincidan con el criterio de
                 búsqueda.
