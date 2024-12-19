@@ -361,25 +361,35 @@ const Schedule: React.FC = () => {
         >
           <IonContent className="ion-padding">
             <h2>Buscar Eventos</h2>
-            <IonItem>
+            <IonItem className="custom-item">
               <IonLabel position="floating">Criterio de Búsqueda</IonLabel>
               <IonInput
                 value={searchQuery}
                 onIonChange={(e) => setSearchQuery(e.detail.value!)}
                 placeholder="Ingrese título, tipo o fecha (YYYY-MM-DD)"
+                className="custom-input"
               />
             </IonItem>
-            <IonButton expand="block" onClick={searchEvents}>
-              Buscar
-            </IonButton>
-            <IonButton
-              expand="block"
-              color="medium"
-              onClick={() => setShowSearchModal(false)}
-            >
-              Cerrar
-            </IonButton>
-
+            <div className="container-button">
+              <IonButton
+                expand="block"
+                onClick={searchEvents}
+                className="custom-button margin-button"
+                color={"danger"}
+              >
+                Buscar
+              </IonButton>
+            </div>
+            <div className="container-button">
+              <IonButton
+                expand="block"
+                color="medium"
+                onClick={() => setShowSearchModal(false)}
+                className="custom-button"
+              >
+                Cerrar
+              </IonButton>
+            </div>
             {searchResults.length > 0 && (
               <IonList>
                 <IonListHeader>
