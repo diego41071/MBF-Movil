@@ -158,20 +158,26 @@ const Schedule: React.FC = () => {
   const [eventTime, setEventTime] = useState("12:00"); // Estado para la hora del evento
 
   const addEvent = () => {
-    if (selectedDate && eventTitle.trim()) {
-      setEvents((prevEvents) => [
-        ...prevEvents,
-        {
-          date: selectedDate,
-          title: eventTitle,
-          type: eventType,
-          time: eventTime,
-        },
-      ]);
-      setEventTitle("");
-      setEventType("meeting");
-      setEventTime("12:00"); // Reinicia la hora predeterminada
-      setShowModal(false);
+    if (selectedDate) {
+      // Si ya hay una fecha seleccionada, agregar el evento
+      if (eventTitle.trim()) {
+        setEvents((prevEvents) => [
+          ...prevEvents,
+          {
+            date: selectedDate,
+            title: eventTitle,
+            type: eventType,
+            time: eventTime,
+          },
+        ]);
+        setEventTitle("");
+        setEventType("meeting");
+        setEventTime("12:00");
+        setShowModal(false);
+      }
+    } else {
+      // Si no hay fecha seleccionada, mostrar un modal para que el usuario elija una
+      setShowModal(true);
     }
   };
 
@@ -185,10 +191,23 @@ const Schedule: React.FC = () => {
 
   const handleDayClick = (date: Date) => {
     const formattedDate = formatDate(date);
-    // setShowModal(true);
-    setSelectedDate(formattedDate);
-    setSelectedEvents(getEventsForDate(formattedDate));
+    // Si ya hay una fecha seleccionada, permite agregar el evento a esa fecha
+    if (selectedDate) {
+      setSelectedDate(formattedDate);
+      setSelectedEvents(getEventsForDate(formattedDate));
+    } else {
+      // Si no hay fecha seleccionada, selecciona la fecha al hacer clic
+      setSelectedDate(formattedDate);
+    }
   };
+
+  // Para asegurar que si se escoge una fecha, se mantenga el formulario actual
+  useEffect(() => {
+    if (selectedDate) {
+      // Muestra el formulario para agregar el evento si ya hay una fecha seleccionada
+      setShowModal(true);
+    }
+  }, [selectedDate]);
 
   const days = generateCalendarDays();
 
@@ -225,9 +244,7 @@ const Schedule: React.FC = () => {
           })}
           <IonIcon icon={chevronForward} onClick={goToNextMonth} />
           <IonIcon icon={search} onClick={() => setShowSearchModal(true)} />
-          {selectedDate && (
-            <IonIcon icon={add} onClick={(e) => setShowModal(true)} />
-          )}
+          <IonIcon icon={add} onClick={(e) => setShowModal(true)} />
         </div>
         <div
           ref={calendarRef}
