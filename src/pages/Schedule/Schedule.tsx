@@ -16,6 +16,8 @@ import {
   IonList,
   IonListHeader,
   IonIcon,
+  IonSelect,
+  IonSelectOption,
 } from "@ionic/react";
 import "./Schedule.css";
 import {
@@ -158,28 +160,28 @@ const Schedule: React.FC = () => {
   const [eventTime, setEventTime] = useState("12:00"); // Estado para la hora del evento
 
   const addEvent = () => {
-    if (selectedDate) {
-      // Si ya hay una fecha seleccionada, agregar el evento
-      if (eventTitle.trim()) {
-        setEvents((prevEvents) => [
-          ...prevEvents,
-          {
-            date: selectedDate,
-            title: eventTitle,
-            type: eventType,
-            time: eventTime,
-          },
-        ]);
-        setEventTitle("");
-        setEventType("meeting");
-        setEventTime("12:00");
-        setShowModal(false);
-      }
-    } else {
-      // Si no hay fecha seleccionada, mostrar un modal para que el usuario elija una
-      setShowModal(true);
+    // Si no hay fecha seleccionada, usa la fecha ingresada en el input
+    const eventDate = selectedDate || eventInputDate;
+
+    if (eventDate && eventTitle.trim()) {
+      setEvents((prevEvents) => [
+        ...prevEvents,
+        {
+          date: eventDate,
+          title: eventTitle,
+          type: eventType,
+          time: eventTime,
+        },
+      ]);
+      setEventTitle("");
+      setEventType("meeting");
+      setEventTime("12:00"); // Reinicia la hora predeterminada
+      setEventInputDate(""); // Reinicia el campo de fecha ingresada
+      setShowModal(false);
     }
   };
+
+  const [eventInputDate, setEventInputDate] = useState<string>("");
 
   const getEventsForDate = (date: string) =>
     events.filter((event) => event.date === date);
@@ -191,23 +193,16 @@ const Schedule: React.FC = () => {
 
   const handleDayClick = (date: Date) => {
     const formattedDate = formatDate(date);
-    // Si ya hay una fecha seleccionada, permite agregar el evento a esa fecha
-    if (selectedDate) {
-      setSelectedDate(formattedDate);
-      setSelectedEvents(getEventsForDate(formattedDate));
+    setSelectedDate(formattedDate); // Selecciona la fecha
+    const eventsForDate = getEventsForDate(formattedDate); // Obtén los eventos para la fecha seleccionada
+
+    // Si hay eventos, muestra la lista de eventos
+    if (eventsForDate.length > 0) {
+      setSelectedEvents(eventsForDate);
     } else {
-      // Si no hay fecha seleccionada, selecciona la fecha al hacer clic
-      setSelectedDate(formattedDate);
+      setSelectedEvents([]); // Si no hay eventos, limpia la lista
     }
   };
-
-  // Para asegurar que si se escoge una fecha, se mantenga el formulario actual
-  useEffect(() => {
-    if (selectedDate) {
-      // Muestra el formulario para agregar el evento si ya hay una fecha seleccionada
-      setShowModal(true);
-    }
-  }, [selectedDate]);
 
   const days = generateCalendarDays();
 
@@ -324,6 +319,20 @@ const Schedule: React.FC = () => {
         <IonModal isOpen={showModal} onDidDismiss={() => setShowModal(false)}>
           <IonContent className="ion-padding">
             <h2>Agregar Evento</h2>
+
+            {/* Condición para mostrar el input de fecha solo cuando no hay fecha seleccionada */}
+            {!selectedDate && (
+              <IonItem className="custom-item">
+                <IonLabel position="floating">Fecha del Evento</IonLabel>
+                <IonInput
+                  type="date"
+                  value={eventInputDate}
+                  onIonInput={(e) => setEventInputDate(e.detail.value!)}
+                  className="custom-input"
+                />
+              </IonItem>
+            )}
+
             <IonItem className="custom-item">
               <IonLabel position="floating">Título del Evento</IonLabel>
               <IonInput
@@ -333,15 +342,21 @@ const Schedule: React.FC = () => {
                 className="custom-input"
               />
             </IonItem>
+
             <IonItem className="custom-item">
               <IonLabel position="floating">Tipo de Evento</IonLabel>
-              <IonInput
+              <IonSelect
                 value={eventType}
-                onIonInput={(e) => setEventType(e.detail.value!)}
-                placeholder="Ingrese el tipo de evento"
-                className="custom-input"
-              />
+                onIonChange={(e) => setEventType(e.detail.value!)}
+                className="custom-select"
+              >
+                <IonSelectOption value="meeting">Reunión</IonSelectOption>
+                <IonSelectOption value="lunch">Almuerzo</IonSelectOption>
+                <IonSelectOption value="deadline">Plazo</IonSelectOption>
+                <IonSelectOption value="holiday">Vacaciones</IonSelectOption>
+              </IonSelect>
             </IonItem>
+
             <IonItem className="custom-item">
               <IonLabel position="floating">Hora del Evento</IonLabel>
               <IonInput
@@ -352,6 +367,7 @@ const Schedule: React.FC = () => {
                 placeholder="Select Time"
               ></IonInput>
             </IonItem>
+
             <div className="container-button">
               <IonButton
                 expand="block"
