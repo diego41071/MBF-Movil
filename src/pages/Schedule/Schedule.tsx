@@ -28,8 +28,15 @@ import {
   timeOutline,
 } from "ionicons/icons";
 import { createGesture } from "@ionic/core";
+import {
+  createEvent,
+  deleteEvent,
+  getEvents,
+  updateEvent,
+} from "../../services/scheduleService";
 
 interface Event {
+  id: string; // Identificador único del evento
   date: string; // Fecha en formato "YYYY-MM-DD"
   title: string;
   type: string; // Tipo de evento (meeting, holiday, etc.)
@@ -38,32 +45,8 @@ interface Event {
 
 const Schedule: React.FC = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
-  const [events, setEvents] = useState<Event[]>([
-    {
-      date: "2024-12-05",
-      title: "Team Meeting",
-      type: "meeting",
-      time: "12:00",
-    },
-    {
-      date: "2024-12-05",
-      title: "Lunch with Client",
-      type: "lunch",
-      time: "13:00",
-    },
-    {
-      date: "2024-12-12",
-      title: "Project Deadline",
-      type: "deadline",
-      time: "14:00",
-    },
-    {
-      date: "2024-12-25",
-      title: "Christmas Day",
-      type: "holiday",
-      time: "15:00",
-    },
-  ]);
+  const [events, setEvents] = useState<Event[]>([]);
+
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [selectedEvents, setSelectedEvents] = useState<Event[]>([]);
   const [showModal, setShowModal] = useState(false);
@@ -131,6 +114,19 @@ const Schedule: React.FC = () => {
     return days;
   };
 
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const fetchedEvents = await getEvents();
+        setEvents(fetchedEvents); // Asume que los datos tienen el formato adecuado
+      } catch (error) {
+        console.error("Error al obtener los eventos:", error);
+      }
+    };
+
+    fetchEvents();
+  }, []);
+
   const goToPreviousMonth = () => {
     setCurrentDate(
       new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1)
@@ -159,25 +155,18 @@ const Schedule: React.FC = () => {
 
   const [eventTime, setEventTime] = useState("12:00"); // Estado para la hora del evento
 
-  const addEvent = () => {
-    // Si no hay fecha seleccionada, usa la fecha ingresada en el input
-    const eventDate = selectedDate || eventInputDate;
-
-    if (eventDate && eventTitle.trim()) {
-      setEvents((prevEvents) => [
-        ...prevEvents,
-        {
-          date: eventDate,
-          title: eventTitle,
-          type: eventType,
-          time: eventTime,
-        },
-      ]);
-      setEventTitle("");
-      setEventType("meeting");
-      setEventTime("12:00"); // Reinicia la hora predeterminada
-      setEventInputDate(""); // Reinicia el campo de fecha ingresada
-      setShowModal(false);
+  const addEvent = async () => {
+    try {
+      const newEvent = await createEvent({
+        date: selectedDate || eventInputDate,
+        title: eventTitle,
+        type: eventType,
+        time: eventTime,
+      });
+      setEvents((prevEvents) => [...prevEvents, newEvent]); // Actualiza el estado con el nuevo evento
+      setShowModal(false); // Cierra el modal
+    } catch (error) {
+      console.error("Error al crear el evento:", error);
     }
   };
 
@@ -222,6 +211,60 @@ const Schedule: React.FC = () => {
 
     return () => gesture.destroy(); // Limpia el gesto al desmontar
   }, [currentDate]);
+
+  const [editingEvent, setEditingEvent] = useState<Event | null>(null);
+
+  // Al abrir el modal para edición
+  const openEditModal = (event: Event) => {
+    setEditingEvent(event);
+    setEventTitle(event.title);
+    setEventType(event.type);
+    setEventTime(event.time);
+    setEventInputDate(event.date);
+    setShowModal(true);
+  };
+
+  const resetModalState = () => {
+    setEventTitle("");
+    setEventType("meeting");
+    setEventTime("12:00");
+    setEventInputDate("");
+    setEditingEvent(null);
+  };
+
+  // Guardar cambios del evento
+  const saveEventChanges = async () => {
+    if (editingEvent) {
+      try {
+        const updatedEvent = await updateEvent(editingEvent.id, {
+          title: eventTitle,
+          type: eventType,
+          time: eventTime,
+          date: eventInputDate || editingEvent.date,
+        });
+        setEvents((prevEvents) =>
+          prevEvents.map((evt) =>
+            evt.id === editingEvent.id ? updatedEvent : evt
+          )
+        );
+        setShowModal(false);
+        resetModalState();
+      } catch (error) {
+        console.error("Error al actualizar el evento:", error);
+      }
+    }
+  };
+
+  const removeEvent = async (eventId: string) => {
+    try {
+      await deleteEvent(eventId);
+      setEvents((prevEvents) =>
+        prevEvents.filter((event) => event.id !== eventId)
+      ); // Elimina el evento del estado
+    } catch (error) {
+      console.error("Error al eliminar el evento:", error);
+    }
+  };
 
   return (
     <IonPage>
