@@ -256,7 +256,11 @@ const Schedule: React.FC = () => {
             evt._id === editingEvent._id ? updatedEvent : evt
           )
         );
-
+        setSelectedEvents((prevEvents) =>
+          prevEvents.map((event) =>
+            event._id === updatedEvent._id ? updatedEvent : event
+          )
+        );
         // Cierra el modal y resetea el estado
         setShowModal(false);
         resetModalState();
@@ -276,6 +280,10 @@ const Schedule: React.FC = () => {
 
         // Actualiza el estado para reflejar que el evento ha sido eliminado
         setEvents((prevEvents) =>
+          prevEvents.filter((event) => event._id !== eventId)
+        );
+        // Actualiza el estado de la lista de eventos seleccionados
+        setSelectedEvents((prevEvents) =>
           prevEvents.filter((event) => event._id !== eventId)
         );
       } catch (error) {
