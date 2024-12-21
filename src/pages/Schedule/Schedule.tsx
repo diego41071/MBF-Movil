@@ -36,7 +36,7 @@ import {
 } from "../../services/scheduleService";
 
 interface Event {
-  id: string; // Identificador único del evento
+  _id: string; // Identificador único del evento
   date: string; // Fecha en formato "YYYY-MM-DD"
   title: string;
   type: string; // Tipo de evento (meeting, holiday, etc.)
@@ -163,8 +163,14 @@ const Schedule: React.FC = () => {
         type: eventType,
         time: eventTime,
       });
-      setEvents((prevEvents) => [...prevEvents, newEvent]); // Actualiza el estado con el nuevo evento
-      setShowModal(false); // Cierra el modal
+
+      // Asegúrate de que el _id esté presente en el evento recién creado
+      if (newEvent && newEvent._id) {
+        setEvents((prevEvents) => [...prevEvents, newEvent]);
+        setShowModal(false); // Cierra el modal
+      } else {
+        console.error("Evento creado sin _id.");
+      }
     } catch (error) {
       console.error("Error al crear el evento:", error);
     }
@@ -234,35 +240,51 @@ const Schedule: React.FC = () => {
 
   // Guardar cambios del evento
   const saveEventChanges = async () => {
-    if (editingEvent) {
+    if (editingEvent && editingEvent._id) {
       try {
-        const updatedEvent = await updateEvent(editingEvent.id, {
+        // Llama a tu API para actualizar el evento
+        const updatedEvent = await updateEvent(editingEvent._id, {
           title: eventTitle,
           type: eventType,
           time: eventTime,
           date: eventInputDate || editingEvent.date,
         });
+
+        // Actualiza el estado para reflejar los cambios del evento
         setEvents((prevEvents) =>
           prevEvents.map((evt) =>
-            evt.id === editingEvent.id ? updatedEvent : evt
+            evt._id === editingEvent._id ? updatedEvent : evt
           )
         );
+
+        // Cierra el modal y resetea el estado
         setShowModal(false);
         resetModalState();
       } catch (error) {
         console.error("Error al actualizar el evento:", error);
       }
+    } else {
+      console.error("No se puede actualizar, el evento no tiene un _id.");
     }
   };
 
   const removeEvent = async (eventId: string) => {
-    try {
-      await deleteEvent(eventId);
-      setEvents((prevEvents) =>
-        prevEvents.filter((event) => event.id !== eventId)
-      ); // Elimina el evento del estado
-    } catch (error) {
-      console.error("Error al eliminar el evento:", error);
+    if (eventId) {
+      try {
+        // Llama a tu API para eliminar el evento
+        await deleteEvent(eventId);
+
+        // Actualiza el estado para reflejar que el evento ha sido eliminado
+        setEvents((prevEvents) =>
+          prevEvents.filter((event) => event._id !== eventId)
+        );
+      } catch (error) {
+        console.error("Error al eliminar el evento:", error);
+      }
+    } else {
+      console.error(
+        "No se puede eliminar, el _id del evento no está definido."
+      );
     }
   };
 
@@ -347,23 +369,43 @@ const Schedule: React.FC = () => {
               </IonLabel>
             </IonListHeader>
             {selectedEvents.map((event, index) => (
-              <IonItem key={index}>
+              <IonItem key={event._id}>
+                {/* Usa el _id para la clave única */}
                 <IonLabel>
                   <h3>{event.title}</h3>
                   <p>Tipo: {event.type}</p>
                   <p>Hora: {event.time}</p>
                 </IonLabel>
+                <IonButton
+                  slot="end"
+                  color="primary"
+                  onClick={() => openEditModal(event)}
+                >
+                  Editar
+                </IonButton>
+                <IonButton
+                  slot="end"
+                  color="danger"
+                  onClick={() => removeEvent(event._id)}
+                >
+                  Eliminar
+                </IonButton>
               </IonItem>
             ))}
           </IonList>
         )}
 
         {/* Modal para agregar eventos */}
-        <IonModal isOpen={showModal} onDidDismiss={() => setShowModal(false)}>
+        <IonModal
+          isOpen={showModal}
+          onDidDismiss={() => {
+            setShowModal(false);
+            resetModalState();
+          }}
+        >
           <IonContent className="ion-padding">
-            <h2>Agregar Evento</h2>
+            <h2>{editingEvent ? "Editar Evento" : "Agregar Evento"}</h2>
 
-            {/* Condición para mostrar el input de fecha solo cuando no hay fecha seleccionada */}
             {!selectedDate && (
               <IonItem className="custom-item">
                 <IonLabel position="floating">Fecha del Evento</IonLabel>
@@ -414,18 +456,21 @@ const Schedule: React.FC = () => {
             <div className="container-button">
               <IonButton
                 expand="block"
-                onClick={addEvent}
+                onClick={editingEvent ? saveEventChanges : addEvent}
                 className="custom-button margin-button"
                 color={"danger"}
               >
-                Guardar
+                {editingEvent ? "Guardar Cambios" : "Guardar"}
               </IonButton>
             </div>
             <div className="container-button">
               <IonButton
                 expand="block"
                 color="medium"
-                onClick={() => setShowModal(false)}
+                onClick={() => {
+                  setShowModal(false);
+                  resetModalState();
+                }}
                 className="custom-button"
               >
                 Cancelar
@@ -433,6 +478,7 @@ const Schedule: React.FC = () => {
             </div>
           </IonContent>
         </IonModal>
+
         <IonModal
           isOpen={showSearchModal}
           onDidDismiss={() => setShowSearchModal(false)}
