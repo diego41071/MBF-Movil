@@ -24,8 +24,12 @@ import {
   add,
   chevronBack,
   chevronForward,
+  create,
+  createOutline,
   search,
   timeOutline,
+  trash,
+  trashOutline,
 } from "ionicons/icons";
 import { createGesture } from "@ionic/core";
 import {
@@ -60,6 +64,8 @@ const Schedule: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<Event[]>([]);
   const [isSearched, setIsSearched] = useState(false);
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+  const [eventToDelete, setEventToDelete] = useState<Event | null>(null);
 
   const searchEvents = () => {
     const results = events.filter(
@@ -70,6 +76,24 @@ const Schedule: React.FC = () => {
     );
     setSearchResults(results);
     setIsSearched(true); // Marca que se ha realizado una búsqueda
+  };
+
+  const handleDeleteEvent = (event: Event) => {
+    setEventToDelete(event);
+    setShowDeleteConfirmation(true);
+  };
+
+  const confirmDeleteEvent = async () => {
+    if (eventToDelete) {
+      await removeEvent(eventToDelete._id); // Llamada a la función de eliminación
+      setShowDeleteConfirmation(false); // Cierra el modal
+      setEventToDelete(null); // Limpia el evento
+    }
+  };
+
+  const cancelDelete = () => {
+    setShowDeleteConfirmation(false);
+    setEventToDelete(null);
   };
 
   // Generar los días del calendario
@@ -384,24 +408,45 @@ const Schedule: React.FC = () => {
                   <p>Tipo: {event.type}</p>
                   <p>Hora: {event.time}</p>
                 </IonLabel>
-                <IonButton
-                  slot="end"
-                  color="primary"
+                <IonIcon
+                  icon={createOutline}
                   onClick={() => openEditModal(event)}
-                >
-                  Editar
-                </IonButton>
-                <IonButton
-                  slot="end"
-                  color="danger"
-                  onClick={() => removeEvent(event._id)}
-                >
-                  Eliminar
-                </IonButton>
+                />
+                <IonIcon
+                  icon={trashOutline}
+                  onClick={() => handleDeleteEvent(event)}
+                />
               </IonItem>
             ))}
           </IonList>
         )}
+
+        <IonModal isOpen={showDeleteConfirmation} onDidDismiss={cancelDelete}>
+          <IonContent className="ion-padding">
+            <h2>Confirmar Eliminación</h2>
+            <p>¿Estás seguro de que deseas eliminar este evento?</p>
+            <div className="container-button">
+              <IonButton
+                expand="block"
+                color="danger"
+                onClick={confirmDeleteEvent}
+                className="custom-button"
+              >
+                Eliminar
+              </IonButton>
+            </div>
+            <div className="container-button">
+              <IonButton
+                expand="block"
+                color="medium"
+                onClick={cancelDelete}
+                className="custom-button"
+              >
+                Cancelar
+              </IonButton>
+            </div>
+          </IonContent>
+        </IonModal>
 
         {/* Modal para agregar eventos */}
         <IonModal
