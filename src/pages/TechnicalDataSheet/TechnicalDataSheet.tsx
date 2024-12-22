@@ -73,7 +73,7 @@ const TechnicalService: React.FC = () => {
           <IonButtons slot="start">
             <IonMenuButton />
           </IonButtons>
-          <IonTitle>Inventario</IonTitle>
+          <IonTitle>Fichas Técnicas</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">

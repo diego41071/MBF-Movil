@@ -11,6 +11,7 @@ import {
   IonImg,
   IonButtons,
   IonMenuButton,
+  useIonToast,
 } from "@ionic/react";
 import { useState } from "react";
 import { submitTechnicalServiceRequest } from "../../services/equipmentService"; // Importamos el servicio
@@ -39,6 +40,8 @@ const TechnicalService: React.FC = () => {
     }
   };
 
+  const [presentToast] = useIonToast();
+
   const handleSubmit = async () => {
     const requestData = {
       name,
@@ -51,9 +54,11 @@ const TechnicalService: React.FC = () => {
 
     try {
       const response = await submitTechnicalServiceRequest(requestData); // Llamamos al servicio
-      alert("Request sent successfully!");
-      console.log("Response from server:", response);
-
+      presentToast({
+        message: "Solicitud enviada exitosamente.",
+        duration: 2000,
+        color: "success",
+      });
       // Resetear campos del formulario
       setName("");
       setBrand("");
@@ -63,7 +68,11 @@ const TechnicalService: React.FC = () => {
       setPhoto(null);
       setSelectedFileName(null);
     } catch (error) {
-      alert("An error occurred while sending the request. Please try again.");
+      presentToast({
+        message: "Error al enviar la solicitud.",
+        duration: 2000,
+        color: "danger",
+      });
     }
   };
 
