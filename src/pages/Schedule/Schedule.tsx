@@ -18,6 +18,8 @@ import {
   IonIcon,
   IonSelect,
   IonSelectOption,
+  IonButtons,
+  IonMenuButton,
 } from "@ionic/react";
 import "./Schedule.css";
 import {
@@ -324,6 +326,9 @@ const Schedule: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
+          <IonButtons slot="start">
+            <IonMenuButton />
+          </IonButtons>
           <IonTitle>Cronograma</IonTitle>
         </IonToolbar>
       </IonHeader>

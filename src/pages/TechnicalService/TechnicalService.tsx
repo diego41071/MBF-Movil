@@ -74,24 +74,24 @@ const TechnicalService: React.FC = () => {
           <IonButtons slot="start">
             <IonMenuButton />
           </IonButtons>
-          <IonTitle>Technical Support</IonTitle>
+          <IonTitle>Servicio Técnico</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">
         {[
           {
-            label: "Equipment Name",
+            label: "Nombre del equipo",
             value: name,
             setter: setName,
           },
-          { label: "Brand", value: brand, setter: setBrand },
-          { label: "Model", value: model, setter: setModel },
+          { label: "Marca", value: brand, setter: setBrand },
+          { label: "Modelo", value: model, setter: setModel },
           {
-            label: "Serial Number",
+            label: "Serial",
             value: serial,
             setter: setSerial,
           },
-          { label: "Issue Description", value: issue, setter: setIssue },
+          { label: "Falla", value: issue, setter: setIssue },
         ].map((field, index) => (
           <IonItem key={index} className="custom-item">
             <IonLabel position="floating">{field.label}</IonLabel>
@@ -103,14 +103,10 @@ const TechnicalService: React.FC = () => {
             />
           </IonItem>
         ))}
-
         <IonItem className="custom-item">
+          <IonLabel position="floating"> Agregar foto</IonLabel>
           <div className="file-input-container">
             <input type="file" accept="image/*" onChange={handlePhotoChange} />
-            Attach Photo
-            <span className="file-name">
-              {selectedFileName || "No file selected"}
-            </span>
           </div>
         </IonItem>
 
@@ -122,7 +118,7 @@ const TechnicalService: React.FC = () => {
             className="custom-button"
             color={"danger"}
           >
-            Submit Request
+            Enviar
           </IonButton>
         </div>
       </IonContent>
