@@ -22,7 +22,8 @@ http://ionicframework.com/docs/theming/ */
     --ion-color-tertiary-shade: #542ae0;
     --ion-color-tertiary-tint: #7045ff;
 
-    --ion-color-success: #2dd55b;
+    --ion-color-success: #22baab;
+    /* Cambiar el color de "success" */
     --ion-color-success-rgb: 45, 213, 91;
     --ion-color-success-contrast: #000000;
     --ion-color-success-contrast-rgb: 0, 0, 0;

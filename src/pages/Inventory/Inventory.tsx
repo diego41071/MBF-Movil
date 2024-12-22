@@ -227,7 +227,11 @@ const Inventory: React.FC = () => {
                 className="custom-select"
               >
                 {select.options.map((option) => (
-                  <IonSelectOption key={option.value} value={option.value}>
+                  <IonSelectOption
+                    key={option.value}
+                    value={option.value}
+                    className="custom-option"
+                  >
                     {option.label}
                   </IonSelectOption>
                 ))}
