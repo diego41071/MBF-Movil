@@ -104,7 +104,7 @@ const App: React.FC = () => {
               <TechnicalDataSheet />
             </Route>
             <Route path="/technicalservice" exact={true}>
-              <TechnicalService />
+              <TechnicalService role={role} />
             </Route>
             <Route path="/report" exact={true}>
               <Report />
@@ -127,7 +127,12 @@ const App: React.FC = () => {
             <Route path="/servicehistory" exact={true}>
               <ServiceHistory />
             </Route>
-            <Route path="/inventory" exact={true} component={Inventory} />
+            <Route
+              path="/inventory"
+              exact={true}
+              component={Inventory}
+              role={role}
+            />
             <Route path="/preagends" exact={true} component={Preagends} />
             {/* <Route path="/:name" exact={true}>
               <Page />

@@ -17,8 +17,11 @@ import {
 import { useState } from "react";
 import "./Inventory.css";
 import { saveEquipment } from "../../services/inventoryService"; // Servicio de API
+interface InventoryProps {
+  role: string; // Define las propiedades que necesitas
+}
 
-const Inventory: React.FC = () => {
+const Inventory: React.FC<InventoryProps> = (props) => {
   interface FormData {
     [key: string]: string;
     name: string;
@@ -192,29 +195,37 @@ const Inventory: React.FC = () => {
       </IonHeader>
       <IonContent className="ion-padding">
         <form>
-          {fields.map((field) => (
-            <IonItem key={field.key} className="custom-item">
-              <IonLabel position="floating">{field.label}</IonLabel>
-              {field.type === "date" ? (
-                <input
-                  type="date"
-                  value={formData[field.key]}
-                  onChange={(e) => handleInputChange(field.key, e.target.value)}
-                  className="custom-date"
-                  placeholder={field.placeholder}
-                />
-              ) : (
-                <IonInput
-                  value={formData[field.key]}
-                  onIonChange={(e) =>
-                    handleInputChange(field.key, e.detail.value!)
-                  }
-                  className="custom-input"
-                  placeholder={field.placeholder}
-                />
-              )}
-            </IonItem>
-          ))}
+          {fields &&
+            fields.map(
+              (field) =>
+                field && (
+                  <IonItem key={field.key} className="custom-item">
+                    <IonLabel position="floating">{field.label}</IonLabel>
+                    {field.type === "date" ? (
+                      <input
+                        type="date"
+                        value={formData[field.key]}
+                        onChange={(e) =>
+                          handleInputChange(field.key, e.target.value)
+                        }
+                        className="custom-date"
+                        placeholder={field.placeholder}
+                      />
+                    ) : (
+                      field && (
+                        <IonInput
+                          value={formData[field.key]}
+                          onIonChange={(e) =>
+                            handleInputChange(field.key, e.detail.value!)
+                          }
+                          className="custom-input"
+                          placeholder={field.placeholder}
+                        />
+                      )
+                    )}
+                  </IonItem>
+                )
+            )}
 
           {selects.map((select) => (
             <IonItem key={select.key} className="custom-item">
