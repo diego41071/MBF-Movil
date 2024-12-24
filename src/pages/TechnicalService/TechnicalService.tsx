@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState } from "react";
 import {
   IonButton,
   IonContent,
@@ -16,7 +16,6 @@ import {
 } from "@ionic/react";
 import { submitTechnicalServiceRequest } from "../../services/equipmentService";
 import "./TechnicalService.css";
-import pako from "pako";
 
 interface TechnicalServiceProps {
   role: string;
@@ -39,29 +38,24 @@ const TechnicalService: React.FC<TechnicalServiceProps> = (props) => {
   const [model, setModel] = useState("");
   const [serial, setSerial] = useState("");
   const [issue, setIssue] = useState("");
-  const [photo, setPhoto] = useState<string | null>(null);
+  const [photo, setPhoto] = useState<File | null>(null);
   const [assignedTechnician, setAssignedTechnician] = useState<string>("");
-
-  const [invoice, setInvoice] = useState<string | null>(null); // Usamos useState en lugar de useRef
+  const [invoice, setInvoice] = useState<File | null>(null);
+  const [photoPreview, setPhotoPreview] = useState<string | null>(null); // Para la vista previa
 
   const [presentToast] = useIonToast();
 
-  const handlePhotoChange = async (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handlePhotoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        setPhoto(reader.result as string);
-      };
-      reader.readAsDataURL(file);
+      setPhoto(file);
+      // Crear la URL temporal para la vista previa
+      const previewUrl = URL.createObjectURL(file);
+      setPhotoPreview(previewUrl);
     }
   };
 
-  const handleInvoiceChange = async (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleInvoiceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
       if (file.size > 5 * 1024 * 1024) {
@@ -69,58 +63,39 @@ const TechnicalService: React.FC<TechnicalServiceProps> = (props) => {
         alert("El archivo es demasiado grande. El límite es de 5 MB.");
         return;
       }
-
-      const reader = new FileReader();
-      reader.onload = () => {
-        const base64String = reader.result as string;
-
-        // Comprimir con GZIP
-        const compressedData = pako.gzip(base64String);
-
-        // Convertir a Base64 nuevamente para envío
-        const compressedBase64 = btoa(
-          String.fromCharCode.apply(
-            null,
-            Array.from(new Uint8Array(compressedData))
-          )
-        );
-
-        console.log("Archivo comprimido en Base64:", compressedBase64);
-
-        // Aquí puedes almacenar el archivo comprimido para enviarlo al backend
-        setInvoice(compressedBase64);
-      };
-
-      reader.readAsDataURL(file);
+      setInvoice(file);
     }
   };
 
   const handleSubmit = async () => {
-    console.log("Datos antes de enviar:", { invoice });
-
-    const requestData: TechnicalServiceRequest = {
-      name,
-      brand,
-      model,
-      serial,
-      issue,
-      photo,
-    };
-
-    if (props.role === "Administrador") {
-      requestData.invoice = invoice; // Usar la factura en Base64
-      requestData.assignedTechnician = assignedTechnician;
-    }
-
-    console.log("Datos a enviar: ", requestData);
-
     try {
-      await submitTechnicalServiceRequest(requestData);
+      // Crear el objeto FormData
+      const formData = new FormData();
+      formData.append("name", name);
+      formData.append("brand", brand);
+      formData.append("model", model);
+      formData.append("serial", serial);
+      formData.append("issue", issue);
+
+      if (photo) {
+        formData.append("photo", photo);
+      }
+      if (props.role === "Administrador" && invoice) {
+        formData.append("invoice", invoice);
+        formData.append("assignedTechnician", assignedTechnician);
+      }
+
+      console.log("Datos a enviar:", formData);
+
+      // Enviar la solicitud
+      await submitTechnicalServiceRequest(formData);
+
       presentToast({
         message: "Solicitud enviada exitosamente.",
         duration: 2000,
         color: "success",
       });
+
       // Resetear campos del formulario
       setName("");
       setBrand("");
@@ -128,8 +103,13 @@ const TechnicalService: React.FC<TechnicalServiceProps> = (props) => {
       setSerial("");
       setIssue("");
       setPhoto(null);
+      setPhotoPreview(null); // Limpiar vista previa
       setInvoice(null);
       setAssignedTechnician("");
+      // Revocar la URL de la vista previa
+      if (photoPreview) {
+        URL.revokeObjectURL(photoPreview);
+      }
     } catch (error) {
       presentToast({
         message: "Error al enviar la solicitud.",
@@ -189,15 +169,16 @@ const TechnicalService: React.FC<TechnicalServiceProps> = (props) => {
               </IonItem>
             )
         )}
-
         <IonItem className="custom-item">
           <IonLabel position="floating">Agregar foto</IonLabel>
           <div className="file-input-container">
             <input type="file" accept="image/*" onChange={handlePhotoChange} />
           </div>
         </IonItem>
-
-        {photo && <IonImg src={photo} alt="Attached Photo" />}
+        {/* Mostrar la vista previa de la foto */}
+        {photoPreview && (
+          <IonImg src={photoPreview} alt="Vista previa de la foto" />
+        )}
         <div className="container-button">
           <IonButton
             expand="block"

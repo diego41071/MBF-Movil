@@ -22,7 +22,11 @@ export const submitTechnicalServiceRequest = async (data: {
   photo?: string | null;
 }) => {
   try {
-    const response = await axios.post(`${API_URL}`, data);
+    const response = await axios.post(`${API_URL}`, data, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
     return response.data; // Devuelve la respuesta del backend
   } catch (error) {
     console.error("Error while sending the request:", error);
