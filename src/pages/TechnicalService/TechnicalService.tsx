@@ -38,20 +38,22 @@ const TechnicalService: React.FC<TechnicalServiceProps> = (props) => {
   const [model, setModel] = useState("");
   const [serial, setSerial] = useState("");
   const [issue, setIssue] = useState("");
-  const [photo, setPhoto] = useState<File | null>(null);
+  const [photos, setPhotos] = useState<File[]>([]); // Para manejar múltiples fotos
+  const [photoPreviews, setPhotoPreviews] = useState<string[]>([]); // Para las vistas previas
   const [assignedTechnician, setAssignedTechnician] = useState<string>("");
   const [invoice, setInvoice] = useState<File | null>(null);
-  const [photoPreview, setPhotoPreview] = useState<string | null>(null); // Para la vista previa
 
   const [presentToast] = useIonToast();
 
   const handlePhotoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      setPhoto(file);
-      // Crear la URL temporal para la vista previa
-      const previewUrl = URL.createObjectURL(file);
-      setPhotoPreview(previewUrl);
+    const files = event.target.files;
+    if (files) {
+      const fileArray = Array.from(files);
+      setPhotos((prevPhotos) => [...prevPhotos, ...fileArray]);
+
+      // Crear vistas previas de las fotos seleccionadas
+      const previewUrls = fileArray.map((file) => URL.createObjectURL(file));
+      setPhotoPreviews((prevPreviews) => [...prevPreviews, ...previewUrls]);
     }
   };
 
@@ -69,7 +71,6 @@ const TechnicalService: React.FC<TechnicalServiceProps> = (props) => {
 
   const handleSubmit = async () => {
     try {
-      // Crear el objeto FormData
       const formData = new FormData();
       formData.append("name", name);
       formData.append("brand", brand);
@@ -77,9 +78,11 @@ const TechnicalService: React.FC<TechnicalServiceProps> = (props) => {
       formData.append("serial", serial);
       formData.append("issue", issue);
 
-      if (photo) {
-        formData.append("photo", photo);
-      }
+      // Adjuntar todas las fotos
+      photos.forEach((photo, index) => {
+        formData.append(`photo_${index}`, photo);
+      });
+
       if (props.role === "Administrador" && invoice) {
         formData.append("invoice", invoice);
         formData.append("assignedTechnician", assignedTechnician);
@@ -102,14 +105,13 @@ const TechnicalService: React.FC<TechnicalServiceProps> = (props) => {
       setModel("");
       setSerial("");
       setIssue("");
-      setPhoto(null);
-      setPhotoPreview(null); // Limpiar vista previa
+      setPhotos([]);
+      setPhotoPreviews([]); // Limpiar las vistas previas
       setInvoice(null);
       setAssignedTechnician("");
-      // Revocar la URL de la vista previa
-      if (photoPreview) {
-        URL.revokeObjectURL(photoPreview);
-      }
+
+      // Revocar las URLs de las vistas previas
+      photoPreviews.forEach((preview) => URL.revokeObjectURL(preview));
     } catch (error) {
       presentToast({
         message: "Error al enviar la solicitud.",
@@ -138,7 +140,6 @@ const TechnicalService: React.FC<TechnicalServiceProps> = (props) => {
           { label: "Falla", value: issue, setter: setIssue },
           props.role === "Administrador" && {
             label: "Factura",
-            value: null, // No necesitamos almacenar el valor directamente aquí
             setter: handleInvoiceChange,
           },
           props.role === "Administrador" && {
@@ -169,16 +170,30 @@ const TechnicalService: React.FC<TechnicalServiceProps> = (props) => {
               </IonItem>
             )
         )}
+
         <IonItem className="custom-item">
-          <IonLabel position="floating">Agregar foto</IonLabel>
+          <IonLabel position="floating">Agregar fotos</IonLabel>
           <div className="file-input-container">
-            <input type="file" accept="image/*" onChange={handlePhotoChange} />
+            <input
+              type="file"
+              accept="image/*"
+              multiple
+              onChange={handlePhotoChange}
+            />
           </div>
         </IonItem>
-        {/* Mostrar la vista previa de la foto */}
-        {photoPreview && (
-          <IonImg src={photoPreview} alt="Vista previa de la foto" />
-        )}
+
+        {/* Mostrar las vistas previas de las fotos seleccionadas */}
+        <div className="photo-previews">
+          {photoPreviews.map((preview, index) => (
+            <IonImg
+              key={index}
+              src={preview}
+              alt={`Vista previa de la foto ${index + 1}`}
+            />
+          ))}
+        </div>
+
         <div className="container-button">
           <IonButton
             expand="block"
