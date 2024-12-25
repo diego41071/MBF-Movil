@@ -13,18 +13,11 @@ export const getEquipment = async () => {
 };
 
 // Función para enviar los datos del formulario
-export const submitTechnicalServiceRequest = async (data: {
-  name: string;
-  brand: string;
-  model: string;
-  serial: string;
-  issue: string;
-  photo?: string | null;
-}) => {
+export const submitTechnicalServiceRequest = async (formData: FormData) => {
   try {
-    const response = await axios.post(`${API_URL}`, data, {
+    const response = await axios.post(`${API_URL}`, formData, {
       headers: {
-        "Content-Type": "multipart/form-data",
+        "Content-Type": "multipart/form-data", // Indica que se están enviando archivos
       },
     });
     return response.data; // Devuelve la respuesta del backend

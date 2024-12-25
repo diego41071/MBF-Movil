@@ -71,6 +71,16 @@ const TechnicalService: React.FC<TechnicalServiceProps> = (props) => {
 
   const handleSubmit = async () => {
     try {
+      // Verificar los datos antes de enviarlos
+      console.log("Datos a enviar:");
+      console.log("Name:", name);
+      console.log("Brand:", brand);
+      console.log("Model:", model);
+      console.log("Serial:", serial);
+      console.log("Issue:", issue);
+      console.log("Photos:", photos);
+
+      // Crear un FormData para enviar los datos
       const formData = new FormData();
       formData.append("name", name);
       formData.append("brand", brand);
@@ -78,41 +88,48 @@ const TechnicalService: React.FC<TechnicalServiceProps> = (props) => {
       formData.append("serial", serial);
       formData.append("issue", issue);
 
-      // Adjuntar todas las fotos
+      // Agregar las fotos al FormData
       photos.forEach((photo, index) => {
-        formData.append(`photo_${index}`, photo);
+        formData.append(`photo_${index}`, photo); // Asegurarse de usar un nombre único para cada foto
       });
 
+      // Agregar la factura y técnico si es administrador
       if (props.role === "Administrador" && invoice) {
         formData.append("invoice", invoice);
         formData.append("assignedTechnician", assignedTechnician);
       }
 
-      console.log("Datos a enviar:", formData);
+      // Verifica que todo el FormData esté bien antes de enviar
+      console.log("FormData que se enviará:");
+      formData.forEach((value, key) => {
+        console.log(key, value);
+      });
 
       // Enviar la solicitud
       await submitTechnicalServiceRequest(formData);
 
+      // Mostrar un mensaje de éxito
       presentToast({
         message: "Solicitud enviada exitosamente.",
         duration: 2000,
         color: "success",
       });
 
-      // Resetear campos del formulario
+      // Resetear los campos
       setName("");
       setBrand("");
       setModel("");
       setSerial("");
       setIssue("");
       setPhotos([]);
-      setPhotoPreviews([]); // Limpiar las vistas previas
+      setPhotoPreviews([]);
       setInvoice(null);
       setAssignedTechnician("");
 
-      // Revocar las URLs de las vistas previas
+      // Limpiar las URLs de las vistas previas
       photoPreviews.forEach((preview) => URL.revokeObjectURL(preview));
     } catch (error) {
+      // Mostrar un mensaje de error
       presentToast({
         message: "Error al enviar la solicitud.",
         duration: 2000,
