@@ -115,8 +115,16 @@ export default function ExploreContainer(props: { role: string }) {
               route: "/technicaldatasheet",
             },
             { name: "Inventario", icon: receiptOutline, route: "/inventory" },
-
-            { name: "Informe", icon: clipboardOutline, route: "/report" },
+            {
+              name: "Solicitar servicio técnico",
+              icon: buildOutline,
+              route: "/technicalservice",
+            },
+            {
+              name: "Servicios técnicos solicitados",
+              icon: clipboardOutline,
+              route: "/report",
+            },
             { name: "Escaneo de QR", icon: qrCodeOutline, route: "/qrscan" },
             {
               name: "Báscula por bluetooth",

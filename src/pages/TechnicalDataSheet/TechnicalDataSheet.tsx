@@ -34,7 +34,7 @@ const fields = [
   { label: "Material", key: "material", type: "input" },
 ];
 
-const TechnicalService: React.FC = () => {
+const TechnicalDataSheet: React.FC = () => {
   const [searchText, setSearchText] = useState("");
   const [data, setData] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -125,4 +125,4 @@ const TechnicalService: React.FC = () => {
   );
 };
 
-export default TechnicalService;
+export default TechnicalDataSheet;

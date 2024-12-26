@@ -17,6 +17,10 @@
     transition: background-color 0.3s ease;
 }
 
+.custom-input textarea {
+    padding: 15px !important;
+}
+
 .custom-file-button:hover {
     background-color: var(--ion-color-primary-shade);
 }

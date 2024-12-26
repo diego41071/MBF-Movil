@@ -13,23 +13,13 @@ import {
   IonMenuButton,
   IonImg,
   useIonToast,
+  IonTextarea,
 } from "@ionic/react";
 import { submitTechnicalServiceRequest } from "../../services/equipmentService";
 import "./TechnicalService.css";
 
 interface TechnicalServiceProps {
   role: string;
-}
-
-interface TechnicalServiceRequest {
-  name: string;
-  brand: string;
-  model: string;
-  serial: string;
-  issue: string;
-  photo: string | null;
-  invoice?: string | null;
-  assignedTechnician?: string;
 }
 
 const TechnicalService: React.FC<TechnicalServiceProps> = (props) => {
@@ -42,6 +32,8 @@ const TechnicalService: React.FC<TechnicalServiceProps> = (props) => {
   const [photoPreviews, setPhotoPreviews] = useState<string[]>([]); // Para las vistas previas
   const [assignedTechnician, setAssignedTechnician] = useState<string>("");
   const [invoice, setInvoice] = useState<File | null>(null);
+  const [diagnosis, setDiagnosis] = useState("");
+  const [technicalDataSheet, setTechnicalDataSheet] = useState("");
 
   const [presentToast] = useIonToast();
 
@@ -71,15 +63,6 @@ const TechnicalService: React.FC<TechnicalServiceProps> = (props) => {
 
   const handleSubmit = async () => {
     try {
-      // Verificar los datos antes de enviarlos
-      console.log("Datos a enviar:");
-      console.log("Name:", name);
-      console.log("Brand:", brand);
-      console.log("Model:", model);
-      console.log("Serial:", serial);
-      console.log("Issue:", issue);
-      console.log("Photos:", photos);
-
       // Crear un FormData para enviar los datos
       const formData = new FormData();
       formData.append("name", name);
@@ -97,6 +80,11 @@ const TechnicalService: React.FC<TechnicalServiceProps> = (props) => {
       if (props.role === "Administrador" && invoice) {
         formData.append("invoice", invoice);
         formData.append("assignedTechnician", assignedTechnician);
+      }
+
+      if (props.role === "Tecnico") {
+        formData.append("diagnosis", diagnosis);
+        formData.append("technicalDataSheet", technicalDataSheet);
       }
 
       // Verifica que todo el FormData esté bien antes de enviar
@@ -125,7 +113,8 @@ const TechnicalService: React.FC<TechnicalServiceProps> = (props) => {
       setPhotoPreviews([]);
       setInvoice(null);
       setAssignedTechnician("");
-
+      setDiagnosis("");
+      setTechnicalDataSheet("");
       // Limpiar las URLs de las vistas previas
       photoPreviews.forEach((preview) => URL.revokeObjectURL(preview));
     } catch (error) {
@@ -164,6 +153,16 @@ const TechnicalService: React.FC<TechnicalServiceProps> = (props) => {
             value: assignedTechnician,
             setter: setAssignedTechnician,
           },
+          props.role === "Tecnico" && {
+            label: "Diagnóstico ",
+            value: diagnosis,
+            setter: setDiagnosis,
+          },
+          props.role === "Tecnico" && {
+            label: "Ficha Técnica",
+            value: technicalDataSheet,
+            setter: setTechnicalDataSheet,
+          },
         ].map(
           (field, index) =>
             field && (
@@ -175,6 +174,13 @@ const TechnicalService: React.FC<TechnicalServiceProps> = (props) => {
                     accept="application/pdf"
                     onChange={field.setter} // Usamos el handler de invoice
                     className="custom-input"
+                  />
+                ) : index == 7 ? (
+                  <IonTextarea
+                    value={field.value as string}
+                    onIonChange={(e) => field.setter(e.detail.value!)}
+                    className="custom-input"
+                    placeholder={field.label}
                   />
                 ) : (
                   <IonInput
