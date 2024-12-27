@@ -53,6 +53,13 @@ const Report: React.FC = () => {
     fetchEquipment();
   }, []);
 
+  const generateBlobUrl = (base64: string, mimeType: string): string => {
+    const binary = atob(base64);
+    const array = Uint8Array.from(binary, (char) => char.charCodeAt(0));
+    const blob = new Blob([array], { type: mimeType });
+    return URL.createObjectURL(blob);
+  };
+
   // Filtrar los equipos según el texto de búsqueda
   const filteredEquipment = equipmentList.filter((equipment) =>
     Object.values(equipment)
@@ -127,7 +134,10 @@ const Report: React.FC = () => {
                       label: "Factura",
                       value: equipment.invoice ? (
                         <a
-                          href={equipment.invoice}
+                          href={generateBlobUrl(
+                            equipment.invoice,
+                            "application/pdf"
+                          )}
                           target="_blank"
                           rel="noopener noreferrer"
                         >
