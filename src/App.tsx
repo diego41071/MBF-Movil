@@ -124,9 +124,7 @@ const App: React.FC = () => {
             <Route path="/profiledata" exact={true}>
               <ProfileData />
             </Route>
-            <Route path="/servicehistory" exact={true}>
-              <ServiceHistory />
-            </Route>
+
             <Route
               path="/inventory"
               exact={true}

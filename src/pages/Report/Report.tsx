@@ -25,7 +25,11 @@ interface Equipment {
   model: string;
   serial: string;
   issue: string;
-  photo?: string;
+  photos?: string | string[]; // Puede ser un string o un array de URLs
+  technicalDataSheet?: string;
+  diagnosis?: string;
+  invoice?: string; // Factura
+  assignedTechnician?: string; // Técnico asignado
 }
 
 const Report: React.FC = () => {
@@ -82,13 +86,22 @@ const Report: React.FC = () => {
           <IonGrid>
             {/* Encabezados en pantallas grandes */}
             <IonRow className="ion-hide-sm-down">
-              {["Nombre", "Marca", "Modelo", "Serial", "Falla", "Foto"].map(
-                (header) => (
-                  <IonCol key={header} size="2">
-                    <strong>{header}</strong>
-                  </IonCol>
-                )
-              )}
+              {[
+                "Nombre",
+                "Marca",
+                "Modelo",
+                "Serial",
+                "Falla",
+                "Foto",
+                "Ficha Técnica",
+                "Diagnóstico",
+                "Factura",
+                "Técnico Asignado",
+              ].map((header) => (
+                <IonCol key={header} size="2">
+                  <strong>{header}</strong>
+                </IonCol>
+              ))}
             </IonRow>
 
             {/* Filas dinámicas */}
@@ -101,23 +114,65 @@ const Report: React.FC = () => {
                     { label: "Modelo", value: equipment.model },
                     { label: "Serial", value: equipment.serial },
                     { label: "Falla", value: equipment.issue },
-                    { label: "Foto", value: equipment.photo },
+                    { label: "Foto", value: equipment.photos },
+                    {
+                      label: "Ficha Técnica",
+                      value: equipment.technicalDataSheet || "No disponible",
+                    },
+                    {
+                      label: "Diagnóstico",
+                      value: equipment.diagnosis || "No disponible",
+                    },
+                    {
+                      label: "Factura",
+                      value: equipment.invoice ? (
+                        <a
+                          href={equipment.invoice}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          Ver factura
+                        </a>
+                      ) : (
+                        "No disponible"
+                      ),
+                    },
+                    {
+                      label: "Técnico Asignado",
+                      value: equipment.assignedTechnician || "No asignado",
+                    },
                   ].map((field, index) => (
                     <IonCol key={index} size="12" size-sm="2">
                       {field.label === "Foto" ? (
-                        field.value ? (
-                          <img
-                            src={field.value as string}
-                            alt={`Foto de ${equipment.name}`}
-                            style={{
-                              width: "50px",
-                              height: "50px",
-                              objectFit: "cover",
-                              borderRadius: "4px",
-                            }}
-                          />
+                        Array.isArray(field.value) && field.value.length > 0 ? (
+                          <>
+                            {field.label}:
+                            <div>
+                              {field.value &&
+                                field.value.map((photoUrl, index) => (
+                                  <>
+                                    <img
+                                      key={index}
+                                      src={`data:image/png;base64,${photoUrl}`}
+                                      alt={`Foto de ${equipment.name} ${
+                                        index + 1
+                                      }`}
+                                      style={{
+                                        width: "50px",
+                                        height: "50px",
+                                        objectFit: "cover",
+                                        borderRadius: "4px",
+                                        margin: "5px",
+                                      }}
+                                    />
+                                  </>
+                                ))}
+                            </div>
+                          </>
                         ) : (
-                          <IonLabel>No disponible</IonLabel>
+                          <>
+                            {field.label}: <IonLabel>No disponible</IonLabel>
+                          </>
                         )
                       ) : (
                         <>
