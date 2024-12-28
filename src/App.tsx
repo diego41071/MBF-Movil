@@ -55,6 +55,7 @@ import ProfileData from "./pages/ProfileData/ProfileData";
 import ServiceHistory from "./pages/ServiceHistory/ServiceHistory";
 import Inventory from "./pages/Inventory/Inventory";
 import Preagends from "./pages/Preagends/Preagends";
+import Language from "./pages/Language/Language";
 
 setupIonicReact();
 
@@ -124,6 +125,7 @@ const App: React.FC = () => {
             <Route path="/profiledata" exact={true}>
               <ProfileData />
             </Route>
+            <Route path="/lang" component={Language} exact={true} />
 
             <Route
               path="/inventory"

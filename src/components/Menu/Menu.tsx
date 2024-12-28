@@ -59,7 +59,7 @@ export default function Menu(props: {
     },
     {
       title: "Idioma",
-      url: "/",
+      url: "/lang",
       iosIcon: languageOutline,
       mdIcon: languageOutline,
       click: "",
