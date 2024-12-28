@@ -13,6 +13,7 @@ import {
 import { useLocation } from "react-router-dom";
 import {
   cardOutline,
+  homeOutline,
   languageOutline,
   logOutOutline,
   notificationsCircleOutline,
@@ -43,6 +44,13 @@ export default function Menu(props: {
   const location = useLocation();
 
   const appPages: AppPage[] = [
+    {
+      title: "Inicio",
+      url: "/page",
+      iosIcon: homeOutline,
+      mdIcon: homeOutline,
+      click: "",
+    },
     {
       title: "Datos de perifl",
       url: "/profiledata",
