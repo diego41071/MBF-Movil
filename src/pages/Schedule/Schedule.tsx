@@ -57,7 +57,7 @@ const Schedule: React.FC = () => {
   const [selectedEvents, setSelectedEvents] = useState<Event[]>([]);
   const [showModal, setShowModal] = useState(false);
   const [eventTitle, setEventTitle] = useState("");
-  const [eventType, setEventType] = useState("meeting"); // Tipo de evento
+  const [eventType, setEventType] = useState("Mantenimiento"); // Tipo de evento
   const calendarRef = useRef<HTMLDivElement>(null);
   const [animationDirection, setAnimationDirection] = useState<
     "left" | "right" | ""
@@ -493,10 +493,20 @@ const Schedule: React.FC = () => {
                 onIonChange={(e) => setEventType(e.detail.value!)}
                 className="custom-select"
               >
-                <IonSelectOption value="meeting">Reunión</IonSelectOption>
-                <IonSelectOption value="lunch">Almuerzo</IonSelectOption>
-                <IonSelectOption value="deadline">Plazo</IonSelectOption>
-                <IonSelectOption value="holiday">Vacaciones</IonSelectOption>
+                <IonSelectOption value="Diagnostico">
+                  Visita de diagnóstico técnico
+                </IonSelectOption>
+                <IonSelectOption value="Visita">
+                  Visita comercial
+                </IonSelectOption>
+                <IonSelectOption value="Mantenimiento">
+                  Mantenimiento preventivo
+                </IonSelectOption>
+                <IonSelectOption value="Reparacion">Reparación</IonSelectOption>
+                <IonSelectOption value="Calibracion">
+                  Calibración
+                </IonSelectOption>
+                <IonSelectOption value="Garantia">Garantía</IonSelectOption>
               </IonSelect>
             </IonItem>
 

@@ -79,20 +79,28 @@
     border-radius: 3px;
 }
 
-.event-bar.meeting {
+.event-bar.DIagnostico {
     background-color: blue;
 }
 
-.event-bar.lunch {
+.event-bar.Visita {
     background-color: green;
 }
 
-.event-bar.deadline {
+.event-bar.Mantenimiento {
     background-color: red;
 }
 
-.event-bar.holiday {
+.event-bar.Reparacion {
     background-color: orange;
+}
+
+.event-bar.Calibracion {
+    background-color: rgb(151, 170, 196);
+}
+
+.event-bar.Garantia {
+    background-color: rgb(233, 85, 189);
 }
 
 .selected-day {
