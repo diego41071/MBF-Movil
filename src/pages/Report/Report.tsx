@@ -14,6 +14,8 @@ import {
   IonButtons,
   IonMenuButton,
   IonItem,
+  IonButton,
+  IonModal,
 } from "@ionic/react";
 import { getEquipment } from "../../services/equipmentService";
 import "./Report.css";
@@ -37,6 +39,8 @@ const Report: React.FC = () => {
   const [equipmentList, setEquipmentList] = useState<Equipment[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchEquipment = async () => {
@@ -67,6 +71,11 @@ const Report: React.FC = () => {
       .toLowerCase()
       .includes(searchText.toLowerCase())
   );
+
+  const handleImageClick = (photoUrl: string) => {
+    setSelectedImage(photoUrl);
+    setIsModalOpen(true);
+  };
 
   return (
     <IonPage>
@@ -174,6 +183,7 @@ const Report: React.FC = () => {
                                         borderRadius: "4px",
                                         margin: "5px",
                                       }}
+                                      onClick={() => handleImageClick(photoUrl)}
                                     />
                                   </>
                                 ))}
@@ -208,6 +218,35 @@ const Report: React.FC = () => {
             )}
           </IonGrid>
         )}
+        <IonModal
+          isOpen={isModalOpen}
+          onDidDismiss={() => setIsModalOpen(false)}
+        >
+          <IonContent>
+            <div className="flex-modal">
+              <div>
+                <div className="flex">
+                  {selectedImage && (
+                    <img
+                      src={`data:image/png;base64,${selectedImage}`}
+                      alt="Imagen ampliada"
+                      className="img-modal"
+                    />
+                  )}
+                </div>
+                <div className="container-button">
+                  <IonButton
+                    onClick={() => setIsModalOpen(false)}
+                    className="custom-button margin-button"
+                    color={"danger"}
+                  >
+                    Cerrar
+                  </IonButton>
+                </div>
+              </div>
+            </div>
+          </IonContent>
+        </IonModal>
       </IonContent>
     </IonPage>
   );

@@ -6,6 +6,27 @@
   font-size: 0.9rem;
 }
 
+.flex-modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.8),
+}
+
+.flex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.img-modal {
+  max-width: 90%;
+  max-height: 80%;
+  object-fit: contain;
+  border-radius: 10px;
+}
+
 @media (max-width: 768px) {
   .ion-row {
     border-bottom: 1px solid #ddd;
