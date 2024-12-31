@@ -19,6 +19,8 @@ import {
 } from "@ionic/react";
 import { getEquipment } from "../../services/equipmentService";
 import "./Report.css";
+import { Filesystem, Directory } from "@capacitor/filesystem";
+import { FileOpener } from "@ionic-native/file-opener";
 
 interface Equipment {
   _id: string;
@@ -57,11 +59,37 @@ const Report: React.FC = () => {
     fetchEquipment();
   }, []);
 
-  const generateBlobUrl = (base64: string, mimeType: string): string => {
-    const binary = atob(base64);
-    const array = Uint8Array.from(binary, (char) => char.charCodeAt(0));
-    const blob = new Blob([array], { type: mimeType });
-    return URL.createObjectURL(blob);
+  const generateBlobUrl = async (
+    base64: string,
+    fileName: string
+  ): Promise<void> => {
+    try {
+      // Guardar el archivo en el dispositivo
+      const savedFile = await Filesystem.writeFile({
+        path: fileName,
+        data: base64,
+        directory: Directory.External,
+      });
+
+      console.log("Archivo guardado en:", savedFile.uri);
+      alert("Archivo guardado correctamente");
+
+      // Abrir el archivo guardado
+      await openFile(savedFile.uri);
+    } catch (error) {
+      console.error("Error al descargar o guardar el archivo:", error);
+      alert("No se pudo guardar el archivo");
+    }
+  };
+
+  const openFile = async (filePath: string) => {
+    try {
+      await FileOpener.open(filePath, "application/pdf");
+      console.log("Archivo abierto correctamente");
+    } catch (error) {
+      console.error("Error al abrir el archivo:", error);
+      alert("No se pudo abrir el archivo");
+    }
   };
 
   // Filtrar los equipos según el texto de búsqueda
@@ -142,16 +170,16 @@ const Report: React.FC = () => {
                     {
                       label: "Factura",
                       value: equipment.invoice ? (
-                        <a
-                          href={generateBlobUrl(
-                            equipment.invoice,
-                            "application/pdf"
-                          )}
-                          target="_blank"
-                          rel="noopener noreferrer"
+                        <IonButton
+                          onClick={() =>
+                            generateBlobUrl(
+                              equipment.invoice,
+                              `Factura_${equipment.name || "desconocido"}.pdf`
+                            )
+                          }
                         >
-                          Ver factura
-                        </a>
+                          Descargar factura
+                        </IonButton>
                       ) : (
                         "No disponible"
                       ),
