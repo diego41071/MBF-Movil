@@ -84,7 +84,18 @@ const TechnicalDataSheet: React.FC = () => {
           placeholder="Buscar por cualquier campo"
           className="custom-input-search"
         />
-
+        {/* Mensaje debajo del buscador */}
+        {searchText.trim() && filteredData.length > 0 && (
+          <IonText className="records-count">
+            {filteredData.length} registro{filteredData.length !== 1 ? "s" : ""}{" "}
+            encontrado{filteredData.length !== 1 ? "s" : ""}
+          </IonText>
+        )}
+        {searchText.trim() && filteredData.length === 0 && (
+          <IonText className="records-count records-count-none">
+            No se encontraron resultados para "{searchText.trim()}"
+          </IonText>
+        )}
         {/* Muestra un loader mientras se obtienen los datos */}
         {loading ? (
           <IonSpinner name="crescent" />
@@ -99,25 +110,20 @@ const TechnicalDataSheet: React.FC = () => {
               ))}
             </IonRow>
 
-            {/* Mostrar mensaje si no hay resultados */}
-            {filteredData.length === 0 ? (
-              <IonText color="danger">No se encontraron resultados</IonText>
-            ) : (
-              filteredData.map((item, index) => (
-                <IonItem key={index} className="custom-item border-item">
-                  <IonRow>
-                    {fields.map((field) => (
-                      <IonCol key={field.key} size="12" size-sm="2">
-                        <strong className="ion-hide-sm-up">
-                          {field.label.replace("*", "")}:
-                        </strong>{" "}
-                        {item[field.key]}
-                      </IonCol>
-                    ))}
-                  </IonRow>
-                </IonItem>
-              ))
-            )}
+            {filteredData.map((item, index) => (
+              <IonItem key={index} className="custom-item border-item">
+                <IonRow>
+                  {fields.map((field) => (
+                    <IonCol key={field.key} size="12" size-sm="2">
+                      <strong className="ion-hide-sm-up">
+                        {field.label.replace("*", "")}:
+                      </strong>{" "}
+                      {item[field.key]}
+                    </IonCol>
+                  ))}
+                </IonRow>
+              </IonItem>
+            ))}
           </IonList>
         )}
       </IonContent>

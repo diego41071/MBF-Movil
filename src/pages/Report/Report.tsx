@@ -16,6 +16,7 @@ import {
   IonItem,
   IonButton,
   IonModal,
+  IonText,
 } from "@ionic/react";
 import { getEquipment } from "../../services/equipmentService";
 import "./Report.css";
@@ -122,10 +123,20 @@ const Report: React.FC = () => {
           placeholder="Buscar equipo..."
           className="custom-input-search"
         />
+        {searchText.trim() && filteredEquipment.length > 0 && (
+          <IonText className="records-count">
+            {filteredEquipment.length} registro
+            {filteredEquipment.length !== 1 ? "s" : ""} encontrado
+            {filteredEquipment.length !== 1 ? "s" : ""}
+          </IonText>
+        )}
+        {searchText.trim() && filteredEquipment.length === 0 && (
+          <IonText className="records-count records-count-none">
+            No se encontraron resultados para "{searchText.trim()}".
+          </IonText>
+        )}
         {loading ? (
           <IonSpinner name="crescent" className="ion-text-center" />
-        ) : error ? (
-          <p className="ion-text-center">{error}</p>
         ) : (
           <IonGrid>
             {/* Encabezados en pantallas grandes */}
@@ -235,15 +246,6 @@ const Report: React.FC = () => {
                 </IonRow>
               </IonItem>
             ))}
-
-            {/* Mensaje de vacío */}
-            {filteredEquipment.length === 0 && (
-              <IonRow>
-                <IonCol size="12" className="ion-text-center">
-                  <IonLabel>No se encontraron resultados.</IonLabel>
-                </IonCol>
-              </IonRow>
-            )}
           </IonGrid>
         )}
         <IonModal
