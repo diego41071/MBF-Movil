@@ -38,6 +38,8 @@ export default function Register(props: {
   const [check, setCheck] = useState(0);
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState("");
 
   const history = useHistory();
 
@@ -88,7 +90,9 @@ export default function Register(props: {
         password,
         confirmpass,
         check,
-        captchaToken
+        captchaToken,
+        phone,
+        address
       );
       setToastMessage("Registro exitoso!");
       history.push("/login");
@@ -129,6 +133,8 @@ export default function Register(props: {
           { text: "Nit o C.C.", value: doc, set: setDoc },
           { text: "Cargo", value: position, set: setPosition },
           { text: "Correo Electrónico", value: email, set: setEmail },
+          { text: "Celular", value: phone, set: setPhone },
+          { text: "Dirección", value: address, set: setAddress },
           { text: "Contraseña", value: password, set: setPassword },
           {
             text: "Confirmar contraseña",
@@ -145,11 +151,11 @@ export default function Register(props: {
             <IonItem className="custom-item" key={index}>
               <IonLabel
                 position="floating"
-                className={index === 8 ? "custom-label" : ""}
+                className={index === 10 ? "custom-label" : ""}
               >
                 {item.text}
               </IonLabel>
-              {index === 8 ? (
+              {index === 10 ? (
                 <IonRadioGroup
                   value={check}
                   onIonChange={(e) => setCheck(e.detail.value)}
@@ -168,7 +174,7 @@ export default function Register(props: {
                   type={
                     index === 3
                       ? "number"
-                      : index === 6 || index === 7
+                      : index === 8 || index === 9
                       ? "password"
                       : "text"
                   }

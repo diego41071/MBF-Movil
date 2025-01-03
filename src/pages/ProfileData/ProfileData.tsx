@@ -23,8 +23,8 @@ const ProfileData: React.FC = (props: any) => {
     avatar: "https://via.placeholder.com/150", // Imagen por defecto
     name: props.name,
     email: props.email,
-    phone: "123-456-7890",
-    address: "Calle Falsa 123, Ciudad, País",
+    phone: props.phone,
+    address: props.address,
   });
 
   const handleInputChange = (key: string, value: string) => {

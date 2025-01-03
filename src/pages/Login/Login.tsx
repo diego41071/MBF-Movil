@@ -61,6 +61,8 @@ export default function Login(props: {
         props.setRole(data.role);
         props.setEmail(data.email);
         props.setName(`${data.name + " " + data.lastname}`);
+        props.setPhone(data.phone);
+        props.setAddress(data.address);
         setToastMessage("Inicio de sesión exitoso!");
         props.setIsLogged(true);
         setShowToast(true);

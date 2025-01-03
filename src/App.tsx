@@ -63,6 +63,8 @@ const App: React.FC = () => {
   const [email, setEmail] = useState("");
   const [role, setRole] = useState("");
   const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState("");
 
   return (
     <IonApp>
@@ -82,6 +84,8 @@ const App: React.FC = () => {
                 setIsLogged={setIsLogged}
                 setRole={setRole}
                 setName={setName}
+                setPhone={setPhone}
+                setAddress={setAddress}
               />
             </Route>
             <Route path="/page" exact={true}>
@@ -122,7 +126,12 @@ const App: React.FC = () => {
               <Notifications />
             </Route>
             <Route path="/profiledata" exact={true}>
-              <ProfileData name={name} email={email} />
+              <ProfileData
+                name={name}
+                email={email}
+                phone={phone}
+                address={address}
+              />
             </Route>
             <Route path="/lang" component={Language} exact={true} />
 

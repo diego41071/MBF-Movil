@@ -33,7 +33,9 @@ export const register = async (
   password: string,
   confirmPassword: string,
   check: number,
-  captchaToken: string
+  captchaToken: string,
+  phone: string,
+  address: string
 ) => {
   try {
     const response = await axios.post(`${API_URL}/register`, {
@@ -48,6 +50,8 @@ export const register = async (
       check,
       captchaToken,
       role: "Cliente",
+      phone,
+      address,
     });
     return response.data; // Devolver datos de la respuesta
   } catch (error: unknown) {
