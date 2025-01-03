@@ -18,11 +18,11 @@ import {
 import { useState } from "react";
 import "./ProfileData.css";
 
-const ProfileData: React.FC = () => {
+const ProfileData: React.FC = (props: any) => {
   const [profileData, setProfileData] = useState({
     avatar: "https://via.placeholder.com/150", // Imagen por defecto
-    name: "Juan Pérez",
-    email: "juan.perez@example.com",
+    name: props.name,
+    email: props.email,
     phone: "123-456-7890",
     address: "Calle Falsa 123, Ciudad, País",
   });
@@ -64,6 +64,7 @@ const ProfileData: React.FC = () => {
               onIonChange={(e) =>
                 handleInputChange("name", e.detail.value || "")
               }
+              className="custom-input"
             />
           </IonItem>
           <IonItem className="custom-item">
@@ -74,6 +75,7 @@ const ProfileData: React.FC = () => {
               onIonChange={(e) =>
                 handleInputChange("email", e.detail.value || "")
               }
+              className="custom-input"
             />
           </IonItem>
           <IonItem className="custom-item">
@@ -84,6 +86,7 @@ const ProfileData: React.FC = () => {
               onIonChange={(e) =>
                 handleInputChange("phone", e.detail.value || "")
               }
+              className="custom-input"
             />
           </IonItem>
           <IonItem className="custom-item">
@@ -93,13 +96,14 @@ const ProfileData: React.FC = () => {
               onIonChange={(e) =>
                 handleInputChange("address", e.detail.value || "")
               }
+              className="custom-input"
             />
           </IonItem>
           <div className="container-button">
             <IonButton
               expand="block"
               onClick={handleSave}
-              className="custom-button"
+              className="custom-button margin-button"
               color={"danger"}
             >
               Guardar Cambios

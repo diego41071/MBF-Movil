@@ -52,7 +52,6 @@ import Bluetooth from "./pages/Bluetooth/Bluetooth";
 import IngePro from "./pages/IngePro/IngePro";
 import Notifications from "./pages/Notifications/Notifications";
 import ProfileData from "./pages/ProfileData/ProfileData";
-import ServiceHistory from "./pages/ServiceHistory/ServiceHistory";
 import Inventory from "./pages/Inventory/Inventory";
 import Preagends from "./pages/Preagends/Preagends";
 import Language from "./pages/Language/Language";
@@ -123,7 +122,7 @@ const App: React.FC = () => {
               <Notifications />
             </Route>
             <Route path="/profiledata" exact={true}>
-              <ProfileData />
+              <ProfileData name={name} email={email} />
             </Route>
             <Route path="/lang" component={Language} exact={true} />
 
