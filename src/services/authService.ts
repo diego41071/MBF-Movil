@@ -81,3 +81,33 @@ export const handleReset = (
     code, // Asegúrate de convertir a número
     newPassword,
   });
+
+// Función para actualizar un usuario
+export const updateUser = async (
+  userId: string, // ID del usuario que se actualizará
+  updateData: {
+    name?: string;
+    lastname?: string;
+    company?: string;
+    doc?: string;
+    position?: string;
+    username?: string;
+    password?: string;
+    role?: string;
+    phone?: string;
+    address?: string;
+  }
+) => {
+  try {
+    const response = await axios.put(`${API_URL}/users/${userId}`, updateData);
+    return response.data; // Devuelve los datos de la respuesta
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error)) {
+      throw new Error(
+        error.response?.data?.message || "Error al actualizar el usuario"
+      );
+    } else {
+      throw new Error("Error inesperado. Intenta nuevamente.");
+    }
+  }
+};

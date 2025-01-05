@@ -6,34 +6,52 @@ import {
   IonTitle,
   IonToolbar,
   IonContent,
-  IonAvatar,
   IonItem,
   IonLabel,
   IonInput,
   IonButton,
-  IonGrid,
-  IonRow,
-  IonCol,
+  useIonToast,
 } from "@ionic/react";
 import { useState } from "react";
+import { updateUser } from "../../services/authService"; // Importa tu servicio de actualización
 import "./ProfileData.css";
 
 const ProfileData: React.FC = (props: any) => {
   const [profileData, setProfileData] = useState({
-    avatar: "https://via.placeholder.com/150", // Imagen por defecto
     name: props.name,
     email: props.email,
     phone: props.phone,
     address: props.address,
   });
 
+  const [presentToast] = useIonToast(); // Para mostrar notificaciones
+
   const handleInputChange = (key: string, value: string) => {
     setProfileData((prev) => ({ ...prev, [key]: value }));
   };
 
-  const handleSave = () => {
-    console.log("Datos guardados:", profileData);
-    // Aquí puedes realizar una llamada al backend para actualizar los datos
+  const handleSave = async () => {
+    try {
+      // Supongamos que `props.userId` contiene el ID del usuario
+      if (!props.userId) {
+        throw new Error("ID de usuario no proporcionado");
+      }
+
+      const response = await updateUser(props.userId, profileData);
+      presentToast({
+        message: "Datos actualizados con éxito",
+        duration: 2000,
+        color: "success",
+      });
+      console.log("Datos guardados:", response);
+    } catch (error: any) {
+      presentToast({
+        message: error.message || "Error al actualizar los datos",
+        duration: 2000,
+        color: "danger",
+      });
+      console.error("Error al guardar datos:", error);
+    }
   };
 
   return (
@@ -47,15 +65,6 @@ const ProfileData: React.FC = (props: any) => {
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">
-        <IonGrid>
-          <IonRow className="ion-justify-content-center">
-            <IonCol size="auto">
-              <IonAvatar className="profile-avatar">
-                <img src={profileData.avatar} alt="Avatar" />
-              </IonAvatar>
-            </IonCol>
-          </IonRow>
-        </IonGrid>
         <form>
           <IonItem className="custom-item">
             <IonLabel position="floating">Nombre</IonLabel>
