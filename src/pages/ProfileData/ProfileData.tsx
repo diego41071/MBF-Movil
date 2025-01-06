@@ -70,7 +70,7 @@ const ProfileData: React.FC = (props: any) => {
             <IonLabel position="floating">Nombre</IonLabel>
             <IonInput
               value={profileData.name}
-              onIonChange={(e) =>
+              onIonInput={(e) =>
                 handleInputChange("name", e.detail.value || "")
               }
               className="custom-input"
@@ -81,7 +81,7 @@ const ProfileData: React.FC = (props: any) => {
             <IonInput
               value={profileData.email}
               type="email"
-              onIonChange={(e) =>
+              onIonInput={(e) =>
                 handleInputChange("email", e.detail.value || "")
               }
               className="custom-input"
@@ -92,7 +92,7 @@ const ProfileData: React.FC = (props: any) => {
             <IonInput
               value={profileData.phone}
               type="tel"
-              onIonChange={(e) =>
+              onIonInput={(e) =>
                 handleInputChange("phone", e.detail.value || "")
               }
               className="custom-input"
@@ -102,7 +102,7 @@ const ProfileData: React.FC = (props: any) => {
             <IonLabel position="floating">Dirección</IonLabel>
             <IonInput
               value={profileData.address}
-              onIonChange={(e) =>
+              onIonInput={(e) =>
                 handleInputChange("address", e.detail.value || "")
               }
               className="custom-input"

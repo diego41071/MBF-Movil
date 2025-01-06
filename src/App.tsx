@@ -65,6 +65,7 @@ const App: React.FC = () => {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
+  const [userId, setUserId] = useState("");
 
   return (
     <IonApp>
@@ -86,6 +87,7 @@ const App: React.FC = () => {
                 setName={setName}
                 setPhone={setPhone}
                 setAddress={setAddress}
+                setUserId={setUserId}
               />
             </Route>
             <Route path="/page" exact={true}>
@@ -131,6 +133,7 @@ const App: React.FC = () => {
                 email={email}
                 phone={phone}
                 address={address}
+                userId={userId}
               />
             </Route>
             <Route path="/lang" component={Language} exact={true} />
