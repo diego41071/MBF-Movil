@@ -111,3 +111,20 @@ export const updateUser = async (
     }
   }
 };
+
+// Función para obtener todos los usuarios
+export const getAllUsers = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/users`);
+    return response.data; // Devuelve los datos de los usuarios
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error)) {
+      throw new Error(
+        error.response?.data?.message || "Error al obtener los usuarios"
+      );
+    } else {
+      throw new Error("Error inesperado. Intenta nuevamente.");
+    }
+  }
+};
+
