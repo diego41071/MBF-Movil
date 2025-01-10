@@ -13,7 +13,7 @@ import {
   IonToast,
   IonToolbar,
 } from "@ionic/react";
-import "./Forgotpassword.css";
+import "./ForgotPassword.css";
 import { useHistory } from "react-router-dom";
 import { handleForgot } from "../../services/authService";
 

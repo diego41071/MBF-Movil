@@ -41,7 +41,7 @@ import "./theme/variables.css";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
 import { useState } from "react";
-import ForgotPassword from "./pages/ForgotPassword/Forgotpassword";
+import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
 import ResetPassword from "./pages/Resetpassword/Resetpassword";
 import Schedule from "./pages/Schedule/Schedule";
 import TechnicalDataSheet from "./pages/TechnicalDataSheet/TechnicalDataSheet";
