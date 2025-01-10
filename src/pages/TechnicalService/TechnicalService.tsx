@@ -178,14 +178,14 @@ const TechnicalService: React.FC<TechnicalServiceProps> = (props) => {
                 ) : index == 7 ? (
                   <IonTextarea
                     value={field.value as string}
-                    onIonChange={(e) => field.setter(e.detail.value!)}
+                    onIonInput={(e) => field.setter(e.detail.value!)}
                     className="custom-input"
                     placeholder={field.label}
                   />
                 ) : (
                   <IonInput
                     value={field.value as string}
-                    onIonChange={(e) => field.setter(e.detail.value!)}
+                    onIonInput={(e) => field.setter(e.detail.value!)}
                     className="custom-input"
                     placeholder={field.label}
                   />
