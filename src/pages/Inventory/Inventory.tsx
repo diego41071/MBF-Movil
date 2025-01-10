@@ -17,6 +17,7 @@ import {
 import { useState } from "react";
 import "./Inventory.css";
 import { saveEquipment } from "../../services/inventoryService"; // Servicio de API
+import React from "react";
 interface InventoryProps {
   role: string; // Define las propiedades que necesitas
 }
