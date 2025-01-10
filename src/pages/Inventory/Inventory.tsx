@@ -39,6 +39,7 @@ const Inventory: React.FC<InventoryProps> = (props) => {
     material: string;
     technology: string;
     maintenancePriority: string;
+    FT:string;
   }
 
   const initialFormData: FormData = {
@@ -56,6 +57,7 @@ const Inventory: React.FC<InventoryProps> = (props) => {
     material: "",
     technology: "Neumatico",
     maintenancePriority: "Baja",
+    FT:""
   };
 
   const [formData, setFormData] = useState<FormData>(initialFormData);
@@ -130,6 +132,11 @@ const Inventory: React.FC<InventoryProps> = (props) => {
       label: "Material",
       key: "material",
       placeholder: "Ingrese el material",
+      type: "input",
+    },    {
+      label: "Ficha técnica",
+      key: "FT",
+      placeholder: "Ingrese el número de ficha técnica",
       type: "input",
     },
   ];
