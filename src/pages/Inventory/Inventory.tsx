@@ -223,7 +223,7 @@ const Inventory: React.FC<InventoryProps> = (props) => {
                       field && (
                         <IonInput
                           value={formData[field.key]}
-                          onIonChange={(e) =>
+                          onIonInput={(e) =>
                             handleInputChange(field.key, e.detail.value!)
                           }
                           className="custom-input"
