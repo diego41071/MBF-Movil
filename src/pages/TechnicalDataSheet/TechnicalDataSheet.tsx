@@ -21,17 +21,18 @@ import { fetchInventory } from "../../services/inventoryService"; // Importa la 
 import "./TechnicalDataSheet.css";
 
 const fields = [
-  { label: "Nombre del equipo*", key: "name", type: "input" },
-  { label: "Marca*", key: "brand", type: "input" },
-  { label: "Modelo*", key: "model", type: "input" },
-  { label: "Serial*", key: "serialNumber", type: "input" },
-  { label: "Ubicación*", key: "location", type: "input" },
+  { label: "Nombre del equipo*", key: "name" },
+  { label: "Marca*", key: "brand" },
+  { label: "Modelo*", key: "model" },
+  { label: "Serial*", key: "serialNumber" },
+  { label: "Ubicación*", key: "location" },
   { label: "Fecha de compra", key: "purchaseDate", type: "date" },
-  { label: "Voltaje del equipo", key: "voltage", type: "input" },
-  { label: "Potencia del equipo", key: "power", type: "input" },
-  { label: "Peso aprox. del equipo", key: "weight", type: "input" },
-  { label: "Capacidad", key: "capacity", type: "input" },
-  { label: "Material", key: "material", type: "input" },
+  { label: "Voltaje del equipo", key: "voltage" },
+  { label: "Potencia del equipo", key: "power" },
+  { label: "Peso aprox. del equipo", key: "weight" },
+  { label: "Capacidad", key: "capacity" },
+  { label: "Material", key: "material" },
+  { label: "Ficha técnica", key: "FT" },
 ];
 
 const TechnicalDataSheet: React.FC = () => {
