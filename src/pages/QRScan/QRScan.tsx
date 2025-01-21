@@ -52,13 +52,13 @@ const QRScan: React.FC = () => {
 
         setCameraPermission(true);
       } catch (err) {
-        if (err.name === "NotAllowedError") {
+        if (err instanceof Error && err.name === "NotAllowedError") {
           setError(
             "Permiso de cámara denegado. Por favor habilítalo en configuración."
           );
-        } else if (err.name === "NotFoundError") {
+        } else if (err instanceof Error && err.name === "NotFoundError") {
           setError("No se encontró una cámara disponible en este dispositivo.");
-        } else if (err.name === "NotReadableError") {
+        } else if (err instanceof Error && err.name === "NotReadableError") {
           setError(
             "No se pudo acceder a la cámara. Verifique si ya está en uso."
           );
@@ -131,10 +131,12 @@ const QRScan: React.FC = () => {
                 onError={handleError}
                 onScan={handleScan}
                 style={{ width: "100%" }}
-                constraints={{
-                  video: activeCameraId
-                    ? { deviceId: { exact: activeCameraId } }
-                    : { facingMode: useFacingMode },
+                {...{
+                  constraints: {
+                    video: activeCameraId
+                      ? { deviceId: { exact: activeCameraId } }
+                      : { facingMode: useFacingMode },
+                  },
                 }}
               />
             </div>

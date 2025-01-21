@@ -183,6 +183,7 @@ const Report: React.FC = () => {
                       value: equipment.invoice ? (
                         <IonButton
                           onClick={() =>
+                            equipment.invoice &&
                             generateBlobUrl(
                               equipment.invoice,
                               `Factura_${equipment.name || "desconocido"}.pdf`

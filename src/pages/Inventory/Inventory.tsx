@@ -18,11 +18,8 @@ import { useState } from "react";
 import "./Inventory.css";
 import { saveEquipment } from "../../services/inventoryService"; // Servicio de API
 import React from "react";
-interface InventoryProps {
-  role: string; // Define las propiedades que necesitas
-}
 
-const Inventory: React.FC<InventoryProps> = (props) => {
+const Inventory: React.FC = () => {
   interface FormData {
     [key: string]: string;
     name: string;
@@ -39,7 +36,7 @@ const Inventory: React.FC<InventoryProps> = (props) => {
     material: string;
     technology: string;
     maintenancePriority: string;
-    FT:string;
+    FT: string;
   }
 
   const initialFormData: FormData = {
@@ -57,7 +54,7 @@ const Inventory: React.FC<InventoryProps> = (props) => {
     material: "",
     technology: "Neumatico",
     maintenancePriority: "Baja",
-    FT:""
+    FT: "",
   };
 
   const [formData, setFormData] = useState<FormData>(initialFormData);
@@ -133,7 +130,8 @@ const Inventory: React.FC<InventoryProps> = (props) => {
       key: "material",
       placeholder: "Ingrese el material",
       type: "input",
-    },    {
+    },
+    {
       label: "Ficha técnica",
       key: "FT",
       placeholder: "Ingrese el número de ficha técnica",

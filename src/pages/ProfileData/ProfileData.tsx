@@ -16,7 +16,13 @@ import { useState } from "react";
 import { updateUser } from "../../services/authService"; // Importa tu servicio de actualización
 import "./ProfileData.css";
 
-const ProfileData: React.FC = (props: any) => {
+export default function (props: {
+  name: string;
+  email: string;
+  phone: string;
+  address: string;
+  userId: string;
+}) {
   const [profileData, setProfileData] = useState({
     name: props.name,
     email: props.email,
@@ -122,6 +128,4 @@ const ProfileData: React.FC = (props: any) => {
       </IonContent>
     </IonPage>
   );
-};
-
-export default ProfileData;
+}

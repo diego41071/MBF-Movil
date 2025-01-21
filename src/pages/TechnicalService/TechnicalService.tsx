@@ -49,7 +49,7 @@ const TechnicalService: React.FC<TechnicalServiceProps> = (props) => {
     }
   };
 
-  const handleInvoiceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInvoiceChange = (event: any) => {
     const file = event.target.files?.[0];
     if (file) {
       if (file.size > 5 * 1024 * 1024) {
@@ -172,7 +172,7 @@ const TechnicalService: React.FC<TechnicalServiceProps> = (props) => {
                   <input
                     type="file"
                     accept="application/pdf"
-                    onChange={field.setter} // Usamos el handler de invoice
+                    onChange={() => field.setter} // Usamos el handler de invoice
                     className="custom-input"
                   />
                 ) : index == 7 ? (
