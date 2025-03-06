@@ -26,3 +26,14 @@ export const submitTechnicalServiceRequest = async (formData: FormData) => {
     throw error; // Propaga el error para manejarlo en el componente
   }
 };
+
+// Función para obtener el PDF en formato Base64
+export const fetchPDFServices = async (id: string): Promise<string> => {
+  try {
+    const response = await axios.get(`${API_URL}/generate-pdf/${id}`);
+    return response.data.base64; // Devuelve el Base64 del PDF
+  } catch (error) {
+    console.error("Error fetching PDF:", error);
+    throw new Error("Unable to fetch PDF");
+  }
+};
