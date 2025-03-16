@@ -61,13 +61,20 @@ const TechnicalDataSheet: React.FC = () => {
   // Filtrar los datos según el texto de búsqueda
   const filteredData = data.filter((item) =>
     fields.some((field) => {
-      const value = item[field.key];
+      let value = item[field.key];
+
+      if (field.type === "date") {
+        // Si es una fecha, convertirla a formato legible
+        value = new Intl.DateTimeFormat("es-ES").format(new Date(value));
+      }
+
       return (
         typeof value === "string" &&
         value.toLowerCase().includes(searchText.toLowerCase())
       );
     })
   );
+
 
   // Función para obtener y manejar el PDF
   const seeFTUrl = async (id: string, fileName: string): Promise<void> => {
@@ -150,7 +157,9 @@ const TechnicalDataSheet: React.FC = () => {
                       <strong className="ion-hide-sm-up">
                         {field.label.replace("*", "")}:
                       </strong>{" "}
-                      {item[field.key]}
+                      {field.type === "date"
+                        ? new Intl.DateTimeFormat("es-ES").format(new Date(item[field.key]))
+                        : item[field.key]}
                     </IonCol>
                   ))}
                 </IonRow>
