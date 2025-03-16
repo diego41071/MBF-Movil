@@ -51,7 +51,7 @@ const Report: React.FC = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [editingEquipment, setEditingEquipment] = useState<{ [key: string]: string }>({});
   // Simulamos que obtenemos el rol del usuario desde el almacenamiento local o el contexto de autenticación
-  const isTechnician = localStorage.getItem("user_role") === "technician";
+  const isTechnician = true;
 
   const handleInputChange = (id: string, field: string, value: string) => {
     setEditingEquipment({ ...editingEquipment, [`${id}-${field}`]: value });
@@ -317,6 +317,9 @@ const Report: React.FC = () => {
                 >
                   Ver PDF
                 </IonButton>
+                {isTechnician && (
+                  <IonButton color="secondary" onClick={() => alert("Editar equipo")}>Editar</IonButton>
+                )}
               </IonItem>
             ))}
           </IonGrid>
