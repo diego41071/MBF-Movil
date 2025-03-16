@@ -17,6 +17,8 @@ import {
   IonButton,
   IonModal,
   IonText,
+  IonTextarea,
+  IonInput,
 } from "@ionic/react";
 import {
   fetchPDFServices,
@@ -47,6 +49,15 @@ const Report: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [editingEquipment, setEditingEquipment] = useState<{ [key: string]: string }>({});
+  // Simulamos que obtenemos el rol del usuario desde el almacenamiento local o el contexto de autenticación
+  // const isTechnician = localStorage.getItem("user_role") === "technician";
+  const isTechnician = true;
+
+  const handleInputChange = (id: string, field: string, value: string) => {
+    setEditingEquipment({ ...editingEquipment, [`${id}-${field}`]: value });
+  };
+
 
   useEffect(() => {
     const fetchEquipment = async () => {
@@ -190,82 +201,62 @@ const Report: React.FC = () => {
               <IonItem key={equipment._id} className="custom-item border-item">
                 <IonRow>
                   {[
-                    { label: "Nombre", value: equipment.name },
-                    { label: "Marca", value: equipment.brand },
-                    { label: "Modelo", value: equipment.model },
-                    { label: "Serial", value: equipment.serial },
-                    { label: "Falla", value: equipment.issue },
-                    { label: "Foto", value: equipment.photos },
+                    { label: "Nombre", field: "name", value: equipment.name || "" },
+                    { label: "Marca", field: "brand", value: equipment.brand || "" },
+                    { label: "Modelo", field: "model", value: equipment.model || "" },
+                    { label: "Serial", field: "serial", value: equipment.serial || "" },
+                    { label: "Falla", field: "issue", value: equipment.issue || "" },
+                    { label: "Foto", field: "photos", value: equipment.photos },
                     {
                       label: "Ficha Técnica",
+                      field: "technicalDataSheet",
                       value: equipment.technicalDataSheet || "No disponible",
                     },
                     {
                       label: "Diagnóstico",
+                      field: "diagnosis",
                       value: equipment.diagnosis || "No disponible",
                     },
                     {
-                      label: "Factura",
-                      value: equipment.invoice ? (
-                        <IonButton
-                          onClick={() =>
-                            equipment.invoice &&
-                            generateBlobUrl(
-                              equipment.invoice,
-                              `Factura_${equipment.name || "desconocido"}.pdf`
-                            )
-                          }
-                        >
-                          Descargar factura
-                        </IonButton>
-                      ) : (
-                        "No disponible"
-                      ),
-                    },
-                    {
                       label: "Técnico Asignado",
+                      field: "assignedTechnician",
                       value: equipment.assignedTechnician || "No asignado",
                     },
                   ].map((field, index) => (
                     <IonCol key={index} size="12" size-sm="2">
-                      {field.label === "Foto" ? (
-                        Array.isArray(field.value) && field.value.length > 0 ? (
-                          <>
-                            {field.label}:
-                            <div>
-                              {field.value.map((photoUrl, index) => (
-                                <img
-                                  key={index}
-                                  src={`data:image/png;base64,${photoUrl}`}
-                                  alt={`Foto de ${equipment.name} ${index + 1}`}
-                                  style={{
-                                    width: "50px",
-                                    height: "50px",
-                                    objectFit: "cover",
-                                    borderRadius: "4px",
-                                    margin: "5px",
-                                  }}
-                                  onClick={() => handleImageClick(photoUrl)}
-                                />
-                              ))}
-                            </div>
-                          </>
+                      <strong>{field.label}:</strong>
+                      {isTechnician ? (
+                        field.label === "Ficha Técnica" || field.label === "Diagnóstico" ? (
+                          <IonTextarea
+                            value={
+                              editingEquipment[`${equipment._id}-${field.field}`] ??
+                              field.value?.toString() ??
+                              ""
+                            }
+                            onIonInput={(e) =>
+                              handleInputChange(equipment._id, field.field!, e.detail.value ?? "")
+                            }
+                          />
                         ) : (
-                          <>
-                            {field.label}: <IonLabel>No disponible</IonLabel>
-                          </>
+                          <IonInput
+                            value={
+                              editingEquipment[`${equipment._id}-${field.field}`] ??
+                              field.value?.toString() ??
+                              ""
+                            }
+                            onIonInput={(e) =>
+                              handleInputChange(equipment._id, field.field!, e.detail.value ?? "")
+                            }
+                          />
                         )
                       ) : (
-                        <>
-                          <strong className="ion-hide-sm-up">
-                            {field.label}:
-                          </strong>{" "}
-                          {field.value}
-                        </>
+                        <IonLabel>{field.value}</IonLabel>
                       )}
                     </IonCol>
                   ))}
                 </IonRow>
+
+
                 <IonButton
                   color="primary"
                   onClick={(e) =>
