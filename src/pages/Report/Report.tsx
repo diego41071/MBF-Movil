@@ -50,9 +50,16 @@ const Report: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [editingEquipment, setEditingEquipment] = useState<{ [key: string]: string }>({});
+  const [editingRow, setEditingRow] = useState<string | null>(null);
+
   // Simulamos que obtenemos el rol del usuario desde el almacenamiento local o el contexto de autenticación
   // const isTechnician = localStorage.getItem("user_role") === "technician";
   const isTechnician = true;
+
+  const handleEditClick = (id: string) => {
+    setEditingRow(editingRow === id ? null : id); // Alternar entre edición y visualización
+  };
+
 
   const handleInputChange = (id: string, field: string, value: string) => {
     setEditingEquipment({ ...editingEquipment, [`${id}-${field}`]: value });
@@ -226,28 +233,33 @@ const Report: React.FC = () => {
                     <IonCol key={index} size="12" size-sm="2">
                       <strong>{field.label}:</strong>
                       {isTechnician ? (
-                        field.label === "Ficha Técnica" || field.label === "Diagnóstico" ? (
-                          <IonTextarea
-                            value={
-                              editingEquipment[`${equipment._id}-${field.field}`] ??
-                              field.value?.toString() ??
-                              ""
-                            }
-                            onIonInput={(e) =>
-                              handleInputChange(equipment._id, field.field!, e.detail.value ?? "")
-                            }
-                          />
+                        editingRow === equipment._id ? (
+                          field.label === "Ficha Técnica" || field.label === "Diagnóstico" ? (
+                            <IonTextarea
+                              value={
+                                editingEquipment[`${equipment._id}-${field.field}`] ??
+                                field.value?.toString() ??
+                                ""
+                              }
+                              onIonInput={(e) =>
+                                handleInputChange(equipment._id, field.field!, e.detail.value ?? "")
+                              }
+                            />
+                          ) : (
+                            <IonInput
+                              value={
+                                editingEquipment[`${equipment._id}-${field.field}`] ??
+                                field.value?.toString() ??
+                                ""
+                              }
+                              onIonInput={(e) =>
+                                handleInputChange(equipment._id, field.field!, e.detail.value ?? "")
+                              }
+                              className="custom-input"
+                            />
+                          )
                         ) : (
-                          <IonInput
-                            value={
-                              editingEquipment[`${equipment._id}-${field.field}`] ??
-                              field.value?.toString() ??
-                              ""
-                            }
-                            onIonInput={(e) =>
-                              handleInputChange(equipment._id, field.field!, e.detail.value ?? "")
-                            }
-                          />
+                          <IonLabel>{field.value}</IonLabel>
                         )
                       ) : (
                         <IonLabel>{field.value}</IonLabel>
@@ -268,6 +280,9 @@ const Report: React.FC = () => {
                 >
                   Ver PDF
                 </IonButton>
+                {isTechnician && <IonButton onClick={() => handleEditClick(equipment._id)}>
+                  {(editingRow === equipment._id ? "Guardar" : "Editar")}
+                </IonButton>}
               </IonItem>
             ))}
           </IonGrid>
