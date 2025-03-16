@@ -50,16 +50,8 @@ const Report: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [editingEquipment, setEditingEquipment] = useState<{ [key: string]: string }>({});
-  const [editingRow, setEditingRow] = useState<string | null>(null);
-
   // Simulamos que obtenemos el rol del usuario desde el almacenamiento local o el contexto de autenticación
-  // const isTechnician = localStorage.getItem("user_role") === "technician";
-  const isTechnician = true;
-
-  const handleEditClick = (id: string) => {
-    setEditingRow(editingRow === id ? null : id); // Alternar entre edición y visualización
-  };
-
+  const isTechnician = localStorage.getItem("user_role") === "technician";
 
   const handleInputChange = (id: string, field: string, value: string) => {
     setEditingEquipment({ ...editingEquipment, [`${id}-${field}`]: value });
@@ -225,16 +217,66 @@ const Report: React.FC = () => {
                       value: equipment.diagnosis || "No disponible",
                     },
                     {
+                      label: "Factura",
+                      value: equipment.invoice ? (
+                        <IonButton
+                          onClick={() =>
+                            equipment.invoice &&
+                            generateBlobUrl(
+                              equipment.invoice,
+                              `Factura_${equipment.name || "desconocido"}.pdf`
+                            )
+                          }
+                        >
+                          Descargar factura
+                        </IonButton>
+                      ) : (
+                        "No disponible"
+                      ),
+                    },
+                    {
                       label: "Técnico Asignado",
                       field: "assignedTechnician",
                       value: equipment.assignedTechnician || "No asignado",
                     },
                   ].map((field, index) => (
                     <IonCol key={index} size="12" size-sm="2">
-                      <strong>{field.label}:</strong>
-                      {isTechnician ? (
-                        editingRow === equipment._id ? (
-                          field.label === "Ficha Técnica" || field.label === "Diagnóstico" ? (
+                      {field.label === "Foto" ? (
+                        Array.isArray(field.value) && field.value.length > 0 ? (
+                          <>
+                            {field.label}:
+                            <div>
+                              {field.value.map((photoUrl, index) => (
+                                <img
+                                  key={index}
+                                  src={`data:image/png;base64,${photoUrl}`}
+                                  alt={`Foto de ${equipment.name} ${index + 1}`}
+                                  style={{
+                                    width: "50px",
+                                    height: "50px",
+                                    objectFit: "cover",
+                                    borderRadius: "4px",
+                                    margin: "5px",
+                                  }}
+                                  onClick={() => handleImageClick(photoUrl)}
+                                />
+                              ))}
+                            </div>
+                          </>
+                        ) : (
+                          <>
+                            {field.label}: <IonLabel>No disponible</IonLabel>
+                          </>
+                        )
+                      ) : field.label === "Factura" ? (
+                        <>
+                          <strong className="ion-hide-sm-up">{field.label}:</strong>{" "}
+                          {field.value}
+                        </>
+                      ) : (
+                        <>
+                          <strong className="ion-hide-sm-up">{field.label}:</strong>{" "}
+                          {field.label === "Ficha Técnica" || field.label === "Diagnóstico" ? (
                             <IonTextarea
                               value={
                                 editingEquipment[`${equipment._id}-${field.field}`] ??
@@ -255,14 +297,9 @@ const Report: React.FC = () => {
                               onIonInput={(e) =>
                                 handleInputChange(equipment._id, field.field!, e.detail.value ?? "")
                               }
-                              className="custom-input"
                             />
-                          )
-                        ) : (
-                          <IonLabel>{field.value}</IonLabel>
-                        )
-                      ) : (
-                        <IonLabel>{field.value}</IonLabel>
+                          )}
+                        </>
                       )}
                     </IonCol>
                   ))}
@@ -280,9 +317,6 @@ const Report: React.FC = () => {
                 >
                   Ver PDF
                 </IonButton>
-                {isTechnician && <IonButton onClick={() => handleEditClick(equipment._id)}>
-                  {(editingRow === equipment._id ? "Guardar" : "Editar")}
-                </IonButton>}
               </IonItem>
             ))}
           </IonGrid>
