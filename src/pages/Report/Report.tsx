@@ -50,6 +50,8 @@ const Report: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [editingEquipment, setEditingEquipment] = useState<{ [key: string]: string }>({});
+  const [isEditing, setIsEditing] = useState<{ [key: string]: boolean }>({});
+
   // Simulamos que obtenemos el rol del usuario desde el almacenamiento local o el contexto de autenticación
   const isTechnician = true;
 
@@ -270,38 +272,42 @@ const Report: React.FC = () => {
                         )
                       ) : field.label === "Factura" ? (
                         <>
-                          <strong className="ion-hide-sm-up">{field.label}:</strong>{" "}
-                          {field.value}
+                          <strong className="ion-hide-sm-up">{field.label}:</strong> {field.value}
                         </>
                       ) : (
                         <>
                           <strong className="ion-hide-sm-up">{field.label}:</strong>{" "}
-                          {field.label === "Ficha Técnica" || field.label === "Diagnóstico" ? (
-                            <IonTextarea
-                              value={
-                                editingEquipment[`${equipment._id}-${field.field}`] ??
-                                field.value?.toString() ??
-                                ""
-                              }
-                              onIonInput={(e) =>
-                                handleInputChange(equipment._id, field.field!, e.detail.value ?? "")
-                              }
-                            />
+                          {isEditing[equipment._id] ? ( // Si está en edición, usar inputs
+                            field.label === "Ficha Técnica" || field.label === "Diagnóstico" ? (
+                              <IonTextarea
+                                value={
+                                  editingEquipment[`${equipment._id}-${field.field}`] ??
+                                  field.value?.toString() ??
+                                  ""
+                                }
+                                onIonInput={(e) =>
+                                  handleInputChange(equipment._id, field.field!, e.detail.value ?? "")
+                                }
+                              />
+                            ) : (
+                              <IonInput
+                                value={
+                                  editingEquipment[`${equipment._id}-${field.field}`] ??
+                                  field.value?.toString() ??
+                                  ""
+                                }
+                                onIonInput={(e) =>
+                                  handleInputChange(equipment._id, field.field!, e.detail.value ?? "")
+                                }
+                              />
+                            )
                           ) : (
-                            <IonInput
-                              value={
-                                editingEquipment[`${equipment._id}-${field.field}`] ??
-                                field.value?.toString() ??
-                                ""
-                              }
-                              onIonInput={(e) =>
-                                handleInputChange(equipment._id, field.field!, e.detail.value ?? "")
-                              }
-                            />
+                            <IonText>{field.value?.toString() ?? "No disponible"}</IonText> // Modo solo lectura
                           )}
                         </>
                       )}
                     </IonCol>
+
                   ))}
                 </IonRow>
 
@@ -318,8 +324,17 @@ const Report: React.FC = () => {
                   Ver PDF
                 </IonButton>
                 {isTechnician && (
-                  <IonButton color="secondary" onClick={() => alert("Editar equipo")}>Editar</IonButton>
-                )}
+                  <IonButton
+                    color="secondary"
+                    onClick={() =>
+                      setIsEditing((prev) => ({
+                        ...prev,
+                        [equipment._id]: !prev[equipment._id], // Alternar estado edición
+                      }))
+                    }
+                  >
+                    {isEditing[equipment._id] ? "Cancelar" : "Editar"}
+                  </IonButton>)}
               </IonItem>
             ))}
           </IonGrid>
