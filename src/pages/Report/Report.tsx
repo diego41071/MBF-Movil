@@ -50,9 +50,18 @@ const Report: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [editingEquipment, setEditingEquipment] = useState<{ [key: string]: string }>({});
-  const [isEditing, setIsEditing] = useState(false);
-
+  const [isEditing, setIsEditing] = useState<Record<string, boolean>>({});
+  // const [isEditing, setIsEditing] = useState(false)
   // Simulamos que obtenemos el rol del usuario desde el almacenamiento local o el contexto de autenticación
+
+  useEffect(() => {
+    setIsEditing(prevState => ({
+      ...prevState,
+      ...Object.fromEntries(equipmentList.map(equipment => [equipment._id, prevState[equipment._id] ?? false]))
+    }));
+  }, [equipmentList]);
+
+
   const isTechnician = true;
 
   const handleInputChange = (id: string, field: string, value: string) => {
@@ -143,6 +152,14 @@ const Report: React.FC = () => {
     setSelectedImage(photoUrl);
     setIsModalOpen(true);
   };
+
+  function handleSave(_id: string): void {
+    throw new Error("Function not implemented.");
+  }
+
+  function handleCancel(_id: string): void {
+    throw new Error("Function not implemented.");
+  }
 
   return (
     <IonPage>
@@ -307,23 +324,29 @@ const Report: React.FC = () => {
                         </>
                       )}
                     </IonCol>
-
                   ))}
+
+                  {/* Mostrar botones SOLO si ese equipo está en edición */}
+                  {isEditing[equipment._id] && (
+                    <IonCol size="12">
+                      <IonButton onClick={() => handleSave(equipment._id)}>Guardar</IonButton>
+                      <IonButton color="danger" onClick={() => handleCancel(equipment._id)}>Cancelar</IonButton>
+                    </IonCol>
+                  )}
                 </IonRow>
 
 
-                <IonButton
-                  color="primary"
-                  onClick={(e) =>
-                    handleViewPdf(
-                      equipment._id, // ID del inventario
-                      `FichaTecnica_${equipment.name || "desconocido"}.pdf`
-                    )
-                  }
-                >
-                  Ver PDF
-                </IonButton>
-                {isTechnician && !isEditing && (
+
+                {!isEditing[equipment._id] && (
+                  <IonButton
+                    color="primary"
+                    onClick={() => handleViewPdf(equipment._id, `FichaTecnica_${equipment.name || "desconocido"}.pdf`)}
+                  >
+                    Ver PDF
+                  </IonButton>
+                )}
+
+                {isTechnician && !isEditing[equipment._id] && (
                   <IonButton
                     color="secondary"
                     onClick={() =>
