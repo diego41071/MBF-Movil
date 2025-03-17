@@ -50,7 +50,7 @@ const Report: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [editingEquipment, setEditingEquipment] = useState<{ [key: string]: string }>({});
-  const [isEditing, setIsEditing] = useState<{ [key: string]: boolean }>({});
+  const [isEditing, setIsEditing] = useState(false);
 
   // Simulamos que obtenemos el rol del usuario desde el almacenamiento local o el contexto de autenticación
   const isTechnician = true;
@@ -323,7 +323,7 @@ const Report: React.FC = () => {
                 >
                   Ver PDF
                 </IonButton>
-                {isTechnician && (
+                {isTechnician && !isEditing && (
                   <IonButton
                     color="secondary"
                     onClick={() =>
@@ -333,7 +333,7 @@ const Report: React.FC = () => {
                       }))
                     }
                   >
-                    {isEditing[equipment._id] ? "Cancelar" : "Editar"}
+                    Editar
                   </IonButton>)}
               </IonItem>
             ))}
