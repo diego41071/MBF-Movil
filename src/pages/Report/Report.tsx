@@ -293,7 +293,7 @@ const Report: React.FC = () => {
                         </>
                       ) : (
                         <>
-                          <strong className="ion-hide-sm-up">{field.label}:</strong>{" "}
+                          {isEditing[equipment._id] && <IonLabel position="floating">{field.label}:</IonLabel>}
                           {isEditing[equipment._id] ? ( // Si está en edición, usar inputs
                             field.label === "Ficha Técnica" || field.label === "Diagnóstico" ? (
                               <IonTextarea
