@@ -305,6 +305,7 @@ const Report: React.FC = () => {
                                 onIonInput={(e) =>
                                   handleInputChange(equipment._id, field.field!, e.detail.value ?? "")
                                 }
+                                className="custom-input"
                               />
                             ) : (
                               <IonInput
