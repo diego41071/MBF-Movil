@@ -153,13 +153,57 @@ const Report: React.FC = () => {
     setIsModalOpen(true);
   };
 
-  function handleSave(_id: string): void {
-    throw new Error("Function not implemented.");
-  }
+  // Guardar cambios en el equipo editado
+  const handleSave = async (_id: string): Promise<void> => {
+    try {
+      // Obtener los datos editados
+      const updatedData: Partial<Equipment> = {};
+      Object.keys(editingEquipment).forEach((key) => {
+        if (key.startsWith(_id)) {
+          const field = key.split("-")[1]; // Extraer el nombre del campo
+          updatedData[field as keyof Equipment] = editingEquipment[key];
+        }
+      });
 
-  function handleCancel(_id: string): void {
-    throw new Error("Function not implemented.");
-  }
+      // Enviar actualización al backend
+      await updateEquipment(_id, updatedData);
+
+      // Actualizar la lista con los nuevos valores
+      setEquipmentList((prevList) =>
+        prevList.map((equipment) =>
+          equipment._id === _id ? { ...equipment, ...updatedData } : equipment
+        )
+      );
+
+      // Restablecer estado de edición
+      setIsEditing((prev) => ({ ...prev, [_id]: false }));
+      setEditingEquipment((prev) => {
+        const updated = { ...prev };
+        Object.keys(updated).forEach((key) => {
+          if (key.startsWith(_id)) delete updated[key];
+        });
+        return updated;
+      });
+
+      toast({ message: "Equipo actualizado con éxito", duration: 2000, color: "success" });
+    } catch (error) {
+      console.error("Error al guardar:", error);
+      toast({ message: "Error al actualizar equipo", duration: 2000, color: "danger" });
+    }
+  };
+
+  // Cancelar edición y restaurar valores originales
+  const handleCancel = (_id: string): void => {
+    setIsEditing((prev) => ({ ...prev, [_id]: false }));
+    setEditingEquipment((prev) => {
+      const updated = { ...prev };
+      Object.keys(updated).forEach((key) => {
+        if (key.startsWith(_id)) delete updated[key];
+      });
+      return updated;
+    });
+  };
+
 
   return (
     <IonPage>
