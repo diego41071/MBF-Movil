@@ -383,28 +383,29 @@ const Report: React.FC = () => {
                 </IonRow>
 
 
+                <div className="botones-fixed">
+                  {!isEditing[equipment._id] && (
+                    <>
+                      <IonButton
+                        color="primary"
+                        onClick={() => handleViewPdf(equipment._id, `FichaTecnica_${equipment.name || "desconocido"}.pdf`)}
+                      >
+                        Ver PDF
+                      </IonButton>
 
-                {!isEditing[equipment._id] && (
-                  <IonButton
-                    color="primary"
-                    onClick={() => handleViewPdf(equipment._id, `FichaTecnica_${equipment.name || "desconocido"}.pdf`)}
-                  >
-                    Ver PDF
-                  </IonButton>
-                )}
-
-                {isTechnician && !isEditing[equipment._id] && (
-                  <IonButton
-                    color="secondary"
-                    onClick={() =>
-                      setIsEditing((prev) => ({
-                        ...prev,
-                        [equipment._id]: !prev[equipment._id], // Alternar estado edición
-                      }))
-                    }
-                  >
-                    Editar
-                  </IonButton>)}
+                      {isTechnician &&
+                        <IonButton
+                          color="secondary"
+                          onClick={() =>
+                            setIsEditing((prev) => ({
+                              ...prev,
+                              [equipment._id]: !prev[equipment._id], // Alternar estado edición
+                            }))
+                          }
+                        >
+                          Editar
+                        </IonButton>}</>)}
+                </div>
               </IonItem>
             ))}
           </IonGrid>

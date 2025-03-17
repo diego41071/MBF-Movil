@@ -44,6 +44,25 @@
   margin-bottom: 10px;
 }
 
+.botones-fixed {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  gap: 5px;
+  z-index: 1000;
+  /* Asegura que estén encima de otros elementos */
+}
+
+.botones-fixed ion-button {
+  min-width: 50px;
+  /* Tamaño uniforme */
+  text-align: center;
+  font-size: 11px;
+}
+
+
 @media (max-width: 768px) {
   .ion-row {
     border-bottom: 1px solid #ddd;
