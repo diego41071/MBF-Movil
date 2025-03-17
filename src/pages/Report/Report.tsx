@@ -263,7 +263,7 @@ const Report: React.FC = () => {
                       {field.label === "Foto" ? (
                         Array.isArray(field.value) && field.value.length > 0 ? (
                           <>
-                            {field.label}:
+                            {!isEditing[equipment._id] ? <strong className="ion-hide-sm-up">{field.label}</strong> : <IonLabel position="floating" className="custom-label">{field.label}</IonLabel>}:
                             <div>
                               {field.value.map((photoUrl, index) => (
                                 <img
@@ -284,12 +284,13 @@ const Report: React.FC = () => {
                           </>
                         ) : (
                           <>
-                            {field.label}: <IonLabel>No disponible</IonLabel>
+                            {!isEditing[equipment._id] ? <strong className="ion-hide-sm-up">{field.label}: </strong> : <IonLabel position="floating" className="custom-label">{field.label}: </IonLabel>}
+                            <IonLabel>No disponible</IonLabel>
                           </>
                         )
                       ) : field.label === "Factura" ? (
                         <>
-                          <strong className="ion-hide-sm-up">{field.label}:</strong> {field.value}
+                          {!isEditing[equipment._id] ? <strong className="ion-hide-sm-up">{field.label}:</strong> : <IonLabel position="floating" className="custom-label">{field.label}: </IonLabel>} {field.value}
                         </>
                       ) : (
                         <>
@@ -331,8 +332,8 @@ const Report: React.FC = () => {
                   {/* Mostrar botones SOLO si ese equipo está en edición */}
                   {isEditing[equipment._id] && (
                     <IonCol size="12">
-                      <IonButton onClick={() => handleSave(equipment._id)}>Guardar</IonButton>
-                      <IonButton color="danger" onClick={() => handleCancel(equipment._id)}>Cancelar</IonButton>
+                      <div className="margin-button">  <IonButton onClick={() => handleSave(equipment._id)}>Guardar</IonButton>
+                        <IonButton color="danger" onClick={() => handleCancel(equipment._id)}>Cancelar</IonButton></div>
                     </IonCol>
                   )}
                 </IonRow>
