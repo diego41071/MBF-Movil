@@ -294,7 +294,7 @@ const Report: React.FC = () => {
                         </>
                       ) : (
                         <>
-                          {isEditing[equipment._id] && <IonLabel position="floating">{field.label}:</IonLabel>}
+                          {isEditing[equipment._id] ? <IonLabel position="floating">{field.label}:</IonLabel> : <strong className="ion-hide-sm-up">{field.label}: </strong>}
                           {isEditing[equipment._id] ? ( // Si está en edición, usar inputs
                             field.label === "Ficha Técnica" || field.label === "Diagnóstico" ? (
                               <IonTextarea
@@ -332,7 +332,7 @@ const Report: React.FC = () => {
                   {/* Mostrar botones SOLO si ese equipo está en edición */}
                   {isEditing[equipment._id] && (
                     <IonCol size="12">
-                      <div className="margin-button">  <IonButton onClick={() => handleSave(equipment._id)}>Guardar</IonButton>
+                      <div className="margin-button-report">  <IonButton onClick={() => handleSave(equipment._id)}>Guardar</IonButton>
                         <IonButton color="danger" onClick={() => handleCancel(equipment._id)}>Cancelar</IonButton></div>
                     </IonCol>
                   )}

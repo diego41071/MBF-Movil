@@ -39,6 +39,11 @@
   color: #ED323E;
 }
 
+.margin-button-report {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
 @media (max-width: 768px) {
   .ion-row {
     border-bottom: 1px solid #ddd;
